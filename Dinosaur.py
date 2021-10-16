@@ -180,6 +180,34 @@ async def on_guild_remove(guild):
     embed.add_field(name="Current Guilds I'm in: ", value=(str(len(client.guilds))))   
 
     await join.send(embed=embed)
+    
+@client.event
+async def on_message(message):
+    if message.channel.id == 898770494260641792:
+        emoji_list = ["1️⃣", "2️⃣",  "3️⃣", "4️⃣"]
+        
+        for emoji in emoji_list:
+            await message.add_reaction(emoji)
+            
+    else:
+        None
+
+@client.event
+async def on_raw_reaction_add(payload):
+    if "bot=True" in  f"{payload}":
+        None
+        
+    else:
+        if payload.channel_id == 898770494260641792:
+            log = 898589762565312512
+            log = client.get_channel(log)
+            
+            await log.send(f"{payload.member.name} (`{payload.user_id}`) reacted to {payload.emoji.name}\nMessage ID - `{payload.message_id}`")
+            
+        else:
+            None
+            
+
 
 #economy commands
 @client.command()
