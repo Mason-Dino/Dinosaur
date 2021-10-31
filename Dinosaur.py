@@ -190,12 +190,12 @@ async def on_message(message):
             await message.add_reaction(emoji)
             
     else:
-        None
+        await client.process_commands(message)
 
 @client.event
 async def on_raw_reaction_add(payload):
     if "bot=True" in  f"{payload}":
-        None
+        pass
         
     else:
         if payload.channel_id == 898770494260641792:
@@ -205,9 +205,7 @@ async def on_raw_reaction_add(payload):
             await log.send(f"{payload.member.name} (`{payload.user_id}`) reacted to {payload.emoji.name}\nMessage ID - `{payload.message_id}`")
             
         else:
-            None
-            
-
+            pass
 
 #economy commands
 @client.command()
@@ -273,7 +271,7 @@ async def work(ctx):
         await ctx.send(embed=embed)
 
 
-token = "ODQwMzc1NjgxMDQ1MTAyNjAz.YJXS1w.lvHG0ulfs-DNo_Bklt4OoW0zXX8"
+token = "ODQwMDI1MTcyODYxMzg2NzYy.YJSMaA.amag0rq54xPVdnpQJuT8sF5P-YE"
 client.run(token)
 
     #c.execute("ALTER TABLE economy ADD COLUMN net int;")
