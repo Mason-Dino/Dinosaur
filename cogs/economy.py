@@ -13,6 +13,10 @@ class Economy(commands.Cog):
         self.client = client
 
     @commands.command()
+    async def top_test(self, ctx):
+        print("hi")
+
+    @commands.command()
     async def top(self, ctx):
         conn = sqlite3.connect('economy.db')
         c = conn.cursor()
