@@ -919,7 +919,13 @@ class Economy(commands.Cog):
                                     
                                     conn_econ.commit()
                                     
-                                    await ctx.send('done')
+                                    embed: discord.Embed = discord.Embed(
+                                        title=f"{item_name} Open",
+                                        description=f"You earned **{number}** of Dinosaur Points",
+                                        color=discord.Color.green()
+                                    )
+
+                                    await ctx.send(embed=embed)
 
     @commands.command()
     async def bal_everyone(self, ctx):
