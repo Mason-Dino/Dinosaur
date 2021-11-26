@@ -271,7 +271,7 @@ async def work(ctx):
         await ctx.send(embed=embed)
 
 
-token = "ODQwMDI1MTcyODYxMzg2NzYy.YJSMaA.amag0rq54xPVdnpQJuT8sF5P-YE"
+token = "ODQwMDI1MTcyODYxMzg2NzYy.YJSMaA.ud78xhPdViD8Of8c-0DI26RVdcM"
 client.run(token)
 
     #c.execute("ALTER TABLE economy ADD COLUMN net int;")
