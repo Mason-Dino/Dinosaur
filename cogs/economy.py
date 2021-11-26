@@ -644,8 +644,8 @@ class Economy(commands.Cog):
                 else:
                     await ctx.send("You do not have enough coins in your wallet")
 
-    @commands.command()
-    async def inv_test(self, ctx):
+    @commands.command(aliases=['inv'])
+    async def inventory(self, ctx):
         conn = sqlite3.connect("shop.db")
         c = conn.cursor()
         
@@ -707,76 +707,7 @@ class Economy(commands.Cog):
             
             if attempts == max_attempts:
                 return
-        
-        
-        
-        
-            
-        
-                
-                
 
-
-    @commands.command(aliases=['inv'])
-    async def inventory(self, ctx):
-        conn = sqlite3.connect('shop.db')
-        c = conn.cursor()
-
-        c.execute(f"SELECT * FROM rare WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == "[]":
-            rare = "0"
-            pass
-
-        else:
-            for item in items:
-                rare = int(item[1])
-                pass
-
-        c.execute(f"SELECT * FROM un_common WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == "[]":
-            un_common = "0"
-            pass
-
-        else:
-            for item in items:
-                un_common = int(item[1])
-                pass
-
-        c.execute(f"SELECT * FROM common WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == "[]":
-            common = "0"
-            pass
-
-        else:
-            for item in items:
-                common = int(item[1])
-                pass
-
-        conn.commit()
-        conn.close()
-
-        embed: discord.Embed = discord.Embed(
-            title="Inventory",
-            description=f"Bellow are all the items you have from the shop\n\n**Common Mystery Egg** - {common}\n**Un-Common Mystery Egg** - {un_common}\n**Rare Mystery Egg** - {rare}",
-            color=discord.Color.green()
-        )
-
-        await ctx.send(embed=embed)
         
     @commands.command()
     async def use(self, ctx, shop_id: str = None, amount: int = None):
