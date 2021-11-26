@@ -314,7 +314,7 @@ async def work(ctx):
         await ctx.send(embed=embed)
         
 
-token = "ODQwMzc1NjgxMDQ1MTAyNjAz.YJXS1w.lvHG0ulfs-DNo_Bklt4OoW0zXX8"
+token = "token"
 client.run(token)
               
     #c.execute("""CREATE TABLE set_up (
