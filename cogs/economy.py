@@ -779,8 +779,56 @@ class Economy(commands.Cog):
         await ctx.send(embed=embed)
         
     @commands.command()
-    async def use_test(self, ctx, item: str = None, amount: int = None):
-        print("hey")
+    async def use_test(self, ctx, shop_id: str = None, amount: int = None):
+        conn = sqlite3.connect('shop.db')
+        conn_econ = sqlite3.connect("economy.db")
+        conn_shop_items = sqlite3.connect("shop_items.db")
+        
+        s = conn.cursor()
+        e = conn_econ.cursor()
+        i = conn_shop_items.cursor()
+        
+        i.execute(f"SELECT rowid, * FROM shop_items WHERE rowid='{shop_id}'")
+        
+        items = i.fetchall()
+        
+        none = str(items)
+        
+        if none == "[]":
+            await ctx.send("Please send a valid shop ID")
+        
+        else:
+            for item in items:
+                id = item[0]
+                name = item[1]
+                price = item[2]
+                option = item[3]
+                use = item[4]
+                
+            e.execute(f"SELECT * FROM economy WHERE user_ID='{ctx.message.author.id}'")
+            
+            econ = e.fetchall()
+            
+            none = str(econ)
+            
+            if none == "[]":
+                e.execute(f"INSERT INTO economy VALUES ('{ctx.message.author.id}', '{ctx.message.author}', 0 , 0, 0)")
+        
+                conn_econ.commit()
+                conn_econ.close()
+                
+                conn.close()
+                conn_shop_items.close()
+                
+                await ctx.send("You do not have enough Dinosaur Points to buy the item.")
+                
+            else:
+                for item in econ:
+                    user_ID = item[0]
+                    user_name = item[1]
+                    wallet = int(item[2])
+                    bank = item[3]
+                    net = item[4]
 
     @commands.command()
     async def use(self, ctx, item: str = None, ammount: int = None):
