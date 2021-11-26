@@ -2,6 +2,7 @@ import discord
 import os
 from discord.ext import commands
 from discord.ext.commands import BucketType
+from Disecon import *
 import asyncio
 import random
 import math
