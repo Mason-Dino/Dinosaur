@@ -829,6 +829,58 @@ class Economy(commands.Cog):
                     wallet = int(item[2])
                     bank = item[3]
                     net = item[4]
+                    
+                if amount == None:
+                    amount = 1
+                    print("amount 1")
+                    
+                    pass
+                
+                else:
+                    amount_check = amount.isdigit()
+                
+                    if amount_check == True:
+                        amount = int(amount)                
+                        if amount == None:
+                            await ctx.send("amount == None")
+                            amount = 1
+                            pass
+                        
+                        elif amount >= 1:
+                            await ctx.send("amount >= 1")
+                            amount = amount
+                            pass
+                         
+                        pass
+                            
+                    else:
+                        await ctx.send("Please send a valid amount number")
+                        
+                    s.execute(f"SELECT * FROM items_own WHERE user_id='{ctx.message.author.id}' AND item_name='{name}'")
+                
+                    items = s.fetchall()
+                
+                    await ctx.send(name)
+                
+                    none = str(items)
+                    
+                    if none == "[]":
+                        await ctx.send("You do not own any of the item")
+                        
+                    else:
+                        x = use.split("-")
+                        
+                        lower = int(x[0])
+                        higher = int(x[1])
+                        
+                        lower_full = lower * amount
+                        higher_full = higher * amount
+                        
+                        number = int(random.randint(lower_full, higher_full))
+                        
+                        print(number)
+                        
+                
 
     @commands.command()
     async def use(self, ctx, item: str = None, ammount: int = None):
