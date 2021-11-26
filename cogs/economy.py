@@ -836,25 +836,16 @@ class Economy(commands.Cog):
                     
                     pass
                 
-                else:
-                    amount_check = amount.isdigit()
-                
-                    if amount_check == True:
-                        amount = int(amount)                
-                        if amount == None:
-                            await ctx.send("amount == None")
-                            amount = 1
-                            pass
-                        
-                        elif amount >= 1:
-                            await ctx.send("amount >= 1")
-                            amount = amount
-                            pass
-                         
+                else:               
+                    if amount == None:
+                        await ctx.send("amount == None")
+                        amount = 1
                         pass
-                            
-                    else:
-                        await ctx.send("Please send a valid amount number")
+                    
+                    elif amount >= 1:
+                        await ctx.send("amount >= 1")
+                        amount = amount
+                        pass
                         
                     s.execute(f"SELECT * FROM items_own WHERE user_id='{ctx.message.author.id}' AND item_name='{name}'")
                 
@@ -868,19 +859,67 @@ class Economy(commands.Cog):
                         await ctx.send("You do not own any of the item")
                         
                     else:
-                        x = use.split("-")
-                        
-                        lower = int(x[0])
-                        higher = int(x[1])
-                        
-                        lower_full = lower * amount
-                        higher_full = higher * amount
-                        
-                        number = int(random.randint(lower_full, higher_full))
-                        
-                        print(number)
-                        
-                
+                        if option == "a":
+                            s.execute(f"SELECT * FROM items_own WHERE user_id = '{ctx.message.author.id}' AND item_name ='{name}'")
+                            
+                            items = s.fetchall()
+                            
+                            none = str(items)
+                            
+                            if none == "[]":
+                                await ctx.send("You own none of that item") 
+                                
+                            else:
+                                for item in items:
+                                    user_id = item[0]
+                                    item_name = item[1]
+                                    items_own = int(item[2])
+                                      
+                                sum = items_own - amount
+                                
+                                if -1 >= sum:
+                                    await ctx.send(f"You do not have **{amount}** of {item_name}")
+                                    
+                                else:
+                                    s.execute(f"""UPDATE items_own SET amount = {sum}
+                                                    WHERE user_id = '{ctx.message.author.id}' AND item_name='{name}'
+                                                """)
+                                    
+                                    conn.commit()
+                                    
+                                    x = use.split("-")
+                                    
+                                    lower = int(x[0])
+                                    higher = int(x[1])
+                                    
+                                    lower_full = lower * amount
+                                    higher_full = higher * amount
+                                    
+                                    number = int(random.randint(lower_full, higher_full))
+                                    
+                                    print(number)
+                                    
+                                    sum = wallet + number
+                                    
+                                    input(f"{sum}:")
+                                    
+                                    e.execute(f"""UPDATE economy SET wallet = {sum}
+                                                    WHERE user_ID = '{ctx.message.author.id}'   
+                                                """)
+                                    
+                                    conn_econ.commit()
+                                    
+                                    sum = sum + bank
+                                    
+                                    input(f"{sum}:")
+                                    
+                                    e.execute(f"""UPDATE economy SET net = {sum}
+                                                    WHERE user_ID = '{ctx.message.author.id}'   
+                                                """)
+                                    
+                                    conn_econ.commit()
+                                    
+                                    await ctx.send('done')
 
     @commands.command()
     async def use(self, ctx, item: str = None, ammount: int = None):
