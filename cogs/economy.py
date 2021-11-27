@@ -631,49 +631,28 @@ class Economy(commands.Cog):
 
                                     await ctx.send(embed=embed)
 
-    @commands.command()
-    async def bal_everyone(self, ctx):
-        conn = sqlite3.connect('economy.db')
-        c_econ = conn.cursor()
-
-        c_econ.execute(f"SELECT * FROM economy WHERE user_ID = '{ctx.message.author.id}'")
-
-        items = c_econ.fetchall()
-
-        await ctx.send(items)
-
 
     @commands.command()
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def slots(self, ctx, ammount: int = None):
-        conn = sqlite3.connect('economy.db')
-        c = conn.cursor()
+    async def slots(self, ctx, amount: int = None):
+        view = results.view(user_ID=ctx.message.author.id)
+        
+        wallet = view.wallet()
+        bank = view.bank()
 
-        c.execute(f"SELECT * FROM economy WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == "[]":
-            c.execute(f"INSERT INTO economy VALUES ('{ctx.message.author.id}', '{ctx.message.author}', 0 , 0, 0)")
-
-            conn.commit()
-            conn.close()
-
-            return await ctx.send("You do not have any coins to gamble")
+        if wallet == "0":
+            await ctx.send("You do not have any coins to gamble in your wallet")
 
         else:
-            if ammount == None:
-                await ctx.send("Please send the ammount of coins you want to gambel.")
+            if amount == None:
+                await ctx.send("Please send the amount of coins you want to gambel.")
 
             else:
-                for item in items:
-                    wallet = item[2]
-                    bank = item[3]
-
-                if wallet >= ammount:
-                    new_wallet_2 = wallet - ammount
+                if wallet >= amount:
+                    new_wallet_2 = wallet - amount
+                    
+                    wallet = money.wallet(amount=amount, user_ID=ctx.message.author.id)
+                    wallet.sub()
 
                     embed: discord.Embed = discord.Embed(
                         title="Slots",
@@ -684,9 +663,9 @@ class Economy(commands.Cog):
                     before = await ctx.send(embed=embed)
 
                     responses = [
-                        "<:Dinosaur:840670397901045772>"
-                        #"<:Dinosaur_Yellow:858747810278670336>",
-                        #"<:Dinosaur_Blue:858747768629755934>"
+                        "<:Dinosaur:840670397901045772>",
+                        "<:Dinosaur_Yellow:858747810278670336>",
+                        "<:Dinosaur_Blue:858747768629755934>"
                         
                     ]
 
@@ -707,23 +686,12 @@ class Economy(commands.Cog):
                     await asyncio.sleep(5)
 
                     if line_2 == "<:Dinosaur:840670397901045772> | <:Dinosaur:840670397901045772> | <:Dinosaur:840670397901045772> :arrow_backward:":
-                        new_ammount = ammount * 3
+                        new_ammount = amount * 5
 
                         new_wallet = new_wallet_2 + new_ammount
 
-                        c.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                            WHERE user_id = '{ctx.message.author.id}'   
-                        """)
-
-                        conn.commit()
-
-                        sum = new_wallet + bank
-
-                        c.execute(f"""UPDATE economy SET net = {sum}
-                            WHERE user_id = '{ctx.message.author.id}'   
-                        """)
-
-                        conn.commit()
+                        wallet = money.wallet(amount=new_ammount, user_ID=ctx.message.author.id)
+                        wallet.add()    
 
                         embed: discord.Embed = discord.Embed(
                             title="Slots",
@@ -731,57 +699,28 @@ class Economy(commands.Cog):
                             color=discord.Color.green()
                         )
                     
-                        conn.close()
                         await before.edit(embed=embed)
 
                     elif line_2 == "<:Dinosaur_Yellow:858747810278670336> | <:Dinosaur_Yellow:858747810278670336> | <:Dinosaur_Yellow:858747810278670336> :arrow_backward:":
-                        new_ammount = ammount * 1.5
+                        new_ammount = amount * 1.5
 
                         new_ammount = new_ammount // 1
 
-                        new_wallet = new_wallet_2 + new_ammount
-
-                        c.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                            WHERE user_id = '{ctx.message.author.id}'   
-                        """)
-
-                        conn.commit()
-
-                        sum = new_wallet + bank
-
-                        c.execute(f"""UPDATE economy SET net = {sum}
-                            WHERE user_id = '{ctx.message.author.id}'   
-                        """)
-
-                        conn.commit()
-
+                        wallet = money.wallet(amount=new_ammount, user_ID=ctx.message.author.id)
+                        wallet.add()
+                        
                         embed: discord.Embed = discord.Embed(
                             title="Slots",
                             description=f"You Won **{new_ammount:,.0f}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
                             color=discord.Color.green()
                         )
                         
-                        conn.close()
                         await before.edit(embed=embed)
 
                     elif line_2 == "<:Dinosaur_Blue:858747768629755934> | <:Dinosaur_Blue:858747768629755934> | <:Dinosaur_Blue:858747768629755934> :arrow_backward:":
-                        new_ammount = ammount * 2
+                        new_ammount = amount * 2
 
-                        new_wallet = new_wallet_2 + new_ammount
-
-                        c.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                            WHERE user_id = '{ctx.message.author.id}'   
-                        """)
-
-                        conn.commit()
-
-                        sum = new_wallet + bank
-
-                        c.execute(f"""UPDATE economy SET net = {sum}
-                            WHERE user_id = '{ctx.message.author.id}'   
-                        """)
-
-                        conn.commit()
+                        wallet = money.wallet(amount=new_ammount, user_ID=ctx.message.author.id)
 
                         embed: discord.Embed = discord.Embed(
                             title="Slots",
@@ -789,12 +728,11 @@ class Economy(commands.Cog):
                             color=discord.Color.green()
                         )
                         
-                        conn.close()
                         await before.edit(embed=embed)
 
                     elif slots_4 == slots_6:
                         if slots_4 == "<:Dinosaur:840670397901045772>":
-                            new_ammount = ammount * 1.75
+                            new_ammount = amount * 1.75
 
                             new_ammount = new_ammount // 1
 
@@ -802,21 +740,8 @@ class Economy(commands.Cog):
 
                             new_ammount = int(new_ammount)
 
-                            new_wallet = new_wallet_2 + new_ammount
-
-                            c.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                                WHERE user_id = '{ctx.message.author.id}'   
-                            """)
-
-                            conn.commit()
-
-                            sum = new_wallet + bank
-
-                            c.execute(f"""UPDATE economy SET net = {sum}
-                                WHERE user_id = '{ctx.message.author.id}'   
-                            """)
-
-                            conn.commit()
+                            wallet = money.wallet(amount=new_ammount, user_ID=ctx.message.author.id)
+                            wallet.add()
 
                             embed: discord.Embed = discord.Embed(
                                 title="Slots",
@@ -824,11 +749,10 @@ class Economy(commands.Cog):
                                 color=discord.Color.green()
                             )
 
-                            conn.close()
                             await before.edit(embed=embed)
 
                         elif slots_4 == "<:Dinosaur_Blue:858747768629755934>":
-                            new_ammount = ammount * 1.5
+                            new_ammount = amount * 1.5
 
                             new_ammount = new_ammount // 1
 
@@ -836,21 +760,8 @@ class Economy(commands.Cog):
 
                             new_ammount = int(new_ammount)
 
-                            new_wallet = new_wallet_2 + new_ammount
-
-                            c.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                                WHERE user_id = '{ctx.message.author.id}'   
-                            """)
-
-                            conn.commit()
-
-                            sum = new_wallet + bank
-
-                            c.execute(f"""UPDATE economy SET net = {sum}
-                                WHERE user_id = '{ctx.message.author.id}'   
-                            """)
-
-                            conn.commit()
+                            wallet = money.wallet(amount=new_ammount, user_ID=ctx.message.author.id)
+                            wallet.add()
 
                             embed: discord.Embed = discord.Embed(
                                 title="Slots",
@@ -858,72 +769,40 @@ class Economy(commands.Cog):
                                 color=discord.Color.green()
                             )
                     
-                            conn.close()
                             await before.edit(embed=embed)
 
 
                         elif slots_4 == "<:Dinosaur_Yellow:858747810278670336>":
-                            new_ammount = ammount * 1.25
+                            new_ammount = amount * 1.25
 
                             new_ammount = new_ammount // 1
 
                             new_ammount = int(new_ammount)
 
-                            new_wallet = new_wallet_2 + new_ammount
-
-                            c.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                                WHERE user_id = '{ctx.message.author.id}'   
-                            """)
-
-                            conn.commit()
-
-                            sum = new_wallet + bank
-
-                            c.execute(f"""UPDATE economy SET net = {sum}
-                                WHERE user_id = '{ctx.message.author.id}'   
-                            """)
-
-                            conn.commit()
-
+                            wallet = money.wallet(amount=new_ammount, user_ID=ctx.message.author.id)
+                            wallet.add()
+                            
                             embed: discord.Embed = discord.Embed(
                                 title="Slots",
                                 description=f"You Won **{new_ammount:,.0f}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
                                 color=discord.Color.green()
                             )
                             
-                            conn.close()
                             await before.edit(embed=embed)
 
 
                     else:
-                        new_wallet = wallet - ammount
-                        c.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                                WHERE user_id = '{ctx.message.author.id}'   
-                            """)
-                        
-                        conn.commit()
-
-                        sum = new_wallet + bank
-
-                        c.execute(f"""UPDATE economy SET net = {sum}
-                                WHERE user_id = '{ctx.message.author.id}'   
-                            """)
-
-                        conn.commit()
-
                         embed: discord.Embed = discord.Embed(
                             title="Slots",
-                            description=f"You Lost **{ammount}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
+                            description=f"You Lost **{amount}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
                             color=discord.Color.green()
                         )
 
-
-                        conn.close()
                         await before.edit(embed=embed)
 
 
                 else:
-                    await ctx.send("You do not have enought coins in wallet")
+                    await ctx.send("You do not have enough coins in wallet")
 
     @commands.command()
     async def rob(self, ctx, user: discord.Member = None):
