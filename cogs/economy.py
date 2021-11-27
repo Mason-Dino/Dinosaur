@@ -12,8 +12,8 @@ class Economy(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
-    async def top_test(self, ctx):
+    @commands.command(aliases=['top', 'lb'])
+    async def leaderboard(self, ctx):
         top_1 = results.top(place=1)
         top_2 = results.top(place=2)
         top_3 = results.top(place=3)
@@ -484,12 +484,14 @@ class Economy(commands.Cog):
         
     @commands.command()
     async def use(self, ctx, shop_id: str = None, amount: int = None):
+        view = results.view(user_ID=ctx.message.author.id)
+        
+        wallet = view.wallet()
+        
         conn = sqlite3.connect('shop.db')
-        conn_econ = sqlite3.connect("economy.db")
         conn_shop_items = sqlite3.connect("shop_items.db")
         
         s = conn.cursor()
-        e = conn_econ.cursor()
         i = conn_shop_items.cursor()
         
         i.execute(f"SELECT rowid, * FROM shop_items WHERE rowid='{shop_id}'")
@@ -509,31 +511,10 @@ class Economy(commands.Cog):
                 option = item[3]
                 use = item[4]
                 
-            e.execute(f"SELECT * FROM economy WHERE user_ID='{ctx.message.author.id}'")
-            
-            econ = e.fetchall()
-            
-            none = str(econ)
-            
-            if none == "[]":
-                e.execute(f"INSERT INTO economy VALUES ('{ctx.message.author.id}', '{ctx.message.author}', 0 , 0, 0)")
-        
-                conn_econ.commit()
-                conn_econ.close()
-                
-                conn.close()
-                conn_shop_items.close()
-                
+            if wallet == "0":
                 await ctx.send("You do not have enough Dinosaur Points to buy the item.")
                 
             else:
-                for item in econ:
-                    user_ID = item[0]
-                    user_name = item[1]
-                    wallet = int(item[2])
-                    bank = item[3]
-                    net = item[4]
-                    
                 if amount == None:
                     amount = 1
                     print("amount 1")
@@ -605,23 +586,8 @@ class Economy(commands.Cog):
                                     
                                     sum = wallet + number
                                     
-                                    input(f"{sum}:")
-                                    
-                                    e.execute(f"""UPDATE economy SET wallet = {sum}
-                                                    WHERE user_ID = '{ctx.message.author.id}'   
-                                                """)
-                                    
-                                    conn_econ.commit()
-                                    
-                                    sum = sum + bank
-                                    
-                                    input(f"{sum}:")
-                                    
-                                    e.execute(f"""UPDATE economy SET net = {sum}
-                                                    WHERE user_ID = '{ctx.message.author.id}'   
-                                                """)
-                                    
-                                    conn_econ.commit()
+                                    wallet = money.wallet(amount=number, user_ID=ctx.message.author.id)
+                                    wallet.add()
                                     
                                     embed: discord.Embed = discord.Embed(
                                         title=f"{item_name} Open",
