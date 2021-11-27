@@ -199,7 +199,7 @@ class Owner(commands.Cog):
             await ctx.send("You do not have permssion to use this command.")
             
     @commands.command()
-    async def items(self, ctx):
+    async def items(self, ctx, arg1=None):
         conn = sqlite3.connect("shop_items.db")
         c = conn.cursor()
         
@@ -209,44 +209,28 @@ class Owner(commands.Cog):
             return msg.author == ctx.author and msg.channel == ctx.channel
         
         if ctx.message.author.id == OwnerID:
-            embed: discord.Embed = discord.Embed(
-                title="Shop Item Add",
-                description="Say **Yes** to add a shop item\nSay **No** to not add a shop item",
-                color=discord.Color.green()
-            )
-            
-            await ctx.send(embed=embed)
-            
-            msg = await self.client.wait_for("message", check=check)
-            
-            if msg.content.lower() == "yes":
+            if arg1.lower() == "new":
                 embed: discord.Embed = discord.Embed(
-                    title="Name",
-                    description="What is the name of the shop item you want?",
+                    title="Shop Item Add",
+                    description="Say **Yes** to add a shop item\nSay **No** to not add a shop item",
                     color=discord.Color.green()
                 )
                 
                 await ctx.send(embed=embed)
                 
                 msg = await self.client.wait_for("message", check=check)
-                name = msg.content
                 
-                if msg.content.lower() == "stop":
-                    conn.close()
-                    
-                    await ctx.send("The shop item add process has been stoped")
-                    
-                else:
+                if msg.content.lower() == "yes":
                     embed: discord.Embed = discord.Embed(
-                        title="Price",
-                        description="What is the price that you the item to be?",
+                        title="Name",
+                        description="What is the name of the shop item you want?",
                         color=discord.Color.green()
                     )
                     
                     await ctx.send(embed=embed)
                     
                     msg = await self.client.wait_for("message", check=check)
-                    price = msg.content
+                    name = msg.content
                     
                     if msg.content.lower() == "stop":
                         conn.close()
@@ -255,15 +239,15 @@ class Owner(commands.Cog):
                         
                     else:
                         embed: discord.Embed = discord.Embed(
-                            title="Option",
-                            description="What is the option you want it to be?\n\n**a** - Mystery Crate / Egg\n**b** - Collectible",
+                            title="Price",
+                            description="What is the price that you the item to be?",
                             color=discord.Color.green()
                         )
                         
                         await ctx.send(embed=embed)
                         
                         msg = await self.client.wait_for("message", check=check)
-                        option = msg.content
+                        price = msg.content
                         
                         if msg.content.lower() == "stop":
                             conn.close()
@@ -272,32 +256,32 @@ class Owner(commands.Cog):
                             
                         else:
                             embed: discord.Embed = discord.Embed(
-                                title="Use",
-                                description="What is the ammount of coins you want them to gain",
+                                title="Option",
+                                description="What is the option you want it to be?\n\n**a** - Mystery Crate / Egg\n**b** - Collectible",
                                 color=discord.Color.green()
                             )
                             
                             await ctx.send(embed=embed)
                             
                             msg = await self.client.wait_for("message", check=check)
-                            use = msg.content
+                            option = msg.content
                             
-                            if msg.content == "stop":
+                            if msg.content.lower() == "stop":
                                 conn.close()
                                 
                                 await ctx.send("The shop item add process has been stoped")
                                 
                             else:
                                 embed: discord.Embed = discord.Embed(
-                                    title="Visible",
-                                    description="Do you want people to able do to see it while doing `d/shop`?\n\n**Yes** for it to be visible for `d/shop`\n**No** for it not to be visible for `d/shop`",
+                                    title="Use",
+                                    description="What is the ammount of coins you want them to gain",
                                     color=discord.Color.green()
                                 )
                                 
                                 await ctx.send(embed=embed)
                                 
                                 msg = await self.client.wait_for("message", check=check)
-                                visible = msg.content
+                                use = msg.content
                                 
                                 if msg.content == "stop":
                                     conn.close()
@@ -305,80 +289,71 @@ class Owner(commands.Cog):
                                     await ctx.send("The shop item add process has been stoped")
                                     
                                 else:
-                                    if msg.content.lower() == "yes":
-                                        visible = "True"
-                                        pass
-                                    
-                                    elif msg.content.lower() == "no":
-                                        visible = "False"
-                                        pass
-                                    
-                                    else:
-                                        visible = "False"
-                                        pass
-                                    
                                     embed: discord.Embed = discord.Embed(
-                                        title="Shop Item Add",
-                                        description=f"Item Name - {name}\nItem Price - {price}\nOption - {option}\nUse - {use}\nVisible - {visible}\n\nSay **Add** to add it to the shop\nSay **No** to not add it to the shop",
+                                        title="Visible",
+                                        description="Do you want people to able do to see it while doing `d/shop`?\n\n**Yes** for it to be visible for `d/shop`\n**No** for it not to be visible for `d/shop`",
                                         color=discord.Color.green()
                                     )
                                     
                                     await ctx.send(embed=embed)
                                     
                                     msg = await self.client.wait_for("message", check=check)
+                                    visible = msg.content
                                     
-                                    if msg.content.lower() == "add":
-                                        c.execute(f"INSERT INTO shop_items VALUES ('{name}', '{price}', '{option}', '{use}', '{visible}')")
-                                        
-                                        conn.commit()
+                                    if msg.content == "stop":
                                         conn.close()
                                         
-                                        embed: discord.Embed = discord.Embed(
-                                            title="Shop Item Added",
-                                            description=f"Item Name - {name}\nItem Price - {price}\nOption - {option}\nUse - {use}\nVisible - {visible}",
-                                            color=discord.Color.green()
-                                        )
-                                    
-                                        await ctx.send(embed=embed)
+                                        await ctx.send("The shop item add process has been stoped")
                                         
                                     else:
-                                        await ctx.send(f"The item was not added to the shop")
+                                        if msg.content.lower() == "yes":
+                                            visible = "True"
+                                            pass
+                                        
+                                        elif msg.content.lower() == "no":
+                                            visible = "False"
+                                            pass
+                                        
+                                        else:
+                                            visible = "False"
+                                            pass
+                                        
+                                        embed: discord.Embed = discord.Embed(
+                                            title="Shop Item Add",
+                                            description=f"Item Name - {name}\nItem Price - {price}\nOption - {option}\nUse - {use}\nVisible - {visible}\n\nSay **Add** to add it to the shop\nSay **No** to not add it to the shop",
+                                            color=discord.Color.green()
+                                        )
+                                        
+                                        await ctx.send(embed=embed)
+                                        
+                                        msg = await self.client.wait_for("message", check=check)
+                                        
+                                        if msg.content.lower() == "add":
+                                            c.execute(f"INSERT INTO shop_items VALUES ('{name}', '{price}', '{option}', '{use}', '{visible}')")
+                                            
+                                            conn.commit()
+                                            conn.close()
+                                            
+                                            embed: discord.Embed = discord.Embed(
+                                                title="Shop Item Added",
+                                                description=f"Item Name - {name}\nItem Price - {price}\nOption - {option}\nUse - {use}\nVisible - {visible}",
+                                                color=discord.Color.green()
+                                            )
+                                        
+                                            await ctx.send(embed=embed)
+                                            
+                                        else:
+                                            await ctx.send(f"The item was not added to the shop")
+                    
+                else:
+                    conn.close()
+                    
+                    await ctx.send("The shop item add process has been stoped")
                 
             else:
                 conn.close()
                 
-                await ctx.send("The shop item add process has been stoped")
-            
-        else:
-            conn.close()
-            
-            await ctx.send("You do not have permssion to use this command.")
-            
-    @commands.command()
-    async def shop_overall(self, ctx):
-        conn = sqlite3.connect("shop.db")
-        c = conn.cursor()
-        
-        c.execute("SELECT * FROM common")
-        
-        items = c.fetchall()
-        
-        await ctx.send(items)
-        await ctx.send("^ common")
-        
-        c.execute("SELECT * FROM un_common")
-        
-        items = c.fetchall()
-        
-        await ctx.send(items)
-        await ctx.send("^ un-common")
-        
-        c.execute("SELECT * FROM rare")
-        
-        items = c.fetchall()
-        
-        await ctx.send(items)
-        await ctx.send("^ rare")
+                await ctx.send("You do not have permssion to use this command.")
 
 
 def setup(client):
