@@ -153,84 +153,53 @@ class Economy(commands.Cog):
         
 
     @commands.command(aliases=['dep'])
-    async def deposit(self, ctx, arg1=None, *, ammount: int=None):
-        conn = sqlite3.connect('economy.db')
-        c = conn.cursor()
-
-        c.execute(f"SELECT * FROM economy WHERE user_ID = '{ctx.message.author.id}'")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == "[]":
-            c.execute(f"INSERT INTO economy VALUES ('{ctx.message.author.id}', '{ctx.message.author}', 0 , 0, 0)")
-
-            conn.commit()
-            conn.close()
-
-            await ctx.send("You don't have any coins to deposti")
-
+    async def deposit(self, ctx, what: str = None):
+        view = results.view(user_ID=ctx.message.author.id)
+        
+        if what == None:
+            await ctx.send("Invalid use of command do **d/dep all** or **d/dep [number]**")
+            
         else:
-            for item in items:
-                wallet = item[2]
-                bank = item[3]
-
-            if arg1 == "all":
-                sum = wallet + bank
-
-                c.execute(f"""UPDATE economy SET bank = {sum}
-                    WHERE user_ID = '{ctx.message.author.id}'   
-                """)
-
-                conn.commit()
-
-                c.execute(f"""UPDATE economy SET wallet = 0
-                    WHERE user_ID = '{ctx.message.author.id}'   
-                """)
-
-                conn.commit()
-
+            what_check = what.isdigit()
+            
+            if what_check == True:
+                what = int(what)
+                
+                if view.wallet() >= what:
+                    wallet = money.wallet(amount=what, user_ID=ctx.message.author.id)
+                    wallet.sub()
+                    
+                    bank = money.bank(amount=what, user_ID=ctx.message.author.id)
+                    bank.add()
+                    
+                    embed: discord.Embed = discord.Embed(
+                        title="Deposit",
+                        description=f"You deposited **{what}** coins into your bank",
+                        color=discord.Color.green()
+                    )
+                    
+                    await ctx.send(embed=embed)
+                    
+                else:
+                    await ctx.send("You don't have that many coins in your wallet")
+                
+            if what_check == False:
+                all = view.wallet()
+                
+                wallet = money.wallet(amount=all, user_ID=ctx.message.author.id)
+                wallet.sub()
+                
+                bank = money.bank(amount=all, user_ID=ctx.message.author.id)
+                bank.add()
+                
                 embed: discord.Embed = discord.Embed(
                     title="Deposit",
-                    description=f"You deposited **{wallet}** into your bank",
+                    description=f"You deposited **{all}** coins into your bank",
                     color=discord.Color.green()
                 )
-
+                
                 await ctx.send(embed=embed)
-
-            elif arg1=="set":
-                if ammount == None:
-                    await ctx.send("Please send the amount of Dinosaur Points you want to deposite")
-
-                else:
-                    if wallet >= ammount:
-                        new_wallet = wallet - ammount
-
-                        new_bank = bank + ammount
-
-                        c.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                                WHERE user_ID = '{ctx.message.author.id}'   
-                            """)
-
-                        conn.commit()
-
-                        c.execute(f"""UPDATE economy SET bank = {new_bank}
-                                WHERE user_ID = '{ctx.message.author.id}'   
-                            """)
-
-                        conn.commit()
-
-                        embed: discord.Embed = discord.Embed(
-                            title="Deposit",
-                            description=f"You deposited **{ammount}** into your bank",
-                            color=discord.Color.green()
-                        )
-
-                        await ctx.send(embed=embed)
-
-                    else:
-                        await ctx.send("Please only send the ammount of Dinosaur Points you have in your wallet")
+        
 
     @commands.command(aliases=['with'])
     async def withdraw(self, ctx, arg1=None, *, ammount: int=None):
