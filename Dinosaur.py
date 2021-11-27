@@ -38,39 +38,42 @@ cogs = ["cogs.help", "cogs.games", "cogs.owner", "cogs.economy", "cogs.utility",
 #cogs = ["cogs.economy"]
 
 # start
+
+start()
+
 @client.event
 async def on_ready():
-    #conn = sqlite3.connect("economy_old.db")
-    #c = conn.cursor()
+    conn = sqlite3.connect("economy_old.db")
+    c = conn.cursor()
 
-    #c.execute("SELECT * FROM economy")
-    #items = c.fetchall()
+    c.execute("SELECT * FROM economy")
+    items = c.fetchall()
     
-    #print(items)
+    print(items)
 
-    #for item in items:
-        #user_id = int(item[0])
-        #wallet = int(item[2])
-        #bank  = int(item[3])
-        #net = int(item[4])
+    for item in items:
+        user_id = int(item[0])
+        wallet = int(item[2])
+        bank  = int(item[3])
+        net = int(item[4])
         
-        #type(user_id)
+        type(user_id)
         
-        #conn = sqlite3.connect("economy.db")
-        #c = conn.cursor()
+        conn = sqlite3.connect("economy.db")
+        c = conn.cursor()
         
-        #c.execute(f"INSERT INTO economy VALUES ({user_id}, {wallet}, {bank}, {net})")
+        c.execute(f"INSERT INTO economy VALUES ({user_id}, {wallet}, {bank}, {net})")
         
-        #conn.commit()
-        #conn.close()
+        conn.commit()
+        conn.close()
 
-        #conn_e = sqlite3.connect("economy.db")
-        #ce = conn_e.cursor()
+        conn_e = sqlite3.connect("economy.db")
+        ce = conn_e.cursor()
         
-        #ce.execute("SELECT * FROM economy")
-        #items = ce.fetchall()
+        ce.execute("SELECT * FROM economy")
+        items = ce.fetchall()
         
-        #print(items)
+        print(items)
     
     conn = sqlite3.connect("shop_items.db")
     c = conn.cursor()
