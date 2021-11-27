@@ -519,7 +519,6 @@ class Economy(commands.Cog):
             else:
                 if amount == None:
                     amount = 1
-                    print("amount 1")
                     
                     pass
                 
@@ -534,71 +533,111 @@ class Economy(commands.Cog):
                         amount = amount
                         pass
                         
-                    s.execute(f"SELECT * FROM items_own WHERE user_id='{ctx.message.author.id}' AND item_name='{name}'")
+                s.execute(f"SELECT * FROM items_own WHERE user_id='{ctx.message.author.id}' AND item_name='{name}'")
+            
+                items = s.fetchall()
+            
+                await ctx.send(name)
+            
+                none = str(items)
                 
-                    items = s.fetchall()
-                
-                    await ctx.send(name)
-                
-                    none = str(items)
+                if none == "[]":
+                    await ctx.send("You do not own any of the item")
                     
-                    if none == "[]":
-                        await ctx.send("You do not own any of the item")
+                else:
+                    if option == "a":
+                        s.execute(f"SELECT * FROM items_own WHERE user_id = '{ctx.message.author.id}' AND item_name ='{name}'")
                         
-                    else:
-                        if option == "a":
-                            s.execute(f"SELECT * FROM items_own WHERE user_id = '{ctx.message.author.id}' AND item_name ='{name}'")
+                        items = s.fetchall()
+                        
+                        none = str(items)
+                        
+                        if none == "[]":
+                            await ctx.send("You own none of that item") 
                             
-                            items = s.fetchall()
+                        else:
+                            for item in items:
+                                user_id = item[0]
+                                item_name = item[1]
+                                items_own = int(item[2])
+                                    
+                            sum = items_own - amount
                             
-                            none = str(items)
-                            
-                            if none == "[]":
-                                await ctx.send("You own none of that item") 
+                            if -1 >= sum:
+                                await ctx.send(f"You do not have **{amount}** of {item_name}")
                                 
                             else:
-                                for item in items:
-                                    user_id = item[0]
-                                    item_name = item[1]
-                                    items_own = int(item[2])
-                                      
-                                sum = items_own - amount
+                                s.execute(f"""UPDATE items_own SET amount = {sum}
+                                                WHERE user_id = '{ctx.message.author.id}' AND item_name='{name}'
+                                            """)
                                 
-                                if -1 >= sum:
-                                    await ctx.send(f"You do not have **{amount}** of {item_name}")
-                                    
-                                else:
-                                    s.execute(f"""UPDATE items_own SET amount = {sum}
-                                                    WHERE user_id = '{ctx.message.author.id}' AND item_name='{name}'
-                                                """)
-                                    
-                                    conn.commit()
-                                    
-                                    x = use.split("-")
-                                    
-                                    lower = int(x[0])
-                                    higher = int(x[1])
-                                    
-                                    lower_full = lower * amount
-                                    higher_full = higher * amount
-                                    
-                                    number = int(random.randint(lower_full, higher_full))
-                                    
-                                    print(number)
-                                    
-                                    sum = wallet + number
-                                    
-                                    wallet = money.wallet(amount=number, user_ID=ctx.message.author.id)
-                                    wallet.add()
-                                    
-                                    embed: discord.Embed = discord.Embed(
-                                        title=f"{item_name} Open",
-                                        description=f"You earned **{number}** of Dinosaur Points",
-                                        color=discord.Color.green()
-                                    )
+                                conn.commit()
+                                
+                                x = use.split("-")
+                                
+                                lower = int(x[0])
+                                higher = int(x[1])
+                                
+                                lower_full = lower * amount
+                                higher_full = higher * amount
+                                
+                                number = int(random.randint(lower_full, higher_full))
+                                
+                                print(number)
+                                
+                                sum = wallet + number
+                                
+                                wallet = money.wallet(amount=number, user_ID=ctx.message.author.id)
+                                wallet.add()
+                                
+                                embed: discord.Embed = discord.Embed(
+                                    title=f"{item_name} Open",
+                                    description=f"You earned **{number}** of Dinosaur Points",
+                                    color=discord.Color.green()
+                                )
 
-                                    await ctx.send(embed=embed)
-
+                                await ctx.send(embed=embed)
+                                
+                    elif option == "b":
+                        s.execute(f"SELECT * FROM items_own WHERE user_id = '{ctx.message.author.id}' AND item_name ='{name}'")
+                        
+                        items = s.fetchall()
+                        
+                        none = str(items)
+                        
+                        if none == "[]":
+                            await ctx.send("You own none of that item") 
+                            
+                        else:
+                            for item in items:
+                                user_id = item[0]
+                                item_name = item[1]
+                                items_own = int(item[2])
+                                    
+                            sum = items_own - amount
+                            
+                            if -1 >= sum:
+                                await ctx.send(f"You do not have **{amount}** of {item_name}")
+                                
+                            else:
+                                s.execute(f"""UPDATE items_own SET amount = {sum}
+                                                WHERE user_id = '{ctx.message.author.id}' AND item_name='{name}'
+                                            """)
+                                
+                                conn.commit()
+                                
+                                number = use
+                                
+                                wallet = money.wallet(amount=number, user_ID=ctx.message.author.id)
+                                wallet.add()
+                                
+                                embed: discord.Embed = discord.Embed(
+                                    title=f"{item_name} Open",
+                                    description=f"You earned **{number}** of Dinosaur Points",
+                                    color=discord.Color.green()
+                                )
+                                
+                                await ctx.send(embed=embed)
 
     @commands.command()
     @commands.cooldown(1, 10, commands.BucketType.user)
