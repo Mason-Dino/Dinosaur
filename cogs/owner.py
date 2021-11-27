@@ -354,6 +354,12 @@ class Owner(commands.Cog):
                 conn.close()
                 
                 await ctx.send("You do not have permssion to use this command.")
+                
+        elif arg1.lower() == "update":
+            pass
+            
+        else:
+            await ctx.send("not a valid sub command")
 
 
 def setup(client):
