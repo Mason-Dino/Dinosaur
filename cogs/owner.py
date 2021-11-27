@@ -1,5 +1,6 @@
 import discord
 import os
+from discord.audit_logs import _transform_verification_level
 from discord.ext import commands
 from discord.ext.commands import BucketType
 import asyncio
@@ -366,6 +367,9 @@ class Owner(commands.Cog):
         
         OwnerID = 638092957756555291
         
+        def check(msg):
+            return msg.author == ctx.author and msg.channel == ctx.channel
+        
         if ctx.message.author.id == OwnerID:
             if shop == None:
                 await ctx.send("Invalid Shop ID")
@@ -383,12 +387,182 @@ class Owner(commands.Cog):
                 none = str(items)
                 
                 if none == "[]":
-                    await ctx.send()
+                    await ctx.send("Not a valid shop ID")
+                    
+                else:
+                    if arg1.lower() == "price":
+                        embed: discord.Embed = discord.Embed(
+                            title="Price Update",
+                            description="Please send the updated price for the item.\n\nSend **No** if you would not like to update the price",
+                            color=discord.Color.green()
+                        )
+                        
+                        await ctx.send(embed=embed)
+                        
+                        msg = await self.client.wait_for("message", check=check)
+                        
+                        if msg.content.lower() == "no":
+                            await ctx.send("The price update was stoped")
+                            
+                        else:
+                            price = msg.content
+                            
+                            price_check = price.isdigit()
+                            
+                            if price_check == True:
+                                price = int(price)
+                                
+                                c.execute(f"""UPDATE shop_items SET price = {price}
+                                                WHERE rowid = {shop}
+                                            """)
+                                
+                                conn.commit()
+                                conn.close()
+                                
+                                await ctx.send("The price is updated")
+                                
+                            else:
+                                await ctx.send("Please redo the command and then send a valid number")
+                    
+                    elif arg1.lower() == "visible":
+                        embed: discord.Embed = discord.Embed(
+                            title="Visible Update",
+                            description="Send **True** to have it be able to be viewed in shop\nSend **False** to have it not appear on the shop\n\nSend **No** if you would like to stop updating the visibility",
+                            color=discord.Color.green()
+                        )
+                        
+                        await ctx.send(embed=embed)
+                        
+                        msg = await self.client.wait_for("message", check=check)
+                        
+                        if msg.content.lower() == "no":
+                            await ctx.send("Stoped updating visibility")
+                            
+                        elif msg.content.lower() == "true":
+                            c.execute(f"""UPDATE shop_items SET visible = "True"
+                                                WHERE rowid = {shop}
+                                            """)
+                            
+                            conn.commit()
+                            conn.close()
+                            
+                            await ctx.send("Visibility updated to **True**")
+                            
+                        elif msg.content.lower() == "false":
+                            c.execute(f"""UPDATE shop_items SET visible = "False"
+                                                WHERE rowid = {shop}
+                                            """)
+                            
+                            conn.commit()
+                            conn.close()
+                            
+                            await ctx.send("Visibility updated to **False**")
+                            
+                        else:
+                            await ctx.send("Not valid visibility response")
+                    
+                    elif arg1.lower() == "use":
+                        c.execute(f"SELECT rowid, * WHERE rowid={shop}")
+                        
+                        items = c.fetchall()
+                        none = str(items)
+                        
+                        if none == "[]":
+                            await ctx.send("Process Failed please redo")
+                            
+                        else:
+                            for item in items:
+                                option = item[3]
+                                
+                            if option == "a":
+                                embed: discord.Embed = discord.Embed(
+                                    title="Use Update",
+                                    description=f"Please send **x-x** where x is a number\n\nSend **No** if you would like to stop updating the use",
+                                    color=discord.Color.green()
+                                )
+                                
+                                msg = await self.client.wait_for("message", check=check)
+                                
+                                if msg.content.lower() == "no":
+                                    await ctx.send("Use updating process stoped")
+                                    
+                                else:
+                                    use = msg.content
+                                    
+                                    c.execute(f"""UPDATE shop_items SET use = "{use}"
+                                                WHERE rowid = {shop}
+                                            """)
+                                    
+                                    conn.commit()
+                                    conn.close()
+                                    
+                                    await ctx.send("Use Updating process complete")
+                                    
+                            elif option == "b":
+                                embed: discord.Embed = discord.Embed(
+                                    title="Use Update",
+                                    description="Please send **x** where x is a number\n\nSend **No** if you would like to stop updating the use",
+                                    color=discord.Color.green()
+                                )
+                                
+                                msg = await self.client.wait_for("message", check=check)
+                                
+                                if msg.content.lower() == "no":
+                                    await ctx.send("Use updating process stoped")
+                                    
+                                else:
+                                    use = msg.content
+                                    
+                                    c.execute(f"""UPDATE shop_items SET use = "{use}"
+                                                WHERE rowid = {shop}
+                                            """)
+                                    
+                                    conn.commit()
+                                    conn.close()
+                                    
+                                    await ctx.send("Use Updating process complete")
+        
+        else:
+            await ctx.send("Not a valid owner ID")
+                                    
+    @items.command()
+    async def view(self, ctx, shop: int = None):
+        conn = sqlite3.connect("shop_items.db")
+        c = conn.cursor()
+        
+        OwnerID = 638092957756555291
+        
+        if ctx.message.author.id == OwnerID:
+            if shop == None:
+                await ctx.send("Please send a shop ID")
                 
-            
+            else:
+                c.execute(f"SELECT rowid, * FROM shop_items WHERE rowid = {shop}")
+                
+                items = c.fetchall()
+                none = str(items)
+                
+                if none == "[]":
+                    await ctx.send("Please send a valid shop Id")
+                    
+                else:
+                    for item in items:
+                        id = item[0]
+                        name = item[1]
+                        price = item[2]
+                        option = item[3]
+                        use = item[4]
+                        
+                    embed: discord.Embed = discord.Embed(
+                        title="Shop View Settings",
+                        description=f"Shop ID - {id}\nItem Name - {name}\nItem Price - {price}\nItem Option - {option}\nItem Use - {use}",
+                        color=discord.Color.green()   
+                    )
+                    
+                    await ctx.send(embed=embed)
         
-        
-
-
+        else:
+            await ctx.send("Not a valid owner ID")
+                                    
 def setup(client):
 	client.add_cog(Owner(client))  
