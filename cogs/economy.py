@@ -14,397 +14,127 @@ class Economy(commands.Cog):
 
     @commands.command()
     async def top_test(self, ctx):
-        conn = sqlite3.connect('economy.db')
-        c = conn.cursor()
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_1 = self.client.get_user(840375681045102603)
-            user_1.name = "None"
-            net_1 = "None"
-
+        top_1 = results.top(place=1)
+        top_2 = results.top(place=2)
+        top_3 = results.top(place=3)
+        top_4 = results.top(place=4)
+        top_5 = results.top(place=5)
+        top_6 = results.top(place=6)
+        top_7 = results.top(place=7)
+        top_8 = results.top(place=8)
+        top_9 = results.top(place=9)
+        top_10 = results.top(place=10)
+        
+        user_1 = self.client.get_user(top_1.user_ID())
+        user_2 = self.client.get_user(top_2.user_ID())
+        user_3 = self.client.get_user(top_3.user_ID())
+        user_4 = self.client.get_user(top_4.user_ID())
+        user_5 = self.client.get_user(top_5.user_ID())
+        user_6 = self.client.get_user(top_6.user_ID())
+        user_7 = self.client.get_user(top_7.user_ID())
+        user_8 = self.client.get_user(top_8.user_ID())
+        user_9 = self.client.get_user(top_9.user_ID())
+        user_10 = self.client.get_user(top_10.user_ID())
+        
+        if user_1 == None:
+            user_1_lb = top_1.user_ID()
+            
         else:
-            for item in items:
-                net_1 = item[3]
-                user_ID_1 = int(item[0])
-
-                user_1 = self.client.get_user(user_ID_1)
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 1")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_2 = self.client.get_user(840375681045102603)
-            user_2.name = "None"
-            net_2 = "None"
-
+            user_1_lb = user_1.name
+            pass
+            
+        if user_2 == None:
+            user_2_lb = top_2.user_ID()
+            pass
+            
         else:
-            for item in items:
-                net_2 = item[3]
-                user_ID_2 = int(item[0])
-
-                user_2 = self.client.get_user(user_ID_2)
-
-                pass
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 2")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_3 = self.client.get_user(840375681045102603)
-
-            user_3.name = "None 1"
-            net_3 = "None"
-
+            user_2_lb = user_2.name
+            pass
+        
+        if user_3 == None:
+            user_3_lb = top_3.user_ID()
+            pass
+            
         else:
-            for item in items:
-                net_3 = item[3]
-                user_ID_3 = int(item[0])
-
-                user_3 = self.client.get_user(user_ID_3)
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 3")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_4 = self.client.get_user(840375681045102603)
-            user_4.name = "None"
-            net_4 = "None"
-
+            user_3_lb = user_3.name
+            pass
+        
+        if user_4 == None:
+            user_4_lb = top_4.user_ID()
+            pass
+            
         else:
-            for item in items:
-                net_4 = item[3]
-                user_ID_4 = int(item[0])
-
-                user_4 = self.client.get_user(user_ID_4)
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 4")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_5 = self.client.get_user(840375681045102603)
-            user_5.name = "None"
-            net_5 = "None"
-
+            user_4_lb = user_4.name
+            pass
+        
+        if user_5 == None:
+            user_5_lb = top_5.user_ID()
+            pass
+            
         else:
-            for item in items:
-                net_5 = item[3]
-                user_ID_5 = int(item[0])
-
-                user_5 = self.client.get_user(user_ID_5)
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 5")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_6 = self.client.get_user(840375681045102603)
-            user_6.name = "None"
-            net_6 = "None"
-
+            user_5_lb = user_5.name
+            pass
+        
+        if user_6 == None:
+            user_6_lb = top_6.user_ID()
+            pass
+            
         else:
-            for item in items:
-                net_6 = item[3]
-                user_ID_6 = int(item[0])
-
-                user_6 = self.client.get_user(user_ID_6)
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 6")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_7 = self.client.get_user(840375681045102603)
-            user_7.name = "None"
-            net_7 = "None"
-
+            user_6_lb = user_6.name
+            pass
+        
+        if user_7 == None:
+            user_7_lb = top_7.user_ID()
+            pass
+            
         else:
-            for item in items:
-                net_7 = item[3]
-                user_ID_7 = int(item[0])
-
-                user_7 = self.client.get_user(user_ID_7)
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 7")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_8 = self.client.get_user(840375681045102603)
-            user_8.name = "None"
-            net_8 = "None"
-
+            user_7_lb = user_7.name
+            pass
+        
+        if user_8 == None:
+            user_8_lb = top_8.user_ID()
+            pass
+            
         else:
-            for item in items:
-                net_8 = item[3]
-                user_ID_8 = int(item[0])
-
-                user_8 = self.client.get_user(user_ID_8)
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 8")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_9 = self.client.get_user(840375681045102603)
-            user_9.name = "None"
-            net_9 = "None"
-
+            user_8_lb = user_8.name
+            pass
+        
+        if user_9 == None:
+            user_9_lb = top_9.user_ID()
+            pass
+            
         else:
-            for item in items:
-                net_9 = item[3]
-                user_ID_9 = int(item[0])
-
-                user_9 = self.client.get_user(user_ID_9)
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 9")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_10 = self.client.get_user(840375681045102603)
-            user_10.name = "None"
-            net_10 = "None"
-
+            user_9_lb = user_9.name
+            pass
+            
+        if user_10 == None:
+            user_10_lb = top_10.user_ID()
+            pass
+            
         else:
-            for item in items:
-                net_10 = item[3]
-                user_ID_10 = int(item[0])
-
-                user_10 = self.client.get_user(user_ID_10)
-
+            user_10_lb = user_10.name
+            pass
+        
+        net_1 = top_1.net()
+        net_2 = top_2.net()
+        net_3 = top_3.net()
+        net_4 = top_4.net()
+        net_5 = top_5.net()
+        net_6 = top_6.net()
+        net_7 = top_7.net()
+        net_8 = top_8.net()
+        net_9 = top_9.net()
+        net_10 = top_10.net()
+        
         embed: discord.Embed = discord.Embed(
             title="Dinosaur Leaderboard",
-            description=f"Below are the top 10 people\n\n:first_place: {user_1.name} - {net_1}\n:second_place: {user_2.name} - {net_2}\n:third_place: {user_3.name} - {net_3}\n:medal: {user_4.name} - {net_4}\n:medal: {user_5.name} - {net_5}\n:medal: {user_6.name} - {net_6}\n:medal: {user_7.name} - {net_7}\n:medal: {user_8.name} - {net_8}\n:medal: {user_9.name} - {net_9}\n:medal: {user_10.name} - {net_10}\n",
+            description=f"Bellow are the top 10 people\n\n:first_place: {user_1_lb} - {net_1}\n:second_place: {user_2_lb} - {net_2}\n:third_place: {user_3_lb} - {net_3}\n:medal: {user_4_lb} - {net_4}\n:medal: {user_5_lb} - {net_5}\n:medal: {user_6_lb} - {net_6}\n:medal: {user_7_lb} - {net_7}\n:medal: {user_8_lb} - {net_8}\n:medal: {user_9_lb} - {net_9}\n:medal: {user_10_lb} - {net_10}\n",
             color=discord.Color.green()
         )
 
         await ctx.send(embed=embed)
 
-    @commands.command()
-    async def top(self, ctx):
-        conn = sqlite3.connect('economy_old.db')
-        c = conn.cursor()
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_1 = self.client.get_user(840375681045102603)
-            user_1.name = "None"
-            net_1 = "None"
-
-        else:
-            for item in items:
-                net_1 = item[4]
-                user_ID_1 = int(item[0])
-
-                user_1 = self.client.get_user(user_ID_1)
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 1")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_2 = self.client.get_user(840375681045102603)
-            user_2.name = "None"
-            net_2 = "None"
-
-        else:
-            for item in items:
-                net_2 = item[4]
-                user_ID_2 = int(item[0])
-
-                user_2 = self.client.get_user(user_ID_2)
-
-                pass
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 2")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_3 = self.client.get_user(840375681045102603)
-
-            user_3.name = "None 1"
-            net_3 = "None"
-
-        else:
-            for item in items:
-                net_3 = item[4]
-                user_ID_3 = int(item[0])
-
-                user_3 = self.client.get_user(user_ID_3)
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 3")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_4 = self.client.get_user(840375681045102603)
-            user_4.name = "None"
-            net_4 = "None"
-
-        else:
-            for item in items:
-                net_4 = item[4]
-                user_ID_4 = int(item[0])
-
-                user_4 = self.client.get_user(user_ID_4)
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 4")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_5 = self.client.get_user(840375681045102603)
-            user_5.name = "None"
-            net_5 = "None"
-
-        else:
-            for item in items:
-                net_5 = item[4]
-                user_ID_5 = int(item[0])
-
-                user_5 = self.client.get_user(user_ID_5)
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 5")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_6 = self.client.get_user(840375681045102603)
-            user_6.name = "None"
-            net_6 = "None"
-
-        else:
-            for item in items:
-                net_6 = item[4]
-                user_ID_6 = int(item[0])
-
-                user_6 = self.client.get_user(user_ID_6)
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 6")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_7 = self.client.get_user(840375681045102603)
-            user_7.name = "None"
-            net_7 = "None"
-
-        else:
-            for item in items:
-                net_7 = item[4]
-                user_ID_7 = int(item[0])
-
-                user_7 = self.client.get_user(user_ID_7)
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 7")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_8 = self.client.get_user(840375681045102603)
-            user_8.name = "None"
-            net_8 = "None"
-
-        else:
-            for item in items:
-                net_8 = item[4]
-                user_ID_8 = int(item[0])
-
-                user_8 = self.client.get_user(user_ID_8)
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 8")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_9 = self.client.get_user(840375681045102603)
-            user_9.name = "None"
-            net_9 = "None"
-
-        else:
-            for item in items:
-                net_9 = item[4]
-                user_ID_9 = int(item[0])
-
-                user_9 = self.client.get_user(user_ID_9)
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 9")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_10 = self.client.get_user(840375681045102603)
-            user_10.name = "None"
-            net_10 = "None"
-
-        else:
-            for item in items:
-                net_10 = item[4]
-                user_ID_10 = int(item[0])
-
-                user_10 = self.client.get_user(user_ID_10)
-
-        embed: discord.Embed = discord.Embed(
-            title="Dinosaur Leaderboard",
-            description=f"Below are the top 10 people\n\n:first_place: {user_1.name} - {net_1}\n:second_place: {user_2.name} - {net_2}\n:third_place: {user_3.name} - {net_3}\n:medal: {user_4.name} - {net_4}\n:medal: {user_5.name} - {net_5}\n:medal: {user_6.name} - {net_6}\n:medal: {user_7.name} - {net_7}\n:medal: {user_8.name} - {net_8}\n:medal: {user_9.name} - {net_9}\n:medal: {user_10.name} - {net_10}\n",
-            color=discord.Color.green()
-        )
-
-        await ctx.send(embed=embed)
-
-
+    
     @commands.command(aliases=['bal'])
     async def balance(self, ctx):
         conn = sqlite3.connect('economy.db')
