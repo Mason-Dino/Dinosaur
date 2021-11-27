@@ -64,6 +64,7 @@ class Help(commands.Cog):
             embed.add_field(name="**Work**", value="If you do **d/work** it will give you anyway from 5 to 25 Dinosaur Points.", inline=False)
             embed.add_field(name="**Deposit**", value="If you do **d/dep all** or **d/dep set [ammount]** it will deposit all or the ammount you want into your Dinosaur Points bank.", inline=False)
             embed.add_field(name="**Withdraw**", value="If you do **d/with all** or **d/with set [ammount]** it will withdraw all or the ammount you want from your Dinosaur Points bank.", inline=False)
+            embed.add_field(name="**Leaderboard**", value="If you do **d/leaderboard**, **d/lb**, and **d/top** you will get the top 10 people of the Dinosaur Economy", inline=False)
             embed.add_field(name="**Shop**", value="If you do **d/shop** it will show you all the items that we have in our shop at that time.", inline=False)
             embed.add_field(name="**Inventory**", value="If you do **d/inv** it will show all the items you have in your inventory.", inline=False)
             embed.add_field(name="**Buy**", value="If you do **d/buy [shop ID or name]** you will buy that item from the shop", inline=False)
