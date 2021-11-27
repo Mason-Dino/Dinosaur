@@ -511,7 +511,11 @@ class Economy(commands.Cog):
                 name = item[1]
                 price = item[2]
                 option = item[3]
-                use = item[4]
+                if option == "a":
+                    use = item[4]
+                    
+                elif option == "b":
+                    use = int(item[4])
                 
             if wallet == "0":
                 await ctx.send("You do not have enough Dinosaur Points to buy the item.")
