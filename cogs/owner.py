@@ -7,6 +7,7 @@ import asyncio
 import random
 import math
 import sqlite3
+from Disecon import *
 
 class Owner(commands.Cog):
     def __init__(self, client):
@@ -134,67 +135,100 @@ class Owner(commands.Cog):
             await ctx.send("You do not have permission to use this command.")
 
     @commands.command()
-    async def add_money(self, ctx, user: discord.Member, ammount: int=None):
-        conn = sqlite3.connect('economy.db')
-        c = conn.cursor()
+    async def money(self, ctx,user: discord.Member, type:str = None, amount: str=None, place: str = None):
+        OwnerId = 638092957756555291
+        
+        if OwnerId == ctx.message.author.id:
+            if type.lower() == "add":
+                amount_check = amount.isdigit()
+                
+                if amount_check == True:
+                    amount = int(amount)
+                    if place.lower() == "wallet": 
+                        wallet = money.wallet(amount=amount, user_ID=user.id)
+                        wallet.add()
+                
+                        embed: discord.Embed = discord.Embed(
+                            title="Add Money",
+                            description=f"{user.mention} has had {amount} added to wallet",
+                            color=discord.Color.green()
+                        )
 
-        OwnerID = 638092957756555291
+                        await ctx.send(embed=embed)
+                        
+                    elif place.lower() == "bank":
+                        bank = money.bank(amount=amount, user_ID=user.id)
+                        bank.add()
+                        
+                        embed: discord.Embed = discord.Embed(
+                            title="Add Money",
+                            description=f"{user.mention} has had {amount} added to bank",
+                            color=discord.Color.green()
+                        )
 
-        if ctx.message.author.id == OwnerID:
-            if ammount == None:
-                await ctx.send("Please send the ammount of money you would like to add to the user")
-
-            else:
-                c.execute(f"SELECT * FROM economy WHERE user_ID = '{user.id}' LIMIT 1")
-
-                items = c.fetchall()
-
-                none = str(items)
-
-                if none == "[]":
-                    c.execute(f"INSERT INTO economy VALUES ('{user.id}', '{user}', {ammount} , 0, {ammount})")
-
-                    conn.commit()
-                    conn.close()
-
-                    embed: discord.Embed = discord.Embed(
-                        title="Add Money",
-                        description=f"{ctx.message.author.mention} gave {user.mention} {ammount} of Dinosaur Points",
-                        color=discord.Color.green()
-                    )
-
-                    await ctx.send(embed=embed)
-
+                        await ctx.send(embed=embed)
+                    
                 else:
-                    for item in items:
-                        wallet = int(item[2])
-                        bank = int(item[3])
-
-                    new_wallet = wallet + ammount
-
-                    c.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                            WHERE user_ID = '{user.id}'   
-                    """)
-
-                    conn.commit()
+                    await ctx.send("Please send a valid number")
+                
+            elif type.lower() == "remove":
+                amount_check = amount.isdigit()
+                
+                if amount_check == True:
+                    amount = int(amount)
                     
-                    sum = new_wallet + bank
+                    if place.lower() == "wallet":
+                        wallet = money.wallet(amount=amount, user_ID=user.id)
+                        wallet.sub()
+                        
+                        embed: discord.Embed = discord.Embed(
+                            title="Money Removed",
+                            description=f"{user.mention} has had {amount} removed from wallet",
+                            color=discord.Color.green()
+                        )
+                        
+                        await ctx.send(embed=embed)
+                        
+                    elif place.lower() == "bank":
+                        bank = money.bank(amount=amount, user_ID=user.id)
+                        bank.sub()
+                        
+                        embed: discord.Embed = discord.Embed(
+                            title="Money Removed",
+                            description=f"{user.mention} has had {amount} removed from bank",
+                            color=discord.Color.green()
+                        )
+                        
+                        await ctx.send(embed=embed)
+                            
+                else:
+                    if amount.lower() == "all":
+                        view = results.view(user_ID=user.id)
+                        
+                        wallet = int(view.wallet())
+                        bank = int(view.bank())
+                        
+                        wallet = money.wallet(amount=wallet, user_ID=user.id)
+                        wallet.sub()
+                        
+                        bank = money.bank(amount=bank, user_ID=user.id)
+                        bank.sub()
+                        
+                        embed: discord.Embed = discord.Embed(
+                            title="Remove Money",
+                            description=f"Removed all money from {user.mention}",
+                            color=discord.Color.green()
+                        )
+                        
+                        await ctx.send(embed=embed)
+                        
+                    else:
+                        await ctx.send("Money command failed")
+                            
+                            
+                        
+                        
                     
-                    c.execute(f"""UPDATE economy SET net = {sum}
-                            WHERE user_ID = '{user.id}'   
-                    """)
-
-                    conn.commit()
-                                    
-                    conn.close()
-
-                    embed: discord.Embed = discord.Embed(
-                        title="Add Money",
-                        description=f"{ctx.message.author.mention} gave {user.mention} {ammount} of Dinosaur Points",
-                        color=discord.Color.green()
-                    )
-
-                    await ctx.send(embed=embed)
 
         else:
             await ctx.send("You do not have permssion to use this command.")
