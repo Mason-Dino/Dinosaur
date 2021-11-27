@@ -284,6 +284,7 @@ class Economy(commands.Cog):
         await ctx.send(embed=embed)
                     
     @commands.command()
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def buy(self, ctx, shop_id: str=None, amount = None):
         view = results.view(user_ID=ctx.message.author.id)
         
@@ -483,6 +484,7 @@ class Economy(commands.Cog):
 
         
     @commands.command()
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def use(self, ctx, shop_id: str = None, amount: int = None):
         view = results.view(user_ID=ctx.message.author.id)
         
