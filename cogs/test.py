@@ -43,7 +43,16 @@ class Test(commands.Cog):
 
         @on_click.timeout
         async def on_timeout():
-            await msg.edit(components=[])   
+            await msg.edit(components=[])
+            
+    @commands.group()
+    async def test_group(self, ctx):
+        if ctx.invoked_subcommand is None:
+            await ctx.send("Invalid Sub Command")
+            
+    @test_group.command()
+    async def phone(self, ctx):
+        await ctx.send("phone")
 
 def setup(client):
 	client.add_cog(Test(client)) 
