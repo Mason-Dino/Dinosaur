@@ -432,8 +432,6 @@ class Economy(commands.Cog):
         
         items = c.fetchall()
         
-        await ctx.send(items)
-        
         sonn = sqlite3.connect("shop_items.db")
         s = sonn.cursor()
         
@@ -448,8 +446,6 @@ class Economy(commands.Cog):
         max_attempts = rowid
         
         test = ""
-        
-        print("hey")
         
         IsInvDone = False
         while not IsInvDone:
@@ -473,8 +469,6 @@ class Economy(commands.Cog):
                     amount = item[2]
                     
                     test += f"**{name}** - {amount}\n"
-                    
-                await ctx.send(test)
 
                 embed: discord.Embed = discord.Embed(
                     title="Inventory",
