@@ -462,7 +462,7 @@ class Owner(commands.Cog):
                             await ctx.send("Not valid visibility response")
                     
                     elif arg1.lower() == "use":
-                        c.execute(f"SELECT rowid, * WHERE rowid={shop}")
+                        c.execute(f"SELECT rowid, * FROM shop_items WHERE rowid={shop}")
                         
                         items = c.fetchall()
                         none = str(items)
@@ -481,6 +481,8 @@ class Owner(commands.Cog):
                                     color=discord.Color.green()
                                 )
                                 
+                                await ctx.send(embed=embed)
+                                
                                 msg = await self.client.wait_for("message", check=check)
                                 
                                 if msg.content.lower() == "no":
@@ -489,7 +491,7 @@ class Owner(commands.Cog):
                                 else:
                                     use = msg.content
                                     
-                                    c.execute(f"""UPDATE shop_items SET use = "{use}"
+                                    c.execute(f"""UPDATE shop_items SET use = {use}
                                                 WHERE rowid = {shop}
                                             """)
                                     
@@ -505,6 +507,8 @@ class Owner(commands.Cog):
                                     color=discord.Color.green()
                                 )
                                 
+                                await ctx.send(embed=embed)
+                                
                                 msg = await self.client.wait_for("message", check=check)
                                 
                                 if msg.content.lower() == "no":
@@ -513,7 +517,7 @@ class Owner(commands.Cog):
                                 else:
                                     use = msg.content
                                     
-                                    c.execute(f"""UPDATE shop_items SET use = "{use}"
+                                    c.execute(f"""UPDATE shop_items SET use = {use}
                                                 WHERE rowid = {shop}
                                             """)
                                     
