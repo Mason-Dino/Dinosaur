@@ -39,8 +39,6 @@ cogs = ["cogs.help", "cogs.games", "cogs.owner", "cogs.economy", "cogs.utility",
 
 # start
 
-start()
-
 @client.event
 async def on_ready():
     #conn = sqlite3.connect("economy_old.db")
@@ -290,64 +288,18 @@ async def on_guild_remove(guild):
 @client.command()
 @commands.cooldown(1, 300, commands.BucketType.user)
 async def work(ctx):
-    user_id = ctx.message.author.id
-    user_name = ctx.message.author
-
     number = int(random.randint(5, 25))
     
-    conn = sqlite3.connect('economy.db')
-    c =conn.cursor()
-
-    c.execute(f"SELECT * FROM economy WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
-    conn.commit()
-
-    items = c.fetchall()
-
-    none = str(items)
-
-    if none == "[]":
-        c.execute(f"INSERT INTO economy VALUES ('{ctx.message.author.id}', '{ctx.message.author}', {number} , 0, {number})")
-
-        conn.commit()
-
-        embed: discord.Embed = discord.Embed(
-            title="Dinosaur Balance",
-            description=f"{ctx.message.author.mention} You got **{number}** Dinosaur Points from working!",
-            color=discord.Color.green()
-        )
-
-        await ctx.send(embed=embed)
-
-    else:
-        for item in items:
-            wallet = int(item[2])
-            bank = int(item[3])
-
-        sum = wallet + number
-
-        c.execute(f"""UPDATE economy SET wallet = {sum}
-                    WHERE user_ID = '{ctx.message.author.id}'   
-                """)
-
-        sum_1 = sum
-
-        sum = sum_1 + bank
+    wallet = money.wallet(amount=number, user_ID=ctx.message.author.id)
+    wallet.add()
         
-        c.execute(f"""UPDATE economy SET net = {sum}
-                    WHERE user_ID = '{ctx.message.author.id}'   
-                """)
-        
-        conn.commit()
-        conn.close()
-        
-        embed: discord.Embed = discord.Embed(
-            title="Work",
-            description=f"You gained {number} Dinosaur Points form working",
-            color=discord.Color.green()
-        )
+    embed: discord.Embed = discord.Embed(
+        title="Work",
+        description=f"You gained **{number}** Dinosaur Points form working",
+        color=discord.Color.green()
+    )
 
-        await ctx.send(embed=embed)
+    await ctx.send(embed=embed)
         
 
 token = "token"
