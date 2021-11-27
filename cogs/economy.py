@@ -137,40 +137,20 @@ class Economy(commands.Cog):
     
     @commands.command(aliases=['bal'])
     async def balance(self, ctx):
-        conn = sqlite3.connect('economy.db')
-        c = conn.cursor()
-
-        c.execute(f"SELECT * FROM economy WHERE user_ID = '{ctx.message.author.id}'")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == "[]":
-            c.execute(f"INSERT INTO economy VALUES ('{ctx.message.author.id}', '{ctx.message.author}', 0 , 0, 0)")
-
-            conn.commit()
-
-            embed: discord.Embed = discord.Embed(
-                title="Dinosaur Balance",
-                description=f"{ctx.message.author.mention} Dinosaur Balance\n\nWallet Amount: **0**\n\nBank Amount: **0**",
-                color=discord.Color.green()
-            )
-
-            await ctx.send(embed=embed)
-
-        else:
-            for item in items:
-                wallet = item[2]
-                bank = item[3]
-
-            embed: discord.Embed = discord.Embed(
-                title="Dinosaur Balance",
-                description=f"{ctx.message.author.mention} Dinosaur Balance\n\nWallet Amount: **{wallet}**\n\nBank Ammount: **{bank}**",
-                color=discord.Color.green()
-            )
-
-            await ctx.send(embed=embed)
+        view = results.view(user_ID=ctx.message.author.id)
+        
+        wallet = view.wallet()
+        bank = view.bank()
+        
+        embed: discord.Embed = discord.Embed(
+            title="Dinosaur Balace",
+            description=f"{ctx.message.author.mention} Dinosaur Balance\n\nWallet Amount: **{wallet}**\n\nBank Amount: **{bank}**",
+            color=discord.Color.green()
+        )
+        
+        await ctx.send(embed=embed)
+        
+        
 
     @commands.command(aliases=['dep'])
     async def deposit(self, ctx, arg1=None, *, ammount: int=None):
