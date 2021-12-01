@@ -323,12 +323,10 @@ class Economy(commands.Cog):
                     amount = int(amount) 
                                    
                     if amount == None:
-                        await ctx.send("amount == None")
                         amount = 1
                         pass
                     
                     elif amount >= 1:
-                        await ctx.send("amount >= 1")
                         amount = amount
                         pass
                         
@@ -382,7 +380,7 @@ class Economy(commands.Cog):
                     wallet = money.wallet(amount=amount_price, user_ID=ctx.message.author.id)
                     wallet.sub()
                     
-                    await ctx.send("all worked out 1")
+                    await ctx.send(f"You successfully bought {amount} of **{name}**")
                     
             elif wallet == amount_price:
                 if none == "[]":
@@ -405,8 +403,6 @@ class Economy(commands.Cog):
                         amount_items = int(item[2])
                         
                     sum = amount_items + amount
-                    
-                    await ctx.send("hi")
                         
                     s.execute(f"""UPDATE items_own SET amount = {sum}
                                     WHERE user_id = '{ctx.message.author.id}' AND item_name='{name}'   
@@ -418,8 +414,7 @@ class Economy(commands.Cog):
                     wallet = money.wallet(amount=amount_price, user_ID=ctx.message.author.id)
                     wallet.sub()
                     
-                    
-                    await ctx.send("all worked 2")
+                    await ctx.send(f"You successfully bought {amount} of **{name}**")
                 
             else:
                 await ctx.send("You do not have enough coins in your wallet")      
@@ -528,21 +523,16 @@ class Economy(commands.Cog):
                 
                 else:               
                     if amount == None:
-                        await ctx.send("amount == None")
                         amount = 1
                         pass
                     
                     elif amount >= 1:
-                        await ctx.send("amount >= 1")
                         amount = amount
                         pass
                         
                 s.execute(f"SELECT * FROM items_own WHERE user_id='{ctx.message.author.id}' AND item_name='{name}'")
             
-                items = s.fetchall()
-            
-                await ctx.send(name)
-            
+                items = s.fetchall()            
                 none = str(items)
                 
                 if none == "[]":
@@ -630,7 +620,7 @@ class Economy(commands.Cog):
                                 
                                 conn.commit()
                                 
-                                number = use
+                                number = use * amount
                                 
                                 wallet = money.wallet(amount=number, user_ID=ctx.message.author.id)
                                 wallet.add()
@@ -815,31 +805,19 @@ class Economy(commands.Cog):
                 else:
                     await ctx.send("You do not have enough coins in wallet")
 
-    @commands.command()
-    async def rob(self, ctx, user: discord.Member = None):
-        conn = sqlite3.connect('economy.db')
-        c = conn.cursor()
-
-        if user == None:
-            await ctx.send("Please send a user you would like to rob.")
-
-        else:
-            c.execute(f"SELECT * FROM economy WHERE user_ID = '{user.id}'")
-
-            items = c.fetchall()
-
-            none = str(items)
-
-            if none == "[]":
-                await ctx.send("That use has no money to steal")
-
-            else:
-                for item in items:
-                    wallet = item[2]
-                    bank = item[3]
-
-                
-
+    @commands.command(aliases=['xmas'])
+    @commands.cooldown(1, 300, commands.BucketType.user)
+    async def christams(self, ctx):                
+        wallet = money.wallet(amount=500, user_ID=ctx.message.author.id)
+        wallet.add()
+         
+        embed: discord.Embed = discord.Embed(
+            title="Christmas",
+            description="Because It is becoming christmas Dinosaur is giving you an extra 500 coins! Enjoy them!",
+            color=discord.Color.green()
+        )
+        
+        await ctx.send(embed=embed)
 
 def setup(client):
 	client.add_cog(Economy(client))
