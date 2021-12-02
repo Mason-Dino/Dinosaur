@@ -294,7 +294,7 @@ class Economy(commands.Cog):
         s = conn.cursor()
         i = conn_shop_items.cursor()
         
-        i.execute(f"SELECT rowid, * FROM shop_items WHERE rowid='{shop_id}'")
+        i.execute(f"SELECT rowid, * FROM shop_items WHERE rowid='{shop_id}' AND visible='True'")
         
         items = i.fetchall()
         
