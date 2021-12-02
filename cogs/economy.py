@@ -806,7 +806,7 @@ class Economy(commands.Cog):
                     await ctx.send("You do not have enough coins in wallet")
 
     @commands.command(aliases=['xmas'])
-    @commands.cooldown(1, 300, commands.BucketType.user)
+    @commands.cooldown(1, 86400, commands.BucketType.user)
     async def christams(self, ctx):                
         wallet = money.wallet(amount=500, user_ID=ctx.message.author.id)
         wallet.add()
