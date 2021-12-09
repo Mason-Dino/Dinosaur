@@ -284,140 +284,144 @@ class Economy(commands.Cog):
         await ctx.send(embed=embed)
                     
     @commands.command()
-    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def buy(self, ctx, shop_id: str=None, amount = None):
-        view = results.view(user_ID=ctx.message.author.id)
-        
-        conn = sqlite3.connect('shop.db')
-        conn_shop_items = sqlite3.connect("shop_items.db")
-        
-        s = conn.cursor()
-        i = conn_shop_items.cursor()
-        
-        i.execute(f"SELECT rowid, * FROM shop_items WHERE rowid='{shop_id}' AND visible='True'")
-        
-        items = i.fetchall()
-        
-        none = str(items)
-        
-        if none == "[]":
-            await ctx.send("Please send a valid shop ID")
-        
-        else:
-            for item in items:
-                id = item[0]
-                name = item[1]
-                price = item[2]
-                option = item[3]
-                use = item[4]
-                
-            if amount == None:
-                amount = 1
-                
-                pass
-        
-            else:
-                amount_check = amount.isdigit()
-                
-                if amount_check == True:
-                    amount = int(amount) 
-                                   
-                    if amount == None:
-                        amount = 1
-                        pass
-                    
-                    elif amount >= 1:
-                        amount = amount
-                        pass
-                        
-                    pass
-                        
-                else:
-                    await ctx.send("Please send a valid amount number")
-                    
-            s.execute(f"SELECT * FROM items_own WHERE user_id='{ctx.message.author.id}' AND item_name='{name}'")
+        if 10 >= amount:
+            view = results.view(user_ID=ctx.message.author.id)
             
-            items = s.fetchall()
+            conn = sqlite3.connect('shop.db')
+            conn_shop_items = sqlite3.connect("shop_items.db")
+            
+            s = conn.cursor()
+            i = conn_shop_items.cursor()
+            
+            i.execute(f"SELECT rowid, * FROM shop_items WHERE rowid='{shop_id}' AND visible='True'")
+            
+            items = i.fetchall()
             
             none = str(items)
             
-            amount_price = amount * price
+            if none == "[]":
+                await ctx.send("Please send a valid shop ID")
             
-            wallet = view.wallet()
-            bank = view.bank()
-            
-            if wallet >= amount_price:
-                if none == "[]":
-                    s.execute(f"INSERT INTO items_own VALUES ('{ctx.message.author.id}', '{name}', '{amount}')")
-                    
-                    conn.commit()
-                    conn.close()
-                    
-                    conn_shop_items.close()
-                    
-                    wallet = money.wallet(amount=amount_price, user_ID=ctx.message.author.id)
-                    wallet.sub()
-                    
-                    await ctx.send(f"You successfully bought a **{name}**")
-                    
-                else:
-                    for item in items:
-                        user_ID_items = item[0]
-                        name_items = item[1]
-                        amount_items = int(item[2])
-                        
-                    sum = amount_items + amount
-                        
-                    s.execute(f"""UPDATE items_own SET amount = {sum}
-                                    WHERE user_id = '{ctx.message.author.id}' AND item_name='{name}'   
-                                """)
-                    
-                    conn.commit()
-                    conn.close()
-                    
-                    conn_shop_items.close()
-                    
-                    wallet = money.wallet(amount=amount_price, user_ID=ctx.message.author.id)
-                    wallet.sub()
-                    
-                    await ctx.send(f"You successfully bought {amount} of **{name}**")
-                    
-            elif wallet == amount_price:
-                if none == "[]":
-                    s.execute(f"INSERT INTO items_own VALUES ('{ctx.message.author.id}', '{name}', '{amount}')")
-                    
-                    conn.commit()
-                    conn.close()
-
-                    conn_shop_items.close()
-                    
-                    wallet = money.wallet(amount=amount_price, user_ID=ctx.message.author.id)
-                    wallet.sub()
-                    
-                    await ctx.send(f"You successfully bought a **{name}**")
-                    
-                else:
-                    for item in items:
-                        user_ID_items = item[0]
-                        name_items = item[1]
-                        amount_items = int(item[2])
-                        
-                    sum = amount_items + amount
-                        
-                    s.execute(f"""UPDATE items_own SET amount = {sum}
-                                    WHERE user_id = '{ctx.message.author.id}' AND item_name='{name}'   
-                                """)
-                    
-                    conn.commit()
-                    conn.close()
-                    
-                    wallet = money.wallet(amount=amount_price, user_ID=ctx.message.author.id)
-                    wallet.sub()
-                    
-                    await ctx.send(f"You successfully bought {amount} of **{name}**")
-                
             else:
-                await ctx.send("You do not have enough coins in your wallet")      
+                for item in items:
+                    id = item[0]
+                    name = item[1]
+                    price = item[2]
+                    option = item[3]
+                    use = item[4]
+                    
+                if amount == None:
+                    amount = 1
+                    
+                    pass
+            
+                else:
+                    amount_check = amount.isdigit()
+                    
+                    if amount_check == True:
+                        amount = int(amount) 
+                                    
+                        if amount == None:
+                            amount = 1
+                            pass
+                        
+                        elif amount >= 1:
+                            amount = amount
+                            pass
+                            
+                        pass
+                            
+                    else:
+                        await ctx.send("Please send a valid amount number")
+                        
+                s.execute(f"SELECT * FROM items_own WHERE user_id='{ctx.message.author.id}' AND item_name='{name}'")
+                
+                items = s.fetchall()
+                
+                none = str(items)
+                
+                amount_price = amount * price
+                
+                wallet = view.wallet()
+                bank = view.bank()
+                
+                if wallet >= amount_price:
+                    if none == "[]":
+                        s.execute(f"INSERT INTO items_own VALUES ('{ctx.message.author.id}', '{name}', '{amount}')")
+                        
+                        conn.commit()
+                        conn.close()
+                        
+                        conn_shop_items.close()
+                        
+                        wallet = money.wallet(amount=amount_price, user_ID=ctx.message.author.id)
+                        wallet.sub()
+                        
+                        await ctx.send(f"You successfully bought a **{name}**")
+                        
+                    else:
+                        for item in items:
+                            user_ID_items = item[0]
+                            name_items = item[1]
+                            amount_items = int(item[2])
+                            
+                        sum = amount_items + amount
+                            
+                        s.execute(f"""UPDATE items_own SET amount = {sum}
+                                        WHERE user_id = '{ctx.message.author.id}' AND item_name='{name}'   
+                                    """)
+                        
+                        conn.commit()
+                        conn.close()
+                        
+                        conn_shop_items.close()
+                        
+                        wallet = money.wallet(amount=amount_price, user_ID=ctx.message.author.id)
+                        wallet.sub()
+                        
+                        await ctx.send(f"You successfully bought {amount} of **{name}**")
+                        
+                elif wallet == amount_price:
+                    if none == "[]":
+                        s.execute(f"INSERT INTO items_own VALUES ('{ctx.message.author.id}', '{name}', '{amount}')")
+                        
+                        conn.commit()
+                        conn.close()
+
+                        conn_shop_items.close()
+                        
+                        wallet = money.wallet(amount=amount_price, user_ID=ctx.message.author.id)
+                        wallet.sub()
+                        
+                        await ctx.send(f"You successfully bought a **{name}**")
+                        
+                    else:
+                        for item in items:
+                            user_ID_items = item[0]
+                            name_items = item[1]
+                            amount_items = int(item[2])
+                            
+                        sum = amount_items + amount
+                            
+                        s.execute(f"""UPDATE items_own SET amount = {sum}
+                                        WHERE user_id = '{ctx.message.author.id}' AND item_name='{name}'   
+                                    """)
+                        
+                        conn.commit()
+                        conn.close()
+                        
+                        wallet = money.wallet(amount=amount_price, user_ID=ctx.message.author.id)
+                        wallet.sub()
+                        
+                        await ctx.send(f"You successfully bought {amount} of **{name}**")
+                    
+                else:
+                    await ctx.send("You do not have enough coins in your wallet")  
+
+        else:
+            await ctx.send("You can't buy more than 10 objects at once")    
 
     @commands.command(aliases=['inv'])
     async def inventory(self, ctx):
