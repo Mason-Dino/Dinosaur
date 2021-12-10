@@ -285,7 +285,7 @@ class Economy(commands.Cog):
                     
     @commands.command()
     @commands.cooldown(1, 60, commands.BucketType.user)
-    async def buy(self, ctx, shop_id: str=None, amount = None):
+    async def buy(self, ctx, shop_id: str=None, amount: int = None):
         if 10 >= amount:
             view = results.view(user_ID=ctx.message.author.id)
             
