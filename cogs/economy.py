@@ -488,7 +488,10 @@ class Economy(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 60, commands.BucketType.user)
     async def use(self, ctx, shop_id: str = None, amount: int = None):
-        if 10 >= amount:
+        if amount == None:
+            amount = 1
+        
+        elif 10 >= amount:
             view = results.view(user_ID=ctx.message.author.id)
             
             wallet = view.wallet()
