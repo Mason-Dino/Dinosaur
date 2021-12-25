@@ -1,8 +1,3 @@
-import subprocess
-import sys
-
-#subprocess.run([sys.executable, '-m', 'pip', 'install', 'psutil'])
-
 import discord
 import os
 from discord.ext import commands
@@ -374,7 +369,7 @@ async def work(ctx):
     await ctx.send(embed=embed)
         
 
-token = "ODQwMDI1MTcyODYxMzg2NzYy.YJSMaA.ud78xhPdViD8Of8c-0DI26RVdcM"
+token = "BOT_TOKEN"
 client.run(token)
               
     #c.execute("""CREATE TABLE set_up (
