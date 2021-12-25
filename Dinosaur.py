@@ -23,7 +23,7 @@ intents = discord.Intents.default()
 intents.members = True
 
 # the bot prefix
-client = commands.Bot(command_prefix="d//", case_insensitive=True, intents=intents)
+client = commands.Bot(command_prefix="d/", case_insensitive=True, intents=intents)
 slash = slash_commands.SlashClient(client)
 client.remove_command("help")
 test_guilds = [840354954074128405]
@@ -229,6 +229,78 @@ async def on_ready():
 
         except Exception as e:
             print(e)
+            
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+
+        cooldown = int(error.retry_after)
+
+        if 60 > cooldown:
+            embed: discord.Embed = discord.Embed(
+                title="Cooldown",
+                description=f"You have :alarm_clock: **00:{error.retry_after:,.0f} seconds left**",
+                color=discord.Color.green()
+            )
+
+            await ctx.send(embed=embed)
+
+        elif 3600 > cooldown: 
+            whole1 = math.floor(cooldown)
+            decimal = cooldown - whole1
+
+            left = whole1 / 60
+            fractional1, whole2 = math.modf(left)
+
+            sec = fractional1 * 60
+
+            fractional2, whole3 = math.modf(sec)
+
+            embed: discord.Embed = discord.Embed(
+                title="Cooldown",
+                description=f"You have :alarm_clock: **{whole2:,.0f}:{whole3:,.0f}** time left.",
+                color=discord.Color.green()
+            )
+            embed.set_footer(text="Format - Minute : Seconds")
+
+            await ctx.send(embed=embed)
+
+        elif 86400 > cooldown:
+            whole1 = math.floor(cooldown)
+
+            whole2 = whole1 / 60
+
+            sec1, min1 = math.modf(whole2)
+
+            sec2 = sec1 * 60
+
+            hour1 = min1 / 60
+
+            min2, hour2 = math.modf(hour1)
+
+            min3 = min2 * 60
+
+            embed: discord.Embed = discord.Embed(
+                title="Cooldown",
+                description=f"You have :alarm_clock: **{hour2:,.0f}:{min3:,.0f}:{sec2:,.0f}** time left.",
+                color=discord.Color.green()
+            )
+            embed.set_footer(text="Format - Hour:Minutes:Seconds")
+
+            await ctx.send(embed=embed)
+
+    elif isinstance(error, commands.CommandNotFound):
+        embed: discord.Embed = discord.Embed(
+            title="Invalid Command",
+            description="You gave a invaild command\nPlease try doing `d/help` to see some of the commands.\n\nIf you need more support pelase join the support server where we can help you.\n[Support Server](https://discord.gg/KxPuFvazuF)",
+            color=discord.Color.green()
+        )
+
+        await ctx.send(embed=embed)
+
+    else:
+        print("===============")
+        print(error)
 
 @client.event
 async def on_guild_join(guild):
@@ -302,7 +374,7 @@ async def work(ctx):
     await ctx.send(embed=embed)
         
 
-token = "token"
+token = "ODQwMDI1MTcyODYxMzg2NzYy.YJSMaA.ud78xhPdViD8Of8c-0DI26RVdcM"
 client.run(token)
               
     #c.execute("""CREATE TABLE set_up (
