@@ -288,8 +288,9 @@ class Economy(commands.Cog):
     async def buy(self, ctx, shop_id: str=None, amount: int = None):
         if amount == None:
             amount = 1
+            pass
         
-        elif 10 >= amount:
+        if 10 >= amount:
             view = results.view(user_ID=ctx.message.author.id)
             
             conn = sqlite3.connect('shop.db')
@@ -319,25 +320,6 @@ class Economy(commands.Cog):
                     amount = 1
                     
                     pass
-            
-                else:
-                    amount_check = amount.isdigit()
-                    
-                    if amount_check == True:
-                        amount = int(amount) 
-                                    
-                        if amount == None:
-                            amount = 1
-                            pass
-                        
-                        elif amount >= 1:
-                            amount = amount
-                            pass
-                            
-                        pass
-                            
-                    else:
-                        await ctx.send("Please send a valid amount number")
                         
                 s.execute(f"SELECT * FROM items_own WHERE user_id='{ctx.message.author.id}' AND item_name='{name}'")
                 
@@ -490,8 +472,9 @@ class Economy(commands.Cog):
     async def use(self, ctx, shop_id: str = None, amount: int = None):
         if amount == None:
             amount = 1
+            pass
         
-        elif 10 >= amount:
+        if 10 >= amount:
             view = results.view(user_ID=ctx.message.author.id)
             
             wallet = view.wallet()
