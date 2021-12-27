@@ -801,19 +801,5 @@ class Economy(commands.Cog):
                 else:
                     await ctx.send("You do not have enough coins in wallet")
 
-    @commands.command(aliases=['xmas'])
-    @commands.cooldown(1, 86400, commands.BucketType.user)
-    async def christams(self, ctx):                
-        wallet = money.wallet(amount=500, user_ID=ctx.message.author.id)
-        wallet.add()
-         
-        embed: discord.Embed = discord.Embed(
-            title="Christmas",
-            description="Because It is becoming christmas Dinosaur is giving you an extra 500 coins! Enjoy them!",
-            color=discord.Color.green()
-        )
-        
-        await ctx.send(embed=embed)
-
 def setup(client):
 	client.add_cog(Economy(client))
