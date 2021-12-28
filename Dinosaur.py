@@ -494,7 +494,7 @@ async def on_dbl_vote(data):
             except:
                 pass
 
-@tasks.loop(minutes=2)
+@tasks.loop(hours=24)
 async def check_data():
     x = datetime.datetime.now()
     m_d_y = x.strftime("%x")
