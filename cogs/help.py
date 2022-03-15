@@ -12,7 +12,7 @@ class Help(commands.Cog):
         if arg1 == None:
             embed: discord.Embed = discord.Embed(
                 title="**Help**",
-                description="Below are all the help commands that you can do to see all the diffrrent commands that we have.",
+                description="Below are all the help commands that you can do to see all the different commands that we have.",
                 color=discord.Color.green()
             )
             embed.add_field(name="**Game Help**", value="If you do **d/help game** you can find out all the games that we have.", inline=False)
