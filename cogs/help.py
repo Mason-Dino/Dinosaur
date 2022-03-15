@@ -17,8 +17,8 @@ class Help(commands.Cog):
             )
             embed.add_field(name="**Game Help**", value="If you do **d/help game** you can find out all the games that we have.", inline=False)
             embed.add_field(name="**Utility Help**", value="If you do **d/help utility** it will give you all the utility commands that we have.", inline=False)
-            embed.add_field(name="**Economy Help**", value="If you do **d/help economy** is will give all the economy commands that we have.", inline=False)
-            embed.add_field(name="**Moderation Help**", value="If you do **d/help moderation** or **d/help mod** it will show you the 3 subcategories for all the moderation comamnds", inline=False)
+            embed.add_field(name="**Economy Help**", value="If you do **d/help economy** it will give all the economy commands that we have.", inline=False)
+            embed.add_field(name="**Moderation Help**", value="If you do **d/help moderation** or **d/help mod** it will show you the 3 sub-categories for all the moderation comamnds", inline=False)
             embed.add_field(name="**Support Links**", value="[Support Server](https://discord.gg/KxPuFvazuF)\n[Invite The Bot](https://discord.com/api/oauth2/authorize?client_id=840025172861386762&permissions=2683662023&scope=bot)\n[top.gg Profile](https://top.gg/bot/840025172861386762)")
 
             await ctx.send(embed=embed)
@@ -44,8 +44,8 @@ class Help(commands.Cog):
                 )
                 embed.add_field(name="**Support**", value="If you do **d/support** you will be able to join our support server.", inline=False)
                 embed.add_field(name="**Ping**", value="If you do **d/ping** you can find the ping of the bot right now.", inline=False)
-                embed.add_field(name="**Invite**", value="If you do **d/invite** it will send the invite of the bot.", inline=False)
-                embed.add_field(name="**Bot Infomation**", value="If you do **d/bot** you can figuar out some of the infomation about Dinosaur Bot.", inline=False)
+                embed.add_field(name="**Invite**", value="If you do **d/invite** it will send the invite link for the bot.", inline=False)
+                embed.add_field(name="**Bot Infomation**", value="If you do **d/bot** you can find out some of the infomation about Dinosaur Bot.", inline=False)
                 embed.add_field(name="**Servers**", value="If you do **d/servers** it will show the number of servers the bot is in.", inline=False)
                 embed.add_field(name="**Feedback**", value="If you do **d/feedback [message]** you can give us feedback about the bot.", inline=False)
                 embed.add_field(name="**Bug Report**", value="If you do **d/bug [report]**. I will see that there is a bug and I will be working on it as soon as I can.", inline=False)
@@ -56,12 +56,12 @@ class Help(commands.Cog):
         elif arg1 == "economy":
             embed: discord.Embed = discord.Embed(
                 title="**Economy Help**",
-                description="Below are all the Economy commands that you can use and all the command you can use with Dinosaur Points.",
+                description="Below are all the Economy commands that you can use with Dinosaur Points.",
                 color=discord.Color.green()
 
             )
             embed.add_field(name="**Balance**", value="If you do **d/bal** it will give you the ammount of Dinosaur Points you have currently.", inline=False)
-            embed.add_field(name="**Work**", value="If you do **d/work** it will give you anyway from 5 to 25 Dinosaur Points.", inline=False)
+            embed.add_field(name="**Work**", value="If you do **d/work** it will give you between 5 and 25 Dinosaur Points.", inline=False)
             embed.add_field(name="**Deposit**", value="If you do **d/dep all** or **d/dep set [ammount]** it will deposit all or the ammount you want into your Dinosaur Points bank.", inline=False)
             embed.add_field(name="**Withdraw**", value="If you do **d/with all** or **d/with set [ammount]** it will withdraw all or the ammount you want from your Dinosaur Points bank.", inline=False)
             embed.add_field(name="**Leaderboard**", value="If you do **d/leaderboard**, **d/lb**, and **d/top** you will get the top 10 people of the Dinosaur Economy", inline=False)

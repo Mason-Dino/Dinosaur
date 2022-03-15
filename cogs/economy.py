@@ -128,7 +128,7 @@ class Economy(commands.Cog):
         
         embed: discord.Embed = discord.Embed(
             title="Dinosaur Leaderboard",
-            description=f"Bellow are the top 10 people\n\n:first_place: {user_1_lb} - {net_1}\n:second_place: {user_2_lb} - {net_2}\n:third_place: {user_3_lb} - {net_3}\n:medal: {user_4_lb} - {net_4}\n:medal: {user_5_lb} - {net_5}\n:medal: {user_6_lb} - {net_6}\n:medal: {user_7_lb} - {net_7}\n:medal: {user_8_lb} - {net_8}\n:medal: {user_9_lb} - {net_9}\n:medal: {user_10_lb} - {net_10}\n",
+            description=f"Below are the top 10 people\n\n:first_place: {user_1_lb} - {net_1}\n:second_place: {user_2_lb} - {net_2}\n:third_place: {user_3_lb} - {net_3}\n:medal: {user_4_lb} - {net_4}\n:medal: {user_5_lb} - {net_5}\n:medal: {user_6_lb} - {net_6}\n:medal: {user_7_lb} - {net_7}\n:medal: {user_8_lb} - {net_8}\n:medal: {user_9_lb} - {net_9}\n:medal: {user_10_lb} - {net_10}\n",
             color=discord.Color.green()
         )
 
@@ -276,7 +276,7 @@ class Economy(commands.Cog):
                 lower = x[0]
                 higher = x[1]
                 
-                embed.add_field(name=f"**{name}**", value=f"Can get anywhere from {lower} to {higher} Dinosaur Points int the egg.\nPrice - {price}\nID - {id}", inline=False)
+                embed.add_field(name=f"**{name}**", value=f"Can get anywhere from {lower} to {higher} Dinosaur Points in the egg.\nPrice - {price}\nID - {id}", inline=False)
                 
             elif option == "b":
                 embed.add_field(name=f"**{name}**", value=f"You can get {use} Dinosaur Points for selling (using) it.\nPrice - {price}\nID - {id}", inline=False)
@@ -642,7 +642,7 @@ class Economy(commands.Cog):
 
         else:
             if amount == None:
-                await ctx.send("Please send the amount of coins you want to gambel.")
+                await ctx.send("Please send the amount of coins you want to gamble.")
 
             else:
                 if wallet >= amount:
@@ -653,7 +653,7 @@ class Economy(commands.Cog):
 
                     embed: discord.Embed = discord.Embed(
                         title="Slots",
-                        description="Please wait 5 seconds for the spining to stop",
+                        description="Please wait 5 seconds for them to stop spinning",
                         color=discord.Color.green()
                     )
 

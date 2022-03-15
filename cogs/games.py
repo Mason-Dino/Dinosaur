@@ -23,7 +23,7 @@ class Games(commands.Cog):
             ]
 
         if arg1 == None:
-            await ctx.send("Can you please chose one of the following **Rock, Paper, or Scissors**")
+            await ctx.send("Please chose one of the following: **Rock, Paper, or Scissors**")
 
         elif arg1.lower() == "rock":
             embed: discord.Embed = discord.Embed(
@@ -77,7 +77,7 @@ class Games(commands.Cog):
         bot_repsonse = random.choice(responses)
         
         if choice == None:
-            await ctx.reply("A error orcured try again.")
+            await ctx.reply("An error occured, please try again.")
             
         elif choice == "rock":
             embed: discord.Embed = discord.Embed(
@@ -122,7 +122,7 @@ class Games(commands.Cog):
                 description=f"The bot chose **{random.choice(responses)}**",
                 color=discord.Color.green()
             )
-            embed.set_footer(text="You can also do d/coinflip [heads or tails] to perdecit the results of the coinflip")
+            embed.set_footer(text="You can also do d/coinflip [heads or tails] to predict the results of the coinflip")
 
             await ctx.send(embed=embed)
 
@@ -150,7 +150,7 @@ class Games(commands.Cog):
         name="coinflip",
         description="Allows you to predict a coinflip",
         options=[
-            Option("choice", "pice the item you want to play.", Type.STRING,
+            Option("choice", "pick the item you want to play.", Type.STRING,
                 choices=[
                     OptionChoice("Tails", "tails"),
                     OptionChoice("Heads", "heads")
@@ -262,7 +262,7 @@ class Games(commands.Cog):
     @commands.command(aliases=['8ball'])
     async def ball(self, ctx, *, message=None):
         responses=[
-            "It is Certain.",
+            "It is certain.",
             "It is decidedly so.",
             "Without a doubt.",
             "Yes definitely.",
