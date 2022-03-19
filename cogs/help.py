@@ -15,10 +15,10 @@ class Help(commands.Cog):
                 description="Below are all the help commands that you can do to see all the different commands that we have.",
                 color=discord.Color.green()
             )
-            embed.add_field(name="**Game Help**", value="If you do **d/help game** you can find out all the games that we have.", inline=False)
-            embed.add_field(name="**Utility Help**", value="If you do **d/help utility** it will give you all the utility commands that we have.", inline=False)
-            embed.add_field(name="**Economy Help**", value="If you do **d/help economy** it will give all the economy commands that we have.", inline=False)
-            embed.add_field(name="**Moderation Help**", value="If you do **d/help moderation** or **d/help mod** it will show you the 3 sub-categories for all the moderation comamnds", inline=False)
+            embed.add_field(name="**Game Help**", value="**d/help game** - info about the game commands.", inline=False)
+            embed.add_field(name="**Utility Help**", value="**d/help utility** - info about utility commands.", inline=False)
+            embed.add_field(name="**Economy Help**", value="**d/help economy** - info about economy commands", inline=False)
+            embed.add_field(name="**Moderation Help**", value="**d/help moderation** or **d/help mod** - shows 3 sub-categories of moderation commands", inline=False)
             embed.add_field(name="**Support Links**", value="[Support Server](https://discord.gg/KxPuFvazuF)\n[Invite The Bot](https://discord.com/api/oauth2/authorize?client_id=840025172861386762&permissions=2683662023&scope=bot)\n[top.gg Profile](https://top.gg/bot/840025172861386762)")
 
             await ctx.send(embed=embed)
@@ -29,10 +29,11 @@ class Help(commands.Cog):
                 description="Below are all the Game commands that we have at the momment.",
                 color=discord.Color.green()
             )
-            embed.add_field(name="**Rock Paper Scissors**", value="If you do **d/rps [Rock, Paper, or Scissors]** you can play rock paper scissors with the bot.", inline=False)
+            embed.add_field(name="**Rock Paper Scissors**", value="**d/rps [Rock, Paper, or Scissors]** - initiates rock paper scisors with the bot", inline=False)
             embed.add_field(name="**Coinflip**", value="You can do **d/coinflip [heads or tails]** and you can guess the coinflip or you can just do d/coinflip and that will do just a normal coinflip.", inline=False)
             embed.add_field(name="**Dice Roll**", value="If you do **d/dice [1, 2, 3, 4, 5, or 6]**. If you do that you can perdict a dice roll.", inline=False)
             embed.add_field(name="**8ball**", value="If you do **d/8ball [message]** then the bot will just be like a 8ball.", inline=False)
+            embed.add_field(name="**Wordle**", value ="**d/wordle [optional difficulty (easy or hard)]** - initates a game of wordle", inline=False)
 
             await ctx.send(embed=embed)
 
@@ -109,9 +110,9 @@ class Help(commands.Cog):
                 embed.add_field(name="**Mute**", value="If you do **d/mute [user] [reason]** it will mute the user for ever if you don't unmute them.\nPerms - Mute +", inline=False)
                 embed.add_field(name="**Unmute**", value="If you do **d/unmute [user]** it will unmute the user you said.\nPerms - Unmute +", inline=False)
                 embed.add_field(name="**Kick**", value="If you do **d/kick [user] [reason]** it will kick the user from the server for that reason.\nPerms - Kick +", inline=False)
-                embed.add_field(name="**Delete Infraction**", value="If you do **d/delete [case ID]** it will allow you to delete that infraction form the database. It will never come back.\nPerms - Delete Inf +")
+                embed.add_field(name="**Delete Infraction**", value="If you do **d/delete [case ID]** it will allow you to delete that infraction form the database. This is permanent.\nPerms - Delete Inf +")
                 embed.add_field(name="**Ban**", value="If you do **d/ban [user] [reason]** it will ban the user from the server.\nPerms - Ban +", inline=False)
-                embed.add_field(name="**Unban**", value="If you do **d/unban [user]** it will let you unban a user from the discord server. Note you have to do something like LegosAndStuff#0501 not a user ID.\nPerms - Unban +")
+                embed.add_field(name="**Unban**", value="If you do **d/unban [user]** it will let you unban a user from the discord server. Note - only accepts tags, not IDs.\nPerms - Unban +")
 
                 await ctx.send(embed=embed)
 

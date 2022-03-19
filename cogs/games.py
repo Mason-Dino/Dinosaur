@@ -7,10 +7,117 @@ import random
 import math
 from dislash.slash_commands import slash_command
 from dislash import *
+import json
 
 class Games(commands.Cog):
     def __init__(self, client):
         self.client = client
+
+    #wordle
+    @commands.command()
+    async def wordle(self, ctx, difficulty = None):
+            def load_json(file):
+                with open(file, "r") as f:
+                    data = json.load(f)
+                return data
+            def logic(guess, ans):
+              varr = list(ans)
+              var = [0,0,0,0,0]
+              guess = list(guess)
+              for i in range(0,5):
+                if guess[i] == varr[i]:
+                  var[i] = 2
+                  varr[i] = "-"
+              for x in range(0,5):
+                for y in range(0,5):
+                  if guess[x] == varr[y]:
+                    var[x] = 1
+                    varr[y] = "-"
+                    
+              return(var)
+
+            loop = True
+
+            if difficulty == None:
+                difficulty = 'easy'
+
+            ans = 0
+            if difficulty.lower() == 'easy':
+                answer = load_json('cogs/words.json')
+                answer = answer[0]
+                answer = random.choice(answer)
+                ans = 1
+            if difficulty.lower() == 'hard':
+                answer = load_json('cogs/words.json')
+                answer = answer[1]
+                answer = random.choice(answer)
+                ans = 1
+            if ans == 0:
+                await ctx.send('Unknown difficulty, please retry with `easy`, `hard` or nothing')
+            else:
+                goal = 0
+                guesses = []
+                results = []
+              
+                await ctx.send("please guess the word: ")
+                while loop == True:
+                    wlist = load_json("cogs/words.json")
+                    wlist = wlist[1]
+              
+                    def check(msg):
+                      return msg.author == ctx.author and msg.channel.id == ctx.channel.id
+                    
+                    msg = await self.client.wait_for("message",check = check)
+                    guess = msg.content.lower()
+                    guessl = list(guess)
+                    
+                    if guess == "break":
+                      await ctx.send('wordle deactivated')
+                      break
+                    if len(guessl) != 5:
+                      await ctx.send("that guess is invalid because it is not 5 letters")
+                    elif guess not in wlist:
+                      await ctx.send("that isn't a real word")
+                    else:
+              
+                      
+                      result = logic(guess, answer)
+                      guess = "".join(guess)
+                      guess = "`"+guess+"`"
+                      guesses.append(guess)
+                      
+                      if result == [2,2,2,2,2]:
+                        goal = 1
+                      
+              
+              
+                      for i in range(0, 5):
+                        if result[i] == 1:
+                          result[i] = ":orange_square:"
+                        if result[i] == 0:
+                          result[i] = ":red_square:"
+                        if result[i] == 2:
+                          result[i] = ":green_square:"
+              
+                      result = "".join(result)
+                      results.append(result)
+                      
+                      
+                      embedstuff = []
+                      for i in range(0,len(results)):
+                        embedstuff.append(guesses[i])
+                        embedstuff.append(results[i])
+                        
+                      embedstuff = "\n".join(embedstuff)
+                    
+                      if result != ':green_square::green_square::green_square::green_square::green_square:':
+                          embed = discord.Embed(title = "Result:", description = embedstuff + "\n Please enter your next guess:", color=discord.Color.green())
+                          await ctx.send(embed = embed)
+                      else:
+                        embed = discord.Embed(title = "Correct!", description = embedstuff, color=discord.Color.green())
+                        await ctx.send(embed = embed)
+                        break
+
 
     #rps
     @commands.command()

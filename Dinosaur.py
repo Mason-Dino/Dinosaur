@@ -29,7 +29,7 @@ test_guilds = [840354954074128405]
 #Owner ID for owner only command
 OwnerID = 638092957756555291
 
-cogs = ["cogs.help", "cogs.games", "cogs.owner", "cogs.economy", "cogs.utility", "cogs.moderation.mod_commands", "cogs.moderation.mod_search", "cogs.moderation.mod_set_up", "cogs.vote", "cogs.suggestion", "cogs.partner", "cogs.test"]
+cogs = ["cogs.help", "cogs.games", "cogs.owner", "cogs.economy", "cogs.utility", "cogs.vote", "cogs.suggestion", "cogs.partner", "cogs.test"]
 #cogs = ["cogs.top"]
 #cogs = ["cogs.economy"]
 
@@ -536,8 +536,10 @@ async def work(ctx):
     await ctx.send(embed=embed)
         
 
-token = "ODQwMzc1NjgxMDQ1MTAyNjAz.YJXS1w.UEqSeDCqpx17B2i6xpRAvvsBRtY"
-client.run(token)
+token = "ODQwMzc1NjgxMDQ1MTAyNjAz.YJXS1w.UEqSeDCqpx17B2i6xpRAvvsBRtY" #main Dinosaur Bot token
+wtoken = "OTQzODk4OTI5NjA5NzI4MDMw.Yg5wYQ.ykGFqDOcSowg_bIJZqgvMksBuAo" #Ninja's wordle bot token
+btoken = "" #Dino Beta's Token
+client.run(wtoken)
               
     #c.execute("""CREATE TABLE set_up (
 
