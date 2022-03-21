@@ -61,65 +61,67 @@ class Games(commands.Cog):
               
                 await ctx.send("please guess the word: ")
                 while loop == True:
-                    if len(guesses) == 7:
-                        await ctx.send("Sorry but you've ran out of guesses!")
+                    if len(guesses) == 6:
+                        await ctx.send(f"Sorry but you've ran out of guesses!\n The answer was {answer}")
                         break
-                    wlist = load_json("cogs/words.json")
-                    wlist = wlist[1]
-              
-                    def check(msg):
-                      return msg.author == ctx.author and msg.channel.id == ctx.channel.id
-                    
-                    msg = await self.client.wait_for("message",check = check)
-                    guess = msg.content.lower()
-                    guessl = list(guess)
-                    
-                    if guess == "break":
-                      await ctx.send('wordle deactivated')
-                      break
-                    if len(guessl) != 5:
-                      await ctx.send("that guess is invalid because it is not 5 letters")
-                    elif guess not in wlist:
-                      await ctx.send("that isn't a real word")
+                        return
                     else:
-              
-                      
-                      result = logic(guess, answer)
-                      guess = "".join(guess)
-                      guess = "`"+guess+"`"
-                      guesses.append(guess)
-                      
-                      if result == [2,2,2,2,2]:
-                        goal = 1
-                      
-              
-              
-                      for i in range(0, 5):
-                        if result[i] == 1:
-                          result[i] = ":orange_square:"
-                        if result[i] == 0:
-                          result[i] = ":red_square:"
-                        if result[i] == 2:
-                          result[i] = ":green_square:"
-              
-                      result = "".join(result)
-                      results.append(result)
-                      
-                      
-                      embedstuff = []
-                      for i in range(0,len(results)):
-                        embedstuff.append(guesses[i])
-                        embedstuff.append(results[i])
+                        wlist = load_json("cogs/words.json")
+                        wlist = wlist[1]
+                  
+                        def check(msg):
+                          return msg.author == ctx.author and msg.channel.id == ctx.channel.id
                         
-                      embedstuff = "\n".join(embedstuff)
-                    
-                      if result != ':green_square::green_square::green_square::green_square::green_square:':
-                          embed = discord.Embed(title = "Result:", description = embedstuff + "\n Please enter your next guess:", color=discord.Color.green())
-                          await ctx.send(embed = embed)
-                      else:
-                        embed = discord.Embed(title = f"Correct, you got the word in {len(guesses)}!", description = embedstuff, color=discord.Color.green())
-                        await ctx.send(embed = embed)
-                        break
+                        msg = await self.client.wait_for("message",check = check)
+                        guess = msg.content.lower()
+                        guessl = list(guess)
+                        
+                        if guess == "break":
+                          await ctx.send('wordle deactivated')
+                          break
+                        if len(guessl) != 5:
+                          await ctx.send("that guess is invalid because it is not 5 letters")
+                        elif guess not in wlist:
+                          await ctx.send("that isn't a real word")
+                        else:
+                  
+                          
+                          result = logic(guess, answer)
+                          guess = "".join(guess)
+                          guess = "`"+guess+"`"
+                          guesses.append(guess)
+                          
+                          if result == [2,2,2,2,2]:
+                            goal = 1
+                          
+                  
+                  
+                          for i in range(0, 5):
+                            if result[i] == 1:
+                              result[i] = ":orange_square:"
+                            if result[i] == 0:
+                              result[i] = ":red_square:"
+                            if result[i] == 2:
+                              result[i] = ":green_square:"
+                  
+                          result = "".join(result)
+                          results.append(result)
+                          
+                          
+                          embedstuff = []
+                          for i in range(0,len(results)):
+                            embedstuff.append(guesses[i])
+                            embedstuff.append(results[i])
+                            
+                          embedstuff = "\n".join(embedstuff)
+                        
+                          if result != ':green_square::green_square::green_square::green_square::green_square:':
+                              embed = discord.Embed(title = "Result:", description = embedstuff + "\n Please enter your next guess:", color=discord.Color.green())
+                              await ctx.send(embed = embed)
+                          else:
+                            embed = discord.Embed(title = f"Correct, you got the word in {len(guesses)}!", description = embedstuff, color=discord.Color.green())
+                            await ctx.send(embed = embed)
+                            break
 
 
     #rps
