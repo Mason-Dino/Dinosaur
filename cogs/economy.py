@@ -2,6 +2,7 @@ import discord
 import os
 from discord.ext import commands
 from discord.ext.commands import BucketType
+from Disecon import *
 import asyncio
 import random
 import math
@@ -11,241 +12,39 @@ class Economy(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
-    async def top(self, ctx):
-        conn = sqlite3.connect('economy.db')
-        c = conn.cursor()
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_1 = self.client.get_user(840375681045102603)
-            user_1.name = "None"
-            net_1 = "None"
-
-        else:
-            for item in items:
-                net_1 = item[4]
-                user_ID_1 = int(item[0])
-
-                user_1 = self.client.get_user(user_ID_1)
-                
-                print("1")
-                
-                pass
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 1")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_2 = self.client.get_user(840375681045102603)
-            user_2.name = "None"
-            net_2 = "None"
-
-        else:
-            for item in items:
-                net_2 = item[4]
-                user_ID_2 = int(item[0])
-
-                user_2 = self.client.get_user(user_ID_2)
-
-                print("2")
-
-                pass
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 2")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_3 = self.client.get_user(840375681045102603)
-
-            user_3.name = "None 1"
-            net_3 = "None"
-
-        else:
-            for item in items:
-                net_3 = item[4]
-                user_ID_3 = int(item[0])
-
-                user_3 = self.client.get_user(user_ID_3)
-                
-                print("3")
-                
-                pass
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 3")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_4 = self.client.get_user(840375681045102603)
-            user_4.name = "None"
-            net_4 = "None"
-
-        else:
-            for item in items:
-                net_4 = item[4]
-                user_ID_4 = int(item[0])
-
-                user_4 = self.client.get_user(user_ID_4)
-                
-                print("4")
-                
-                pass
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 4")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_5 = self.client.get_user(840375681045102603)
-            user_5.name = "None"
-            net_5 = "None"
-
-        else:
-            for item in items:
-                net_5 = item[4]
-                user_ID_5 = int(item[0])
-
-                user_5 = self.client.get_user(user_ID_5)
-                
-                print("5")
-                
-                pass
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 5")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_6 = self.client.get_user(840375681045102603)
-            user_6.name = "None"
-            net_6 = "None"
-
-        else:
-            for item in items:
-                net_6 = item[4]
-                user_ID_6 = int(item[0])
-
-                user_6 = self.client.get_user(user_ID_6)
-                
-                print("6")
-                
-                pass
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 6")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_7 = self.client.get_user(840375681045102603)
-            user_7.name = "None"
-            net_7 = "None"
-
-        else:
-            for item in items:
-                net_7 = item[4]
-                user_ID_7 = int(item[0])
-
-                user_7 = self.client.get_user(user_ID_7)
-                
-                print("7")
-                
-                pass
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 7")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_8 = self.client.get_user(840375681045102603)
-            user_8.name = "None"
-            net_8 = "None"
-
-        else:
-            for item in items:
-                net_8 = item[4]
-                user_ID_8 = int(item[0])
-
-                user_8 = self.client.get_user(user_ID_8)
-                
-                print("8")
-
-                pass
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 8")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_9 = self.client.get_user(840375681045102603)
-            user_9.name = "None"
-            net_9 = "None"
-
-        else:
-            for item in items:
-                net_9 = item[4]
-                user_ID_9 = int(item[0])
-
-                user_9 = self.client.get_user(user_ID_9)
-                
-                print("9")
-                
-                pass
-
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 1 OFFSET 9")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == '[]':
-            user_10 = self.client.get_user(840375681045102603)
-            user_10.name = "None"
-            net_10 = "None"
-
-        else:
-            for item in items:
-                net_10 = item[4]
-                user_ID_10 = int(item[0])
-
-                user_10 = self.client.get_user(user_ID_10)
-                
-                print("10")
-                
-                pass
-            
+    @commands.command(aliases=['top', 'lb'])
+    async def leaderboard(self, ctx):
+        top_1 = results.top(place=1)
+        top_2 = results.top(place=2)
+        top_3 = results.top(place=3)
+        top_4 = results.top(place=4)
+        top_5 = results.top(place=5)
+        top_6 = results.top(place=6)
+        top_7 = results.top(place=7)
+        top_8 = results.top(place=8)
+        top_9 = results.top(place=9)
+        top_10 = results.top(place=10)
+        
+        user_1 = self.client.get_user(top_1.user_ID())
+        user_2 = self.client.get_user(top_2.user_ID())
+        user_3 = self.client.get_user(top_3.user_ID())
+        user_4 = self.client.get_user(top_4.user_ID())
+        user_5 = self.client.get_user(top_5.user_ID())
+        user_6 = self.client.get_user(top_6.user_ID())
+        user_7 = self.client.get_user(top_7.user_ID())
+        user_8 = self.client.get_user(top_8.user_ID())
+        user_9 = self.client.get_user(top_9.user_ID())
+        user_10 = self.client.get_user(top_10.user_ID())
+        
         if user_1 == None:
-            user_1_lb = user_ID_1
+            user_1_lb = top_1.user_ID()
             
         else:
             user_1_lb = user_1.name
             pass
             
         if user_2 == None:
-            user_2_lb = user_ID_2
+            user_2_lb = top_2.user_ID()
             pass
             
         else:
@@ -253,7 +52,7 @@ class Economy(commands.Cog):
             pass
         
         if user_3 == None:
-            user_3_lb = user_ID_3
+            user_3_lb = top_3.user_ID()
             pass
             
         else:
@@ -261,7 +60,7 @@ class Economy(commands.Cog):
             pass
         
         if user_4 == None:
-            user_4_lb = user_ID_4
+            user_4_lb = top_4.user_ID()
             pass
             
         else:
@@ -269,7 +68,7 @@ class Economy(commands.Cog):
             pass
         
         if user_5 == None:
-            user_5_lb = user_ID_5
+            user_5_lb = top_5.user_ID()
             pass
             
         else:
@@ -277,7 +76,7 @@ class Economy(commands.Cog):
             pass
         
         if user_6 == None:
-            user_6_lb = user_ID_6
+            user_6_lb = top_6.user_ID()
             pass
             
         else:
@@ -285,7 +84,7 @@ class Economy(commands.Cog):
             pass
         
         if user_7 == None:
-            user_7_lb = user_ID_7
+            user_7_lb = top_7.user_ID()
             pass
             
         else:
@@ -293,7 +92,7 @@ class Economy(commands.Cog):
             pass
         
         if user_8 == None:
-            user_8_lb = user_ID_8
+            user_8_lb = top_8.user_ID()
             pass
             
         else:
@@ -301,7 +100,7 @@ class Economy(commands.Cog):
             pass
         
         if user_9 == None:
-            user_9_lb = user_ID_9
+            user_9_lb = top_9.user_ID()
             pass
             
         else:
@@ -309,15 +108,24 @@ class Economy(commands.Cog):
             pass
             
         if user_10 == None:
-            user_10_lb = user_ID_10
+            user_10_lb = top_10.user_ID()
             pass
             
         else:
             user_10_lb = user_10.name
             pass
-            
         
-            
+        net_1 = top_1.net()
+        net_2 = top_2.net()
+        net_3 = top_3.net()
+        net_4 = top_4.net()
+        net_5 = top_5.net()
+        net_6 = top_6.net()
+        net_7 = top_7.net()
+        net_8 = top_8.net()
+        net_9 = top_9.net()
+        net_10 = top_10.net()
+        
         embed: discord.Embed = discord.Embed(
             title="Dinosaur Leaderboard",
             description=f"Bellow are the top 10 people\n\n:first_place: {user_1_lb} - {net_1}\n:second_place: {user_2_lb} - {net_2}\n:third_place: {user_3_lb} - {net_3}\n:medal: {user_4_lb} - {net_4}\n:medal: {user_5_lb} - {net_5}\n:medal: {user_6_lb} - {net_6}\n:medal: {user_7_lb} - {net_7}\n:medal: {user_8_lb} - {net_8}\n:medal: {user_9_lb} - {net_9}\n:medal: {user_10_lb} - {net_10}\n",
@@ -325,729 +133,673 @@ class Economy(commands.Cog):
         )
 
         await ctx.send(embed=embed)
-        
-    @commands.command()
-    async def lb(self, ctx):
-        conn = sqlite3.connect("economy.db")
-        c = conn.cursor()
-        
-        c.execute("SELECT * FROM economy ORDER BY net DESC LIMIT 10")
 
-
+    
     @commands.command(aliases=['bal'])
     async def balance(self, ctx):
-        conn = sqlite3.connect('economy.db')
-        c = conn.cursor()
-
-        c.execute(f"SELECT * FROM economy WHERE user_ID = '{ctx.message.author.id}'")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == "[]":
-            c.execute(f"INSERT INTO economy VALUES ('{ctx.message.author.id}', '{ctx.message.author}', 0 , 0, 0)")
-
-            conn.commit()
-
-            embed: discord.Embed = discord.Embed(
-                title="Dinosaur Balance",
-                description=f"{ctx.message.author.mention} Dinosaur Balance\n\nWallet Amount: **0**\n\nBank Amount: **0**",
-                color=discord.Color.green()
-            )
-
-            await ctx.send(embed=embed)
-
-        else:
-            for item in items:
-                wallet = item[2]
-                bank = item[3]
-
-            embed: discord.Embed = discord.Embed(
-                title="Dinosaur Balance",
-                description=f"{ctx.message.author.mention} Dinosaur Balance\n\nWallet Amount: **{wallet}**\n\nBank Ammount: **{bank}**",
-                color=discord.Color.green()
-            )
-
-            await ctx.send(embed=embed)
+        view = results.view(user_ID=ctx.message.author.id)
+        
+        wallet = view.wallet()
+        bank = view.bank()
+        
+        embed: discord.Embed = discord.Embed(
+            title="Dinosaur Balace",
+            description=f"{ctx.message.author.mention} Dinosaur Balance\n\nWallet Amount: **{wallet}**\n\nBank Amount: **{bank}**",
+            color=discord.Color.green()
+        )
+        
+        await ctx.send(embed=embed)
+        
+        
 
     @commands.command(aliases=['dep'])
-    async def deposit(self, ctx, arg1=None, *, ammount: int=None):
-        conn = sqlite3.connect('economy.db')
-        c = conn.cursor()
-
-        c.execute(f"SELECT * FROM economy WHERE user_ID = '{ctx.message.author.id}'")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == "[]":
-            c.execute(f"INSERT INTO economy VALUES ('{ctx.message.author.id}', '{ctx.message.author}', 0 , 0, 0)")
-
-            conn.commit()
-            conn.close()
-
-            await ctx.send("You don't have any coins to deposti")
-
+    async def deposit(self, ctx, what: str = None):
+        view = results.view(user_ID=ctx.message.author.id)
+        
+        if what == None:
+            await ctx.send("Invalid use of command do **d/dep all** or **d/dep [number]**")
+            
         else:
-            for item in items:
-                wallet = item[2]
-                bank = item[3]
-
-            if arg1 == "all":
-                sum = wallet + bank
-
-                c.execute(f"""UPDATE economy SET bank = {sum}
-                    WHERE user_ID = '{ctx.message.author.id}'   
-                """)
-
-                conn.commit()
-
-                c.execute(f"""UPDATE economy SET wallet = 0
-                    WHERE user_ID = '{ctx.message.author.id}'   
-                """)
-
-                conn.commit()
-
+            what_check = what.isdigit()
+            
+            if what_check == True:
+                what = int(what)
+                
+                if view.wallet() >= what:
+                    wallet = money.wallet(amount=what, user_ID=ctx.message.author.id)
+                    wallet.sub()
+                    
+                    bank = money.bank(amount=what, user_ID=ctx.message.author.id)
+                    bank.add()
+                    
+                    embed: discord.Embed = discord.Embed(
+                        title="Deposit",
+                        description=f"You deposited **{what}** coins into your bank",
+                        color=discord.Color.green()
+                    )
+                    
+                    await ctx.send(embed=embed)
+                    
+                else:
+                    await ctx.send("You don't have that many coins in your wallet")
+                
+            if what_check == False:
+                all = view.wallet()
+                
+                wallet = money.wallet(amount=all, user_ID=ctx.message.author.id)
+                wallet.sub()
+                
+                bank = money.bank(amount=all, user_ID=ctx.message.author.id)
+                bank.add()
+                
                 embed: discord.Embed = discord.Embed(
                     title="Deposit",
-                    description=f"You deposited **{wallet}** into your bank",
+                    description=f"You deposited **{all}** coins into your bank",
                     color=discord.Color.green()
                 )
-
+                
                 await ctx.send(embed=embed)
-
-            elif arg1=="set":
-                if ammount == None:
-                    await ctx.send("Please send the amount of Dinosaur Points you want to deposite")
-
-                else:
-                    if wallet >= ammount:
-                        new_wallet = wallet - ammount
-
-                        new_bank = bank + ammount
-
-                        c.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                                WHERE user_ID = '{ctx.message.author.id}'   
-                            """)
-
-                        conn.commit()
-
-                        c.execute(f"""UPDATE economy SET bank = {new_bank}
-                                WHERE user_ID = '{ctx.message.author.id}'   
-                            """)
-
-                        conn.commit()
-
-                        embed: discord.Embed = discord.Embed(
-                            title="Deposit",
-                            description=f"You deposited **{ammount}** into your bank",
-                            color=discord.Color.green()
-                        )
-
-                        await ctx.send(embed=embed)
-
-                    else:
-                        await ctx.send("Please only send the ammount of Dinosaur Points you have in your wallet")
+        
 
     @commands.command(aliases=['with'])
-    async def withdraw(self, ctx, arg1=None, *, ammount: int=None):
-        conn = sqlite3.connect('economy.db')
-        c = conn.cursor()
-
-        c.execute(f"SELECT * FROM economy WHERE user_ID = '{ctx.message.author.id}'")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == "[]":
-            c.execute(f"INSERT INTO economy VALUES ('{ctx.message.author.id}', '{ctx.message.author}', 0 , 0, 0)")
-
-            conn.commit()
-            conn.close()
-
-            await ctx.send("You don't have any coins to withdraw.")
-
+    async def withdraw(self, ctx, what: str = None):
+        view = results.view(user_ID=ctx.message.author.id)
+        
+        if what == None:
+            await ctx.send("Invalid use of command do **d/with all** or **d/with [number]**")
+            
         else:
-            for item in items:
-                wallet = int(item[2])
-                bank = int(item[3])
-
-            if arg1 == "all":
-                sum = wallet + bank
-
-                c.execute(f"""UPDATE economy SET wallet = {sum}
-                    WHERE user_ID = '{ctx.message.author.id}'   
-                """)
-
-                conn.commit()
-
-                c.execute(f"""UPDATE economy SET bank = 0
-                    WHERE user_ID = '{ctx.message.author.id}'   
-                """)
-
-                conn.commit()
-
+            what_check = what.isdigit()
+            
+            if what_check == True:
+                what = int(what)
+                
+                if view.bank() >= what:
+                    bank = money.bank(amount=what, user_ID=ctx.message.author.id)
+                    bank.sub()
+                    
+                    wallet = money.wallet(amount=what, user_ID=ctx.message.author.id)
+                    wallet.add()
+                    
+                    embed: discord.Embed = discord.Embed(
+                        title="Withdraw",
+                        description=f"You withdrew **{what}** coins into your wallet",
+                        color=discord.Color.green()
+                    )
+                    
+                    await ctx.send(embed=embed)
+                    
+                else:
+                    await ctx.send("You don't have that many coins in your bank")
+            
+            elif what_check == False:
+                all = view.bank()
+                
+                bank = money.bank(amount=all, user_ID=ctx.message.author.id)
+                bank.sub()
+                
+                wallet = money.wallet(amount=all, user_ID=ctx.message.author.id)
+                wallet.add()
+                
                 embed: discord.Embed = discord.Embed(
-                    title="Deposit",
-                    description=f"You withdrew **{bank}** from your bank",
+                    title="Withdraw",
+                    description=f"You withdrew **{all}** coins into your bank",
                     color=discord.Color.green()
                 )
-
+                
                 await ctx.send(embed=embed)
 
-            elif arg1=="set":
-                if ammount == None:
-                    await ctx.send("Please send the amount of Dinosaur Points you want to withdraw")
-
-                else:
-                    if bank >= ammount:
-                        new_bank = bank - ammount
-
-                        new_wallet = wallet + ammount
-
-                        c.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                                WHERE user_ID = '{ctx.message.author.id}'   
-                            """)
-
-                        conn.commit()
-
-                        c.execute(f"""UPDATE economy SET bank = {new_bank}
-                                WHERE user_ID = '{ctx.message.author.id}'   
-                            """)
-
-                        conn.commit()
-
-                        embed: discord.Embed = discord.Embed(
-                            title="Deposit",
-                            description=f"You withdrew **{ammount}** from your bank",
-                            color=discord.Color.green()
-                        )
-
-                        await ctx.send(embed=embed)
-
-                    else:
-                        await ctx.send("Please only send the ammount of Dinosaur Points you have in your bank")
-
     @commands.command()
-    async def shop(self, ctx, arg1=None, buyID: str=None):
+    async def shop(self, ctx):
+        conn = sqlite3.connect("shop_items.db")
+        c = conn.cursor()
+        
+        c.execute(f"SELECT rowid, * FROM shop_items WHERE visible='True'")
+        
+        items = c.fetchall()
+        
         embed: discord.Embed = discord.Embed(
             title="Shop",
             description="Bellow is all the stuff you can buy with your Dinosaur Points",
             color=discord.Color.green()
         )
-        embed.add_field(name="**Common Mystery Egg**", value="Can get anywhere from 5 to 25 Dinosaur Points in the egg.\nPrice - 10 Dinosaur Points\nID - 1", inline=False)
-        embed.add_field(name="**Un-Common Mystery Egg**", value="Can get anywhere from 10 to 50 Dinosaur Points in the egg.\nPrice - 20 Dinosaur Points\nID - 2", inline=False)
-        embed.add_field(name="**Rare Mystery Egg**", value="Can get anywhere from 80 to 130 Dinosaur Points in the egg.\nPrice - 100 Dinosaur Points\nID - 3", inline=False)
+        for item in items:
+            id = item[0]
+            name = item[1]
+            price = item[2]
+            option = item[3]
+            use = item[4]
+            
+            if option == "a":
+                x = use.split("-")
+                
+                lower = x[0]
+                higher = x[1]
+                
+                embed.add_field(name=f"**{name}**", value=f"Can get anywhere from {lower} to {higher} Dinosaur Points int the egg.\nPrice - {price}\nID - {id}", inline=False)
+                
+            elif option == "b":
+                embed.add_field(name=f"**{name}**", value=f"You can get {use} Dinosaur Points for selling (using) it.\nPrice - {price}\nID - {id}", inline=False)
 
         await ctx.send(embed=embed)
-
+                    
     @commands.command()
-    async def buy(self, ctx, *, message=None):
-        conn = sqlite3.connect('shop.db')
-        conn_econ = sqlite3.connect('economy.db')
-        c = conn.cursor()
-        c_econ = conn_econ.cursor()
-
-        if message == None:
-            await ctx.send("Please send the name or the ID of the item you would like to buy.")
-
-        elif message.lower() in "1 or common mystery egg":
-            c_econ.execute(f"SELECT * FROM economy WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
-            items = c_econ.fetchall()
-
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def buy(self, ctx, shop_id: str=None, amount: int = None):
+        if amount == None:
+            amount = 1
+            pass
+        
+        if 10 >= amount:
+            view = results.view(user_ID=ctx.message.author.id)
+            
+            conn = sqlite3.connect('shop.db')
+            conn_shop_items = sqlite3.connect("shop_items.db")
+            
+            s = conn.cursor()
+            i = conn_shop_items.cursor()
+            
+            i.execute(f"SELECT rowid, * FROM shop_items WHERE rowid='{shop_id}' AND visible='True'")
+            
+            items = i.fetchall()
+            
             none = str(items)
-
+            
             if none == "[]":
-                c_econ.execute(f"INSERT INTO economy VALUES ('{ctx.message.author.id}', '{ctx.message.author}', 0 , 0, 0)")
-
-                conn_econ.commit()
-                conn_econ.close()
-
-                await ctx.send("You do not have enough Dinosaur Points to buy the **Common Mystery Egg**")
-
+                await ctx.send("Please send a valid shop ID")
+            
             else:
-                for item  in items:
-                    wallet = int(item[2])
-                    bank = int(item[3])
-
-                if wallet >= 10:
-                    new_wallet = wallet - 10
-
-                    c_econ.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                        WHERE user_ID = '{ctx.message.author.id}'   
-                    """)
-
-                    conn_econ.commit()
-
-                    sum = new_wallet + bank
-
-                    c_econ.execute(f"""UPDATE economy SET net = {sum}
-                        WHERE user_ID = '{ctx.message.author.id}'   
-                    """)
-
-                    conn_econ.commit()
-
-                    c.execute(f"SELECT * FROM common WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
-                    items = c.fetchall()
-
-                    none = str(items)
-
+                for item in items:
+                    id = item[0]
+                    name = item[1]
+                    price = item[2]
+                    option = item[3]
+                    use = item[4]
+                    
+                if amount == None:
+                    amount = 1
+                    
+                    pass
+                        
+                s.execute(f"SELECT * FROM items_own WHERE user_id='{ctx.message.author.id}' AND item_name='{name}'")
+                
+                items = s.fetchall()
+                
+                none = str(items)
+                
+                amount_price = amount * price
+                
+                wallet = view.wallet()
+                bank = view.bank()
+                
+                if wallet >= amount_price:
                     if none == "[]":
-                        c.execute(f"INSERT INTO common VALUES ('{ctx.message.author.id}', 1)")
-
+                        s.execute(f"INSERT INTO items_own VALUES ('{ctx.message.author.id}', '{name}', '{amount}')")
+                        
                         conn.commit()
-
-                        await ctx.send("You successfully bought a **Common Mystry Egg**")
-
+                        conn.close()
+                        
+                        conn_shop_items.close()
+                        
+                        wallet = money.wallet(amount=amount_price, user_ID=ctx.message.author.id)
+                        wallet.sub()
+                        
+                        await ctx.send(f"You successfully bought a **{name}**")
+                        
                     else:
                         for item in items:
-                            ammount = int(item[1])
-
-                        new_ammount = ammount + 1
-
-                        c.execute(f"""UPDATE common SET ammount = {new_ammount}
-                            WHERE user_id = '{ctx.message.author.id}'   
-                        """)
-
+                            user_ID_items = item[0]
+                            name_items = item[1]
+                            amount_items = int(item[2])
+                            
+                        sum = amount_items + amount
+                            
+                        s.execute(f"""UPDATE items_own SET amount = {sum}
+                                        WHERE user_id = '{ctx.message.author.id}' AND item_name='{name}'   
+                                    """)
+                        
                         conn.commit()
-                
-
-                        await ctx.send("You successfully bought a **Common Mystry Egg**")
-
-                else:
-                    await ctx.send("You do not have enough Dinosaur Points to buy the **Common Mystery Egg**")
-
-        elif message.lower() in "2 or un-common mystery egg or un common mystery egg":
-            c_econ.execute(f"SELECT * FROM economy WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
-            items = c_econ.fetchall()
-
-            none = str(items)
-
-            if none == "[]":
-                c_econ.execute(f"INSERT INTO economy VALUES ('{ctx.message.author.id}', '{ctx.message.author}', 0 , 0, 0)")
-
-                conn_econ.commit()
-                conn_econ.close()
-
-                await ctx.send("You do not have enough Dinosaur Points to buy the **Un-Common Mystery Egg**")
-
-            else:
-                for item  in items:
-                    wallet = int(item[2])
-                    bank = item[3]
-
-                if wallet >= 20:
-                    new_wallet = wallet - 20
-
-                    c_econ.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                        WHERE user_ID = '{ctx.message.author.id}'   
-                    """)
-
-                    conn_econ.commit()
-
-                    sum = new_wallet + bank
-
-                    c_econ.execute(f"""UPDATE economy SET net = {sum}
-                        WHERE user_ID = '{ctx.message.author.id}'   
-                    """)
-
-                    conn_econ.commit()
-
-                    c.execute(f"SELECT * FROM un_common WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
-                    items = c.fetchall()
-
-                    none = str(items)
-
+                        conn.close()
+                        
+                        conn_shop_items.close()
+                        
+                        wallet = money.wallet(amount=amount_price, user_ID=ctx.message.author.id)
+                        wallet.sub()
+                        
+                        await ctx.send(f"You successfully bought {amount} of **{name}**")
+                        
+                elif wallet == amount_price:
                     if none == "[]":
-                        c.execute(f"INSERT INTO un_common VALUES ('{ctx.message.author.id}', 1)")
-
+                        s.execute(f"INSERT INTO items_own VALUES ('{ctx.message.author.id}', '{name}', '{amount}')")
+                        
                         conn.commit()
+                        conn.close()
 
-                        await ctx.send("You successfully bought a **Un-Common Mystry Egg**")
-
+                        conn_shop_items.close()
+                        
+                        wallet = money.wallet(amount=amount_price, user_ID=ctx.message.author.id)
+                        wallet.sub()
+                        
+                        await ctx.send(f"You successfully bought a **{name}**")
+                        
                     else:
                         for item in items:
-                            ammount = int(item[1])
-
-                        new_ammount = ammount + 1
-
-                        c.execute(f"""UPDATE un_common SET ammount = {new_ammount}
-                            WHERE user_id = '{ctx.message.author.id}'   
-                        """)
-
+                            user_ID_items = item[0]
+                            name_items = item[1]
+                            amount_items = int(item[2])
+                            
+                        sum = amount_items + amount
+                            
+                        s.execute(f"""UPDATE items_own SET amount = {sum}
+                                        WHERE user_id = '{ctx.message.author.id}' AND item_name='{name}'   
+                                    """)
+                        
                         conn.commit()
-                
-
-                        await ctx.send("You successfully bought a **Un-Common Mystry Egg**")
-
+                        conn.close()
+                        
+                        wallet = money.wallet(amount=amount_price, user_ID=ctx.message.author.id)
+                        wallet.sub()
+                        
+                        await ctx.send(f"You successfully bought {amount} of **{name}**")
+                    
                 else:
-                    await ctx.send("You do not have enough Dinosaur Points to buy the **Un-Common Mystery Egg**")
+                    await ctx.send("You do not have enough coins in your wallet")  
 
-        elif message.lower() in "3 or rare mystery egg":
-            c_econ.execute(f"SELECT * FROM economy WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
-            items = c_econ.fetchall()
-
-            none = str(items)
-
-            if none == "[]":
-                c_econ.execute(f"INSERT INTO economy VALUES ('{ctx.message.author.id}', '{ctx.message.author}', 0 , 0, 0)")
-
-                conn_econ.commit()
-                conn_econ.close()
-
-                await ctx.send("You do not have enough Dinosaur Points to buy the **Rare Mystery Egg**")
-
-            else:
-                for item  in items:
-                    wallet = int(item[2])
-                    bank = item[3]
-
-                if wallet >= 100:
-                    new_wallet = wallet - 100
-
-                    c_econ.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                        WHERE user_ID = '{ctx.message.author.id}'   
-                    """)
-
-                    conn_econ.commit()
-
-                    sum = new_wallet + bank
-
-                    c_econ.execute(f"""UPDATE economy SET net = {sum}
-                        WHERE user_ID = '{ctx.message.author.id}'   
-                    """)
-
-                    conn_econ.commit()
-
-                    c.execute(f"SELECT * FROM rare WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
-                    items = c.fetchall()
-
-                    none = str(items)
-
-                    if none == "[]":
-                        c.execute(f"INSERT INTO rare VALUES ('{ctx.message.author.id}', 1)")
-
-                        conn.commit()
-
-                        await ctx.send("You successfully bought a **Rare Mystry Egg**")
-
-                    else:
-                        for item in items:
-                            ammount = int(item[1])
-
-                        new_ammount = ammount + 1
-
-                        c.execute(f"""UPDATE rare SET ammount = {new_ammount}
-                            WHERE user_id = '{ctx.message.author.id}'   
-                        """)
-
-                        conn.commit()
-                
-
-                        await ctx.send("You successfully bought a **Rare Mystry Egg**")
-
-                else:
-                    await ctx.send("You do not have enough Dinosaur Points to buy the **Rare Mystery Egg**")
+        else:
+            await ctx.send("You can't buy more than 10 objects at once")    
 
     @commands.command(aliases=['inv'])
     async def inventory(self, ctx):
-        conn = sqlite3.connect('shop.db')
+        conn = sqlite3.connect("shop.db")
         c = conn.cursor()
-
-        c.execute(f"SELECT * FROM rare WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
+        
+        c.execute(f"SELECT * FROM items_own WHERE user_id = '{ctx.message.author.id}'")
+        
         items = c.fetchall()
+        
+        sonn = sqlite3.connect("shop_items.db")
+        s = sonn.cursor()
+        
+        s.execute("SELECT rowid, * FROM shop_items ORDER BY rowid DESC LIMIT 1")
+        
+        shop_items = s.fetchall()
+        
+        for item in shop_items:
+            rowid = int(item[0])
+            
+        attempts = 0
+        max_attempts = rowid
+        
+        test = ""
+        
+        IsInvDone = False
+        while not IsInvDone:
+            
+            attempts += 1
+            
+            if attempts == 1:
+                none = str(items)
+                
+                if none == "[]":
+                    embed: discord.Embed = discord.Embed(
+                        title="Inventory",
+                        description="Nothing to see here.",
+                        color=discord.Color.green()
+                    )
+                    
+                    await ctx.send(embed=embed)
+                    
+                for item in items:
+                    name = item[1]
+                    amount = item[2]
+                    
+                    test += f"**{name}** - {amount}\n"
 
-        none = str(items)
+                embed: discord.Embed = discord.Embed(
+                    title="Inventory",
+                    description=f"Below are all the items you have from the shop\n\n{test}",
+                    color=discord.Color.green()
+                )
+            
+                await ctx.send(embed=embed)
+            
+            if attempts == max_attempts:
+                return
 
-        if none == "[]":
-            rare = "0"
+        
+    @commands.command()
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def use(self, ctx, shop_id: str = None, amount: int = None):
+        if amount == None:
+            amount = 1
             pass
+        
+        if 10 >= amount:
+            view = results.view(user_ID=ctx.message.author.id)
+            
+            wallet = view.wallet()
+            
+            conn = sqlite3.connect('shop.db')
+            conn_shop_items = sqlite3.connect("shop_items.db")
+            
+            s = conn.cursor()
+            i = conn_shop_items.cursor()
+            
+            i.execute(f"SELECT rowid, * FROM shop_items WHERE rowid='{shop_id}'")
+            
+            items = i.fetchall()
+            
+            none = str(items)
+            
+            if none == "[]":
+                await ctx.send("Please send a valid shop ID")
+            
+            else:
+                for item in items:
+                    id = item[0]
+                    name = item[1]
+                    price = item[2]
+                    option = item[3]
+                    if option == "a":
+                        use = item[4]
+                        
+                    elif option == "b":
+                        use = int(item[4])
+                    
+                if wallet == "0":
+                    await ctx.send("You do not have enough Dinosaur Points to buy the item.")
+                    
+                else:
+                    if amount == None:
+                        amount = 1
+                        
+                        pass
+                    
+                    else:               
+                        if amount == None:
+                            amount = 1
+                            pass
+                        
+                        elif amount >= 1:
+                            amount = amount
+                            pass
+                            
+                    s.execute(f"SELECT * FROM items_own WHERE user_id='{ctx.message.author.id}' AND item_name='{name}'")
+                
+                    items = s.fetchall()            
+                    none = str(items)
+                    
+                    if none == "[]":
+                        await ctx.send("You do not own any of the item")
+                        
+                    else:
+                        if option == "a":
+                            s.execute(f"SELECT * FROM items_own WHERE user_id = '{ctx.message.author.id}' AND item_name ='{name}'")
+                            
+                            items = s.fetchall()
+                            
+                            none = str(items)
+                            
+                            if none == "[]":
+                                await ctx.send("You own none of that item") 
+                                
+                            else:
+                                for item in items:
+                                    user_id = item[0]
+                                    item_name = item[1]
+                                    items_own = int(item[2])
+                                        
+                                sum = items_own - amount
+                                
+                                if -1 >= sum:
+                                    await ctx.send(f"You do not have **{amount}** of {item_name}")
+                                    
+                                else:
+                                    s.execute(f"""UPDATE items_own SET amount = {sum}
+                                                    WHERE user_id = '{ctx.message.author.id}' AND item_name='{name}'
+                                                """)
+                                    
+                                    conn.commit()
+                                    
+                                    x = use.split("-")
+                                    
+                                    lower = int(x[0])
+                                    higher = int(x[1])
+                                    
+                                    lower_full = lower * amount
+                                    higher_full = higher * amount
+                                    
+                                    number = int(random.randint(lower_full, higher_full))
+                                    
+                                    print(number)
+                                    
+                                    sum = wallet + number
+                                    
+                                    wallet = money.wallet(amount=number, user_ID=ctx.message.author.id)
+                                    wallet.add()
+                                    
+                                    embed: discord.Embed = discord.Embed(
+                                        title=f"{item_name} Open",
+                                        description=f"You earned **{number}** of Dinosaur Points",
+                                        color=discord.Color.green()
+                                    )
 
+                                    await ctx.send(embed=embed)
+                                    
+                        elif option == "b":
+                            s.execute(f"SELECT * FROM items_own WHERE user_id = '{ctx.message.author.id}' AND item_name ='{name}'")
+                            
+                            items = s.fetchall()
+                            
+                            none = str(items)
+                            
+                            if none == "[]":
+                                await ctx.send("You own none of that item") 
+                                
+                            else:
+                                for item in items:
+                                    user_id = item[0]
+                                    item_name = item[1]
+                                    items_own = int(item[2])
+                                        
+                                sum = items_own - amount
+                                
+                                if -1 >= sum:
+                                    await ctx.send(f"You do not have **{amount}** of {item_name}")
+                                    
+                                else:
+                                    s.execute(f"""UPDATE items_own SET amount = {sum}
+                                                    WHERE user_id = '{ctx.message.author.id}' AND item_name='{name}'
+                                                """)
+                                    
+                                    conn.commit()
+                                    
+                                    number = use * amount
+                                    
+                                    wallet = money.wallet(amount=number, user_ID=ctx.message.author.id)
+                                    wallet.add()
+                                    
+                                    embed: discord.Embed = discord.Embed(
+                                        title=f"{item_name} Open",
+                                        description=f"You earned **{number}** of Dinosaur Points",
+                                        color=discord.Color.green()
+                                    )
+                                    
+                                    await ctx.send(embed=embed)
         else:
-            for item in items:
-                rare = int(item[1])
-                pass
-
-        c.execute(f"SELECT * FROM un_common WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == "[]":
-            un_common = "0"
-            pass
-
-        else:
-            for item in items:
-                un_common = int(item[1])
-                pass
-
-        c.execute(f"SELECT * FROM common WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
-        items = c.fetchall()
-
-        none = str(items)
-
-        if none == "[]":
-            common = "0"
-            pass
-
-        else:
-            for item in items:
-                common = int(item[1])
-                pass
-
-        conn.commit()
-        conn.close()
-
-        embed: discord.Embed = discord.Embed(
-            title="Inventory",
-            description=f"Bellow are all the items you have from the shop\n\n**Common Mystery Egg** - {common}\n**Un-Comon Mystery Egg** - {un_common}\n**Rare Mystery Egg** - {rare}",
-            color=discord.Color.green()
-        )
-
-        await ctx.send(embed=embed)
+            await ctx.send("You can't use more than 10 at once!")
 
     @commands.command()
-    async def use(self, ctx, *, message=None):
-        conn = sqlite3.connect('shop.db')
-        conn_econ = sqlite3.connect('economy.db')
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def slots(self, ctx, amount: int = None):
+        view = results.view(user_ID=ctx.message.author.id)
+        
+        wallet = view.wallet()
+        bank = view.bank()
 
-        c = conn.cursor()
-        c_econ = conn_econ.cursor()
+        if wallet == "0":
+            await ctx.send("You do not have any coins to gamble in your wallet")
 
-        if message == None:
-            await ctx.send("Please send the ID or the name of the item you would like to use.")
-
-        elif message.lower() in "1 or common mystery egg":
-            c.execute(f"SELECT * FROM common WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
-            items = c.fetchall()
-
-            none = str(items)
-
-            if none == "[]":
-                await ctx.send("You do not have a **Common Mystery Egg** in your inentory")
+        else:
+            if amount == None:
+                await ctx.send("Please send the amount of coins you want to gambel.")
 
             else:
-                for item in items:
-                    ammount = item[1]
-
-                if ammount == 0:
-                    await ctx.send("You do not have a **Common Mystery Egg** in your inentory")
+                if wallet >= amount:
+                    new_wallet_2 = wallet - amount
                     
-                else:
-                    new_ammount = ammount - 1
+                    wallet = money.wallet(amount=amount, user_ID=ctx.message.author.id)
+                    wallet.sub()
 
-                    c.execute(f"""UPDATE common SET ammount = {new_ammount}
-                                WHERE user_id = '{ctx.message.author.id}'   
-                    """)
+                    embed: discord.Embed = discord.Embed(
+                        title="Slots",
+                        description="Please wait 5 seconds for the spining to stop",
+                        color=discord.Color.green()
+                    )
 
-                    conn.commit()
+                    before = await ctx.send(embed=embed)
 
-                    number = int(random.randint(5, 25))
-
-                    c_econ.execute(f"SELECT * FROM economy WHERE user_ID = '{ctx.message.author.id}'")
-
-                    items = c_econ.fetchall()
-
-                    none = str(items)
-
-                    if none == "[]":
-                        c_econ.execute(f"INSERT INTO economy VALUES ('{ctx.message.author.id}', '{ctx.message.author}', 0 , 0, 0)")
-
-                        conn_econ.commit()
-                        conn_econ.close()
-
-                        await ctx.send("You do not have a **Common Mystery Egg** in your inentory")
+                    responses = [
+                        "<:Dinosaur:840670397901045772>",
+                        "<:Dinosaur_Yellow:858747810278670336>",
+                        "<:Dinosaur_Blue:858747768629755934>"
                         
-                    else:
-                        for item in items:
-                            wallet = item[2]
-                            bank = item[3]
+                    ]
 
-                        new_wallet = wallet + number
+                    slots_1 = random.choice(responses)
+                    slots_2 = random.choice(responses)
+                    slots_3 = random.choice(responses)
+                    slots_4 = random.choice(responses)
+                    slots_5 = random.choice(responses)
+                    slots_6 = random.choice(responses)
+                    slots_7 = random.choice(responses)
+                    slots_8 = random.choice(responses)
+                    slots_9 = random.choice(responses)
 
-                        c_econ.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                            WHERE user_id = '{ctx.message.author.id}'   
-                        """)
+                    line_1 = f"{slots_1} | {slots_2} | {slots_3}"
+                    line_2 = f"{slots_4} | {slots_5} | {slots_6} :arrow_backward:"
+                    line_3 = f"{slots_7} | {slots_8} | {slots_9}"
 
-                        conn_econ.commit()
+                    await asyncio.sleep(5)
 
-                        sum = bank + new_wallet
+                    if line_2 == "<:Dinosaur:840670397901045772> | <:Dinosaur:840670397901045772> | <:Dinosaur:840670397901045772> :arrow_backward:":
+                        new_ammount = amount * 5
 
-                        c_econ.execute(f"""UPDATE economy SET net = {sum}
-                            WHERE user_id = '{ctx.message.author.id}'   
-                        """)
+                        new_wallet = new_wallet_2 + new_ammount
 
-                        conn_econ.commit()
-
-                        conn_econ.close()
+                        wallet = money.wallet(amount=new_ammount, user_ID=ctx.message.author.id)
+                        wallet.add()    
 
                         embed: discord.Embed = discord.Embed(
-                            title="Common Mystery Egg Open",
-                            description=f"You earned **{number}** Dinosaur Points from a Common Mystery Egg",
+                            title="Slots",
+                            description=f"You Won **{new_ammount}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
+                            color=discord.Color.green()
+                        )
+                    
+                        await before.edit(embed=embed)
+
+                    elif line_2 == "<:Dinosaur_Yellow:858747810278670336> | <:Dinosaur_Yellow:858747810278670336> | <:Dinosaur_Yellow:858747810278670336> :arrow_backward:":
+                        new_ammount = amount * 1.5
+
+                        new_ammount = new_ammount // 1
+
+                        wallet = money.wallet(amount=new_ammount, user_ID=ctx.message.author.id)
+                        wallet.add()
+                        
+                        embed: discord.Embed = discord.Embed(
+                            title="Slots",
+                            description=f"You Won **{new_ammount:,.0f}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
+                            color=discord.Color.green()
+                        )
+                        
+                        await before.edit(embed=embed)
+
+                    elif line_2 == "<:Dinosaur_Blue:858747768629755934> | <:Dinosaur_Blue:858747768629755934> | <:Dinosaur_Blue:858747768629755934> :arrow_backward:":
+                        new_ammount = amount * 2
+
+                        wallet = money.wallet(amount=new_ammount, user_ID=ctx.message.author.id)
+
+                        embed: discord.Embed = discord.Embed(
+                            title="Slots",
+                            description=f"You Won **{new_ammount:,.0f}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
+                            color=discord.Color.green()
+                        )
+                        
+                        await before.edit(embed=embed)
+
+                    elif slots_4 == slots_6:
+                        if slots_4 == "<:Dinosaur:840670397901045772>":
+                            new_ammount = amount * 1.75
+
+                            new_ammount = new_ammount // 1
+
+                            new_ammount = f"{new_ammount:,.0f}"
+
+                            new_ammount = int(new_ammount)
+
+                            wallet = money.wallet(amount=new_ammount, user_ID=ctx.message.author.id)
+                            wallet.add()
+
+                            embed: discord.Embed = discord.Embed(
+                                title="Slots",
+                                description=f"You Won **{new_ammount:,.0f}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
+                                color=discord.Color.green()
+                            )
+
+                            await before.edit(embed=embed)
+
+                        elif slots_4 == "<:Dinosaur_Blue:858747768629755934>":
+                            new_ammount = amount * 1.5
+
+                            new_ammount = new_ammount // 1
+
+                            new_ammount = f"{new_ammount:,.0f}"
+
+                            new_ammount = int(new_ammount)
+
+                            wallet = money.wallet(amount=new_ammount, user_ID=ctx.message.author.id)
+                            wallet.add()
+
+                            embed: discord.Embed = discord.Embed(
+                                title="Slots",
+                                description=f"You Won **{new_ammount:,.0f}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
+                                color=discord.Color.green()
+                            )
+                    
+                            await before.edit(embed=embed)
+
+
+                        elif slots_4 == "<:Dinosaur_Yellow:858747810278670336>":
+                            new_ammount = amount * 1.25
+
+                            new_ammount = new_ammount // 1
+
+                            new_ammount = int(new_ammount)
+
+                            wallet = money.wallet(amount=new_ammount, user_ID=ctx.message.author.id)
+                            wallet.add()
+                            
+                            embed: discord.Embed = discord.Embed(
+                                title="Slots",
+                                description=f"You Won **{new_ammount:,.0f}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
+                                color=discord.Color.green()
+                            )
+                            
+                            await before.edit(embed=embed)
+
+
+                    else:
+                        embed: discord.Embed = discord.Embed(
+                            title="Slots",
+                            description=f"You Lost **{amount}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
                             color=discord.Color.green()
                         )
 
-                        await ctx.send(embed=embed)
+                        await before.edit(embed=embed)
 
-        elif message.lower() in "2 or un-common mystery egg or un common mystery egg":
-            c.execute(f"SELECT * FROM un_common WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
 
-            items = c.fetchall()
-
-            none = str(items)
-
-            if none == "[]":
-                await ctx.send("You do not have a **Un-Common Mystery Egg** in your inentory")
-
-            else:
-                for item in items:
-                    ammount = item[1]
-
-                if ammount == 0:
-                    await ctx.send("You do not have a **Un-Common Mystery Egg** in your inentory")
-                    
                 else:
-                    new_ammount = ammount - 1
-
-                    c.execute(f"""UPDATE un_common SET ammount = {new_ammount}
-                                WHERE user_id = '{ctx.message.author.id}'   
-                    """)
-
-                    conn.commit()
-
-                    number = int(random.randint(10, 50))
-
-                    c_econ.execute(f"SELECT * FROM economy WHERE user_ID = '{ctx.message.author.id}'")
-
-                    items = c_econ.fetchall()
-
-                    none = str(items)
-
-                    if none == "[]":
-                        c_econ.execute(f"INSERT INTO economy VALUES ('{ctx.message.author.id}', '{ctx.message.author}', 0 , 0, 0)")
-
-                        conn_econ.commit()
-                        conn_econ.close()
-
-                        await ctx.send("You do not have a **Common Mystery Egg** in your inentory")
-                        
-                    else:
-                        for item in items:
-                            wallet = item[2]
-                            bank = item[3]
-
-                        new_wallet = wallet + number
-
-                        c_econ.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                            WHERE user_id = '{ctx.message.author.id}'   
-                        """)
-
-                        conn_econ.commit()
-
-                        sum = bank + new_wallet
-
-                        c_econ.execute(f"""UPDATE economy SET net = {sum}
-                            WHERE user_id = '{ctx.message.author.id}'   
-                        """)
-
-                        conn_econ.commit()
-                        conn_econ.close()
-
-                        embed: discord.Embed = discord.Embed(
-                            title="Un-Common Mystery Egg Open",
-                            description=f"You earned **{number}** Dinosaur Points from a Un-Common Mystery Egg",
-                            color=discord.Color.green()
-                        )
-
-                        await ctx.send(embed=embed)
-                
-        elif message.lower() in "3 or rare mystery egg":
-            c.execute(f"SELECT * FROM rare WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
-            items = c.fetchall()
-
-            none = str(items)
-
-            if none == "[]":
-                await ctx.send("You do not have a **Rare Mystery Egg** in your inentory")
-
-            else:
-                for item in items:
-                    ammount = item[1]
-
-                if ammount == 0:
-                    await ctx.send("You do not have a **Rare Mystery Egg** in your inentory")
-                    
-                else:
-                    new_ammount = ammount - 1
-
-                    c.execute(f"""UPDATE rare SET ammount = {new_ammount}
-                                WHERE user_id = '{ctx.message.author.id}'   
-                    """)
-
-                    conn.commit()
-
-                    number = int(random.randint(80, 130))
-
-                    c_econ.execute(f"SELECT * FROM economy WHERE user_ID = '{ctx.message.author.id}'")
-
-                    items = c_econ.fetchall()
-
-                    none = str(items)
-
-                    if none == "[]":
-                        c_econ.execute(f"INSERT INTO economy VALUES ('{ctx.message.author.id}', '{ctx.message.author}', 0 , 0, 0)")
-
-                        conn_econ.commit()
-                        conn_econ.close()
-
-                        await ctx.send("You do not have a **Rare Mystery Egg** in your inentory")
-                        
-                    else:
-                        for item in items:
-                            wallet = item[2]
-                            bank = item[3]
-
-                        new_wallet = wallet + number
-
-                        c_econ.execute(f"""UPDATE economy SET wallet = {new_wallet}
-                            WHERE user_id = '{ctx.message.author.id}'   
-                        """)
-
-                        conn_econ.commit()
-
-                        sum = bank + new_wallet
-
-                        c_econ.execute(f"""UPDATE economy SET net = {sum}
-                            WHERE user_id = '{ctx.message.author.id}'   
-                        """)
-
-                        conn_econ.commit()
-
-                        conn_econ.close()
-
-                        embed: discord.Embed = discord.Embed(
-                            title="Rare Mystery Egg Open",
-                            description=f"You earned **{number}** Dinosaur Points from a Rare Mystery Egg",
-                            color=discord.Color.green()
-                        )
-
-                        await ctx.send(embed=embed)
-
+                    await ctx.send("You do not have enough coins in wallet")
 
 def setup(client):
 	client.add_cog(Economy(client))
