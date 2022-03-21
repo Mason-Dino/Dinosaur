@@ -21,7 +21,7 @@ client.remove_command("help")
 #Owner ID for owner only command
 OwnerID = 638092957756555291
 
-cogs = ["cogs.help", "cogs.games", "cogs.owner", "cogs.economy", "cogs.utility", "cogs.moderation.mod_commands", "cogs.moderation.mod_search", "cogs.moderation.mod_set_up", "cogs.vote"]
+cogs = ["cogs.help", "cogs.games", "cogs.owner", "cogs.economy", "cogs.utility", "cogs.vote"]
 #cogs = ["cogs.top"]
 
 # start
