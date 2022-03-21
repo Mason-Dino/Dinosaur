@@ -16,7 +16,7 @@ class Help(commands.Cog):
             embed.add_field(name="**Game Help**", value="If you do **d/help game** you can find out all the games that we have.", inline=False)
             embed.add_field(name="**Utility Help**", value="If you do **d/help utility** it will give you all the utility commands that we have.", inline=False)
             embed.add_field(name="**Economy Help**", value="If you do **d/help economy** is will give all the economy commands that we have.", inline=False)
-            embed.add_field(name="**Support Links**", value="[Support Server](https://discord.gg/KxPuFvazuF)\n[Invite The Bot](https://discord.com/api/oauth2/authorize?client_id=840025172861386762&permissions=2683662023&scope=bot)\n[top.gg Profile](https://top.gg/bot/840025172861386762)")
+            embed.add_field(name="**Support Links**", value="[Support Server](https://discord.gg/KxPuFvazuF)\n[Invite The Bot](https://discord.com/api/oauth2/authorize?client_id=840025172861386762&permissions=347329&scope=applications.commands%20bot)\n[top.gg Profile](https://top.gg/bot/840025172861386762)")
 
             await ctx.send(embed=embed)
         
@@ -30,6 +30,7 @@ class Help(commands.Cog):
             embed.add_field(name="**Coinflip**", value="You can do **d/coinflip [heads or tails]** and you can guess the coinflip or you can just do d/coinflip and that will do just a normal coinflip.", inline=False)
             embed.add_field(name="**Dice Roll**", value="If you do **d/dice [1, 2, 3, 4, 5, or 6]**. If you do that you can perdict a dice roll.", inline=False)
             embed.add_field(name="**8ball**", value="If you do **d/8ball [message]** then the bot will just be like a 8ball.", inline=False)
+            embed.add_field(name="**Wordle**", value ="**d/wordle [optional difficulty (easy or hard)]** - initiates a game of wordle", inline=False)
 
             await ctx.send(embed=embed)
 
