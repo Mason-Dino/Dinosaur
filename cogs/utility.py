@@ -56,7 +56,7 @@ class Utility(commands.Cog):
 
     @commands.command()
     async def invite(self, ctx):
-        await ctx.send("https://discord.com/oauth2/authorize?client_id=840025172861386762&permissions=2683662023&scope=bot%20applications.commands")
+        await ctx.send("""https://discord.com/api/oauth2/authorize?client_id=840025172861386762&permissions=347329&scope=applications.commands%20bot""")
 
     @commands.command(aliases=['latency', 'lag'])
     async def ping(self, ctx):
