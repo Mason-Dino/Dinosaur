@@ -13,9 +13,9 @@ class Help(commands.Cog):
                 description="Below are all the help commands that you can do to see all the different commands that we have.",
                 color=discord.Color.green()
             )
+            embed.add_field(name="**Economy Help**", value="If you do **d/help economy** is will give all the economy commands that we have.", inline=False)
             embed.add_field(name="**Game Help**", value="If you do **d/help game** you can find out all the games that we have.", inline=False)
             embed.add_field(name="**Utility Help**", value="If you do **d/help utility** it will give you all the utility commands that we have.", inline=False)
-            embed.add_field(name="**Economy Help**", value="If you do **d/help economy** is will give all the economy commands that we have.", inline=False)
             embed.add_field(name="**Support Links**", value="[Support Server](https://discord.gg/KxPuFvazuF)\n[Invite The Bot](https://discord.com/api/oauth2/authorize?client_id=840025172861386762&permissions=347329&scope=applications.commands%20bot)\n[top.gg Profile](https://top.gg/bot/840025172861386762)")
 
             await ctx.send(embed=embed)
