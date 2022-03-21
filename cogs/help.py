@@ -10,7 +10,7 @@ class Help(commands.Cog):
         if arg1 == None:
             embed: discord.Embed = discord.Embed(
                 title="**Help**",
-                description="Below are all the help commands that you can do to see all the diffrrent commands that we have.",
+                description="Below are all the help commands that you can do to see all the different commands that we have.",
                 color=discord.Color.green()
             )
             embed.add_field(name="**Game Help**", value="If you do **d/help game** you can find out all the games that we have.", inline=False)
@@ -23,7 +23,7 @@ class Help(commands.Cog):
         elif arg1 == "game":
             embed: discord.Embed = discord.Embed(
                 title="**Game Help**",
-                description="Below are all the Game commands that we have at the momment.",
+                description="Below are all the Game commands that we have at the moment.",
                 color=discord.Color.green()
             )
             embed.add_field(name="**Rock Paper Scissors**", value="If you do **d/rps [Rock, Paper, or Scissors]** you can play rock paper scissors with the bot.", inline=False)
@@ -36,7 +36,7 @@ class Help(commands.Cog):
         elif arg1 == "utility":
                 embed: discord.Embed = discord.Embed(
                     title="**Utility Help**",
-                    description="Below are all the Utility commands that we have at the momment.",
+                    description="Below are all the Utility commands that we have at the moment.",
                     color=discord.Color.green()
                 )
                 embed.add_field(name="**Support**", value="If you do **d/support** you will be able to join our support server.", inline=False)
@@ -57,10 +57,10 @@ class Help(commands.Cog):
                 color=discord.Color.green()
 
             )
-            embed.add_field(name="**Balance**", value="If you do **d/bal** it will give you the ammount of Dinosaur Points you have currently.", inline=False)
+            embed.add_field(name="**Balance**", value="If you do **d/bal** it will give you the amount of Dinosaur Points you have currently.", inline=False)
             embed.add_field(name="**Work**", value="If you do **d/work** it will give you anyway from 5 to 25 Dinosaur Points.", inline=False)
-            embed.add_field(name="**Deposit**", value="If you do **d/dep all** or **d/dep set [ammount]** it will deposit all or the ammount you want into your Dinosaur Points bank.", inline=False)
-            embed.add_field(name="**Withdraw**", value="If you do **d/with all** or **d/with set [ammount]** it will withdraw all or the ammount you want from your Dinosaur Points bank.", inline=False)
+            embed.add_field(name="**Deposit**", value="If you do **d/dep all** or **d/dep set [amount]** it will deposit all or the ammount you want into your Dinosaur Points bank.", inline=False)
+            embed.add_field(name="**Withdraw**", value="If you do **d/with all** or **d/with set [amount]** it will withdraw all or the ammount you want from your Dinosaur Points bank.", inline=False)
             embed.add_field(name="**Shop**", value="If you do **d/shop** it will show you all the items that we have in our shop at that time.", inline=False)
             embed.add_field(name="**Inventory**", value="If you do **d/inv** it will show all the items you have in your inventory.", inline=False)
             embed.add_field(name="**Buy**", value="If you do **d/buy [shop ID or name]** you will buy that item from the shop", inline=False)
