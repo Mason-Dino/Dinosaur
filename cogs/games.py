@@ -61,6 +61,9 @@ class Games(commands.Cog):
               
                 await ctx.send("please guess the word: ")
                 while loop == True:
+                    if len(guesses) == 7:
+                        await ctx.send("Sorry but you've ran out of guesses!")
+                        break
                     wlist = load_json("cogs/words.json")
                     wlist = wlist[1]
               
@@ -114,7 +117,7 @@ class Games(commands.Cog):
                           embed = discord.Embed(title = "Result:", description = embedstuff + "\n Please enter your next guess:", color=discord.Color.green())
                           await ctx.send(embed = embed)
                       else:
-                        embed = discord.Embed(title = "Correct!", description = embedstuff, color=discord.Color.green())
+                        embed = discord.Embed(title = f"Correct, you got the word in {len(guesses)}!", description = embedstuff, color=discord.Color.green())
                         await ctx.send(embed = embed)
                         break
 
@@ -306,65 +309,23 @@ class Games(commands.Cog):
         
         bot_side = random.choice(sides)
 
-        if arg1 == "1":
+        if arg1 == None:
             embed: discord.Embed = discord.Embed(
                 title="Dice Roll Results",
-                description=f"You chose **1**\nThe Bot chose **{bot_side}**",
+                description=f"The Bot chose **{bot_side}**",
                 color=discord.Color.green()
             )
-
-            await ctx.send(embed=embed)
-
-        elif arg1 == "2":
-            embed: discord.Embed = discord.Embed(
-                title="Dice Roll Results",
-                description=f"You chose **2**\nThe Bot chose **{bot_side}**",
-                color=discord.Color.green()
-            )
-
-            await ctx.send(embed=embed)
-
-        elif arg1 == "3":
-            embed: discord.Embed = discord.Embed(
-                title="Dice Roll Results",
-                description=f"You chose **3**\nThe Bot chose **{bot_side}**",
-                color=discord.Color.green()
-            )
-
-            await ctx.send(embed=embed)
-
-        elif arg1 == "4":
-            embed: discord.Embed = discord.Embed(
-                title="Dice Roll Results",
-                description=f"You chose **4**\nThe Bot chose **{bot_side}**",
-                color=discord.Color.green()
-            )
-
-            await ctx.send(embed=embed)
-
-        elif arg1 == "5":
-            embed: discord.Embed = discord.Embed(
-                title="Dice Roll Results",
-                description=f"You chose **5**\nThe Bot chose **{bot_side}**",
-                color=discord.Color.green()
-            )
-
-            await ctx.send(embed=embed)
-
-        elif arg1 == "6":
-            embed: discord.Embed = discord.Embed(
+            await ctx.send(embed = embed)
+        else:
+            if arg1 in sides:
+                embed: discord.Embed = discord.Embed(
                 title="Dice Roll Results",
                 description=f"You chose **6**\nThe Bot chose **{bot_side}**",
                 color=discord.Color.green()
-            )
-
-            await ctx.send(embed=embed)
-
-        elif arg1 == None:
-            await ctx.send("Please do **d/dice [1, 2, 3, 4, 5, or 6]**")
-
-        else:
-            await ctx.send("Please do **d/dice [1, 2, 3, 4, 5, or 6]**")
+                )
+                await ctx.send(embed = embed)
+            else:
+                await ctx.send("Invalid prediction, try **d/dice [(optional) 1-6]**")
 
     @commands.command(aliases=['8ball'])
     async def ball(self, ctx, *, message=None):

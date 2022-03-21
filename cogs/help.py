@@ -29,11 +29,11 @@ class Help(commands.Cog):
                 description="Below are all the Game commands that we have at the momment.",
                 color=discord.Color.green()
             )
-            embed.add_field(name="**Rock Paper Scissors**", value="**d/rps [Rock, Paper, or Scissors]** - initiates rock paper scisors with the bot", inline=False)
-            embed.add_field(name="**Coinflip**", value="You can do **d/coinflip [heads or tails]** and you can guess the coinflip or you can just do d/coinflip and that will do just a normal coinflip.", inline=False)
-            embed.add_field(name="**Dice Roll**", value="If you do **d/dice [1, 2, 3, 4, 5, or 6]**. If you do that you can perdict a dice roll.", inline=False)
-            embed.add_field(name="**8ball**", value="If you do **d/8ball [message]** then the bot will just be like a 8ball.", inline=False)
-            embed.add_field(name="**Wordle**", value ="**d/wordle [optional difficulty (easy or hard)]** - initates a game of wordle", inline=False)
+            embed.add_field(name="**Rock Paper Scissors**", value="**d/rps [Rock, Paper, or Scissors]** - initiates rock paper scisors with the bot.", inline=False)
+            embed.add_field(name="**Coinflip**", value="**d/coinflip (optional) [heads or tails]** - virtual coinflip.", inline=False)
+            embed.add_field(name="**Dice Roll**", value="**d/dice [1, 2, 3, 4, 5, or 6]**. If you do that you can perdict a dice roll.", inline=False)
+            embed.add_field(name="**8ball**", value="**d/8ball [message]** then the bot will just be like a 8ball.", inline=False)
+            embed.add_field(name="**Wordle**", value ="**d/wordle (optional) [easy or hard]** - initates a game of wordle", inline=False)
 
             await ctx.send(embed=embed)
 

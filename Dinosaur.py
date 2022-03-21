@@ -538,8 +538,8 @@ async def work(ctx):
 
 token = "ODQwMzc1NjgxMDQ1MTAyNjAz.YJXS1w.UEqSeDCqpx17B2i6xpRAvvsBRtY" #main Dinosaur Bot token
 wtoken = "OTQzODk4OTI5NjA5NzI4MDMw.Yg5wYQ.ykGFqDOcSowg_bIJZqgvMksBuAo" #Ninja's wordle bot token
-btoken = "" #Dino Beta's Token
-client.run(wtoken)
+btoken = "ODQwMzc1NjgxMDQ1MTAyNjAz.YJXS1w.vor-5ufvbBxVRVQnbkq_6q41zx0" #Dino Beta's Token
+client.run(btoken)
               
     #c.execute("""CREATE TABLE set_up (
 
@@ -554,8 +554,7 @@ client.run(wtoken)
 
     #conn.commit()
 
-    #c.execute("""CREATE TABLE suggestion (
-
+    #c.execute("""CREATE TABLE suggestion (~~~~~µ~µ~µ
         #suggestion_ID text,
         #guild_ID text,
         #user_ID text,
