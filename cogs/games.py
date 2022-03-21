@@ -5,11 +5,124 @@ from discord.ext.commands import BucketType
 import asyncio
 import random
 import math
+from dislash.slash_commands import slash_command
+from dislash import *
+import json
 
 class Games(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    #wordle
+    @commands.command()
+    async def wordle(self, ctx, difficulty = None):
+            def load_json(file):
+                with open(file, "r") as f:
+                    data = json.load(f)
+                return data
+            def logic(guess, ans):
+              varr = list(ans)
+              var = [0,0,0,0,0]
+              guess = list(guess)
+              for i in range(0,5):
+                if guess[i] == varr[i]:
+                  var[i] = 2
+                  varr[i] = "-"
+              for x in range(0,5):
+                for y in range(0,5):
+                  if guess[x] == varr[y]:
+                    var[x] = 1
+                    varr[y] = "-"
+                    
+              return(var)
+
+            loop = True
+
+            if difficulty == None:
+                difficulty = 'easy'
+
+            ans = 0
+            if difficulty.lower() == 'easy':
+                answer = load_json('cogs/words.json')
+                answer = answer[0]
+                answer = random.choice(answer)
+                ans = 1
+            if difficulty.lower() == 'hard':
+                answer = load_json('cogs/words.json')
+                answer = answer[1]
+                answer = random.choice(answer)
+                ans = 1
+            if ans == 0:
+                await ctx.send('Unknown difficulty, please retry with `easy`, `hard` or nothing')
+            else:
+                goal = 0
+                guesses = []
+                results = []
+              
+                await ctx.send("please guess the word: ")
+                while loop == True:
+                    if len(guesses) == 7:
+                        await ctx.send("Sorry but you've ran out of guesses!")
+                        break
+                    wlist = load_json("cogs/words.json")
+                    wlist = wlist[1]
+              
+                    def check(msg):
+                      return msg.author == ctx.author and msg.channel.id == ctx.channel.id
+                    
+                    msg = await self.client.wait_for("message",check = check)
+                    guess = msg.content.lower()
+                    guessl = list(guess)
+                    
+                    if guess == "break":
+                      await ctx.send('wordle deactivated')
+                      break
+                    if len(guessl) != 5:
+                      await ctx.send("that guess is invalid because it is not 5 letters")
+                    elif guess not in wlist:
+                      await ctx.send("that isn't a real word")
+                    else:
+              
+                      
+                      result = logic(guess, answer)
+                      guess = "".join(guess)
+                      guess = "`"+guess+"`"
+                      guesses.append(guess)
+                      
+                      if result == [2,2,2,2,2]:
+                        goal = 1
+                      
+              
+              
+                      for i in range(0, 5):
+                        if result[i] == 1:
+                          result[i] = ":orange_square:"
+                        if result[i] == 0:
+                          result[i] = ":red_square:"
+                        if result[i] == 2:
+                          result[i] = ":green_square:"
+              
+                      result = "".join(result)
+                      results.append(result)
+                      
+                      
+                      embedstuff = []
+                      for i in range(0,len(results)):
+                        embedstuff.append(guesses[i])
+                        embedstuff.append(results[i])
+                        
+                      embedstuff = "\n".join(embedstuff)
+                    
+                      if result != ':green_square::green_square::green_square::green_square::green_square:':
+                          embed = discord.Embed(title = "Result:", description = embedstuff + "\n Please enter your next guess:", color=discord.Color.green())
+                          await ctx.send(embed = embed)
+                      else:
+                        embed = discord.Embed(title = f"Correct, you got the word in {len(guesses)}!", description = embedstuff, color=discord.Color.green())
+                        await ctx.send(embed = embed)
+                        break
+
+
+    #rps
     @commands.command()
     async def rps(self, ctx, arg1=None):
 
@@ -20,7 +133,7 @@ class Games(commands.Cog):
             ]
 
         if arg1 == None:
-            await ctx.send("Can you please chose one of the following **Rock, Paper, or Scissors**")
+            await ctx.send("Please chose one of the following: **Rock, Paper, or Scissors**")
 
         elif arg1.lower() == "rock":
             embed: discord.Embed = discord.Embed(
@@ -49,7 +162,8 @@ class Games(commands.Cog):
 
             await ctx.send(embed=embed)
         else:
-          await ctx.send("Please choose either **Rock, Paper, Or Scissors**")
+          await ctx.send("Please choose either **Rock, Paper, Or Scissors**\nExample - `d/rps rock`")
+          
 
     @commands.command()
     async def coinflip(self, ctx, arg1=None):
@@ -65,7 +179,7 @@ class Games(commands.Cog):
                 description=f"The bot chose **{random.choice(responses)}**",
                 color=discord.Color.green()
             )
-            embed.set_footer(text="You can also do d/coinflip [heads or tails] to perdecit the results of the coinflip")
+            embed.set_footer(text="You can also do d/coinflip [heads or tails] to predict the results of the coinflip")
 
             await ctx.send(embed=embed)
 
@@ -88,6 +202,7 @@ class Games(commands.Cog):
             await ctx.send(embed=embed)
         else:
           await ctx.send("Please choose either **Heads or Tails**")
+    
     @commands.command()
     async def dice(self, ctx, arg1=None):
 
@@ -102,71 +217,28 @@ class Games(commands.Cog):
         
         bot_side = random.choice(sides)
 
-        if arg1 == "1":
+        if arg1 == None:
             embed: discord.Embed = discord.Embed(
                 title="Dice Roll Results",
-                description=f"You chose **1**\nThe Bot chose **{bot_side}**",
+                description=f"The Bot chose **{bot_side}**",
                 color=discord.Color.green()
             )
-
-            await ctx.send(embed=embed)
-
-        elif arg1 == "2":
-            embed: discord.Embed = discord.Embed(
-                title="Dice Roll Results",
-                description=f"You chose **2**\nThe Bot chose **{bot_side}**",
-                color=discord.Color.green()
-            )
-
-            await ctx.send(embed=embed)
-
-        elif arg1 == "3":
-            embed: discord.Embed = discord.Embed(
-                title="Dice Roll Results",
-                description=f"You chose **3**\nThe Bot chose **{bot_side}**",
-                color=discord.Color.green()
-            )
-
-            await ctx.send(embed=embed)
-
-        elif arg1 == "4":
-            embed: discord.Embed = discord.Embed(
-                title="Dice Roll Results",
-                description=f"You chose **4**\nThe Bot chose **{bot_side}**",
-                color=discord.Color.green()
-            )
-
-            await ctx.send(embed=embed)
-
-        elif arg1 == "5":
-            embed: discord.Embed = discord.Embed(
-                title="Dice Roll Results",
-                description=f"You chose **5**\nThe Bot chose **{bot_side}**",
-                color=discord.Color.green()
-            )
-
-            await ctx.send(embed=embed)
-
-        elif arg1 == "6":
-            embed: discord.Embed = discord.Embed(
+            await ctx.send(embed = embed)
+        else:
+            if arg1 in sides:
+                embed: discord.Embed = discord.Embed(
                 title="Dice Roll Results",
                 description=f"You chose **6**\nThe Bot chose **{bot_side}**",
                 color=discord.Color.green()
-            )
-
-            await ctx.send(embed=embed)
-
-        elif arg1 == None:
-            await ctx.send("Please do **d/dice [1, 2, 3, 4, 5, or 6]**")
-
-        else:
-            await ctx.send("Please do **d/dice [1, 2, 3, 4, 5, or 6]**")
+                )
+                await ctx.send(embed = embed)
+            else:
+                await ctx.send("Invalid prediction, try **d/dice [(optional) 1-6]**")
 
     @commands.command(aliases=['8ball'])
     async def ball(self, ctx, *, message=None):
-
         responses=[
-            "It is Certain.",
+            "It is certain.",
             "It is decidedly so.",
             "Without a doubt.",
             "Yes definitely.",
@@ -203,7 +275,9 @@ class Games(commands.Cog):
                 description=f"Your message - **{message}**\n8ball message - **{bot_responses}**",
                 color=discord.Color.green()
             )
+
             await msg.edit(embed=embed)
+            
 
 def setup(client):
 	client.add_cog(Games(client))  
