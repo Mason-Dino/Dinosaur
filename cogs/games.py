@@ -198,7 +198,7 @@ class Games(commands.Cog):
 
             await asyncio.sleep(8)
 
-            embed: discord.Emebed = discord.Embed(
+            embed: discord.Embed = discord.Embed(
                 title="8ball Results",
                 description=f"Your message - **{message}**\n8ball message - **{bot_responses}**",
                 color=discord.Color.green()
