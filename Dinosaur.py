@@ -536,7 +536,7 @@ async def work(ctx):
     await ctx.send(embed=embed)
         
 
-token = "ODQwMzc1NjgxMDQ1MTAyNjAz.YJXS1w.UEqSeDCqpx17B2i6xpRAvvsBRtY" #main Dinosaur Bot token
+token = "ODQwMDI1MTcyODYxMzg2NzYy.YJSMaA.HXQPsWzPAyTHrvmBRHjSIwQ_3DQ" #main Dinosaur Bot token
 wtoken = "OTQzODk4OTI5NjA5NzI4MDMw.Yg5wYQ.ykGFqDOcSowg_bIJZqgvMksBuAo" #Ninja's wordle bot token
 btoken = "ODQwMzc1NjgxMDQ1MTAyNjAz.YJXS1w.vor-5ufvbBxVRVQnbkq_6q41zx0" #Dino Beta's Token
 client.run(btoken)
