@@ -322,7 +322,7 @@ class Games(commands.Cog):
             if arg1 in sides:
                 embed: discord.Embed = discord.Embed(
                 title="Dice Roll Results",
-                description=f"You chose **6**\nThe Bot chose **{bot_side}**",
+                description=f"You chose **{arg1}**\nThe Bot chose **{bot_side}**",
                 color=discord.Color.green()
                 )
                 await ctx.send(embed = embed)
