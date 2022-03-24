@@ -23,6 +23,12 @@
 
 ## Versions
 
+How we will be controling the version of Dinosaur:
+
+v(Big updates).(add commands).(fix spelling and bugs)
+
+If you would like to edit the version of Dinosaur go to [Dinosaur.py](Dinosaur.py) file and edit the version function at the top.
+
 ## Devs
 
 LegosAndStuff#0501 - Main Developer / Owner
