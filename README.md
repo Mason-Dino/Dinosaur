@@ -30,3 +30,7 @@ LegosAndStuff#0501 - Main Developer / Owner
 Native - Bot Developer
 
 ## Prefixs
+
+Main Dinosaur - "d/"
+
+Beta Dinosaur - "d//"
