@@ -2,10 +2,10 @@
 
 ## Todo list
 - [x] Make README
-  - [ ] Make Header
-  - [ ] Make a section on how we are doing versions
-  - [ ] Add Devs
-  - [ ] Add Prefixs
+  - [x] Make Header
+  - [x] Make a section on how we are doing versions
+  - [x] Add Devs
+  - [x] Add Prefixs
 - [ ] Make chapter index for Dinosaur.py
 - [ ] Make chapter index for economy.py
 - [ ] Make chapter index for games.py
