@@ -4,8 +4,8 @@
 - [x] Make README
   - [x] Make Header
   - [x] Make a section on how we are doing versions
-  - [x] Add Devs
-  - [x] Add Prefixs
+  - [x] Add Developers
+  - [x] Add Prefix's
 - [ ] Make chapter index for Dinosaur.py
 - [ ] Make chapter index for economy.py
 - [ ] Make chapter index for games.py
@@ -23,19 +23,19 @@
 
 ## Versions
 
-How we will be controling the version of Dinosaur:
+How we will be controlling the version of Dinosaur:
 
 v(Big updates).(add commands).(fix spelling and bugs)
 
 If you would like to edit the version of Dinosaur go to [Dinosaur.py](Dinosaur.py) file and edit the version function at the top.
 
-## Devs
+## Developers
 
 LegosAndStuff#0501 - Main Developer / Owner
 
 Native - Bot Developer
 
-## Prefixs
+## Prefix's
 
 Main Dinosaur - "d/"
 
