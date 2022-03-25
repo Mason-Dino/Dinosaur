@@ -1,3 +1,15 @@
+#----------------------------------------------------------------------#
+#
+#       Owner Help: -help
+#       New Command: -new
+#       Money: -money
+#       Items: -items
+#           New: -items--new
+#           Update: -items--update
+#           View: -items--view
+#
+#----------------------------------------------------------------------#
+
 import discord
 import os
 from discord.audit_logs import _transform_verification_level
@@ -13,6 +25,7 @@ class Owner(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    #Owner Help command -help
     @commands.command()
     async def owner(self, ctx):
 
@@ -32,6 +45,8 @@ class Owner(commands.Cog):
         else:
             await ctx.send('You are not allowed to execute this command!')
 
+
+    #New Command Command
     @commands.command()
     async def new(self, ctx, arg1=None):
         def check(msg):
@@ -134,6 +149,7 @@ class Owner(commands.Cog):
         else:
             await ctx.send("You do not have permission to use this command.")
 
+    #Money Command -money
     @commands.command()
     async def money(self, ctx,user: discord.Member, type:str = None, amount: str=None, place: str = None):
         OwnerId = 638092957756555291
@@ -232,12 +248,14 @@ class Owner(commands.Cog):
 
         else:
             await ctx.send("You do not have permssion to use this command.")
-            
+
+    #Items Command Group -items 
     @commands.group()
     async def items(self, ctx):
         if ctx.invoked_subcommand is None:
             await ctx.send("Invalid sub command")
 
+    #Items New Command -items--new
     @items.command()
     async def new(self, ctx):
         conn = sqlite3.connect("shop_items.db")
@@ -393,7 +411,8 @@ class Owner(commands.Cog):
             conn.close()
             
             await ctx.send("You do not have permssion to use this command.")
-            
+
+    #Items Update Command -items--update
     @items.command()
     async def update(self, ctx, shop: int = None, arg1=None):
         conn = sqlite3.connect("shop_items.db")
@@ -562,7 +581,8 @@ class Owner(commands.Cog):
         
         else:
             await ctx.send("Not a valid owner ID")
-                                    
+
+    #Items View Command -items--view                   
     @items.command()
     async def view(self, ctx, shop: int = None):
         conn = sqlite3.connect("shop_items.db")
