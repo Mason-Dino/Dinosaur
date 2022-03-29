@@ -39,4 +39,4 @@ Native - Bot Developer
 
 Main Dinosaur - "d/"
 
-Beta Dinosaur - "d//"
+Beta Dinosaur - "d!"

@@ -19,7 +19,7 @@ intents = discord.Intents.default()
 intents.members = True
 
 # the bot prefix
-client = commands.Bot(command_prefix="d/", case_insensitive=True, intents=intents)
+client = commands.Bot(command_prefix="d!", case_insensitive=True, intents=intents)
 slash = slash_commands.SlashClient(client)
 client.remove_command("help")
 test_guilds = [840354954074128405]
