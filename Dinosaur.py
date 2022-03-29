@@ -106,52 +106,54 @@ async def on_ready():
         print("items owner table not made")
         pass
     
-    conn = sqlite3.connect("partner.db")
-    c = conn.cursor()
+    
+    #conn = sqlite3.connect("partner.db")
+    #c = conn.cursor()
 
-    try:
-        c.execute("""CREATE TABLE application (
-            message_id text,
-            ammount_yes int,
-            ammount_no int,
-            question_1 text,
-            question_2 text,
-            question_3 text,
-            question_4 text,
-            question_5 text,
-            question_6 text,
-            question_7 text,
-            status text
-        
-        )""")
+    #try:
+    #    c.execute("""CREATE TABLE application (
+    #        message_id text,
+    #        ammount_yes int,
+    #        ammount_no int,
+    #        question_1 text,
+    #        question_2 text,
+    #        question_3 text,
+    #        question_4 text,
+    #        question_5 text,
+    #        question_6 text,
+    #        question_7 text,
+    #        status text
+    #    
+    #    )""")
 
-        pass
+    
+    #    pass
 
-    except:
-        pass
+    #except:
+    #    pass
     
 
-    conn.commit()
-    conn.close()
+    #conn.commit()
+    #conn.close()
 
-    conn = sqlite3.connect("auto.db")
-    c = conn.cursor()
+    #conn = sqlite3.connect("auto.db")
+    #c = conn.cursor()
     
-    try:
-        c.execute("""CREATE TABLE member_join (
-            guild_id int,
-            join_channel int,
-            message text
+    #try:
+    #    c.execute("""CREATE TABLE member_join (
+    #        guild_id int,
+    #        join_channel int,
+    #        message text
         
-        )""")
+    #    )""")
 
-        pass
+    #    pass
 
-    except:
-        pass
+    #except:
+    #    pass
 
-    conn.commit()
-    conn.close()
+    #conn.commit()
+    #conn.close()
     
     conn = sqlite3.connect("economy.db")
     c = conn.cursor()
