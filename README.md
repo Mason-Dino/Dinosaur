@@ -8,7 +8,7 @@
   - [x] Add Prefix's
 - [ ] Make chapter index for Dinosaur.py
 - [ ] Make chapter index for economy.py
-- [ ] Make chapter index for games.py
+- [x] Make chapter index for games.py
 - [ ] Make chapter index for help.py
 - [x] Make Chapter index for owner.py
 - [ ] Make Chapter index for vote.py
