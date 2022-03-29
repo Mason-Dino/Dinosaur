@@ -23,6 +23,8 @@ from dislash import *
 #from time import time
 #from psutil import *
 from datetime import *
+from functions.version import version
+from functions.dev import developers
 
 
 class Utility(commands.Cog):
@@ -57,10 +59,10 @@ class Utility(commands.Cog):
     #Bot Command -bot
     @commands.command()
     async def bot(self, ctx):
-        bot_version = "2.24.07"
+        bot_version = version()
         servers = len(self.client.guilds)
         members = sum([len(guild.members) for guild in self.client.guilds])
-        dev = "<@!638092957756555291>"
+        dev = developers()
 
         embed: discord.Embed = discord.Embed(
             title="Bot Infomation",
