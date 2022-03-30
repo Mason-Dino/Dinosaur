@@ -3,6 +3,7 @@ import os
 from discord.ext import commands
 from discord.ext import tasks
 from discord.ext.commands import BucketType
+from functions.database import database
 from dislash import *
 from Disecon import *
 import asyncio
@@ -17,6 +18,7 @@ client = discord.Client()
 
 intents = discord.Intents.default()
 intents.members = True
+intents.messages = True
 
 # the bot prefix
 client = commands.Bot(command_prefix="d!", case_insensitive=True, intents=intents)
@@ -29,7 +31,7 @@ test_guilds = [840354954074128405]
 #Owner ID for owner only command
 OwnerID = 638092957756555291
 
-cogs = ["cogs.help", "cogs.games", "cogs.owner", "cogs.economy", "cogs.utility", "cogs.vote", "cogs.suggestion", "cogs.partner", "cogs.test"]
+cogs = ["cogs.help", "cogs.games", "cogs.owner", "cogs.economy", "cogs.utility", "cogs.vote", "cogs.test"]
 #cogs = ["cogs.top"]
 #cogs = ["cogs.economy"]
 
@@ -37,183 +39,10 @@ cogs = ["cogs.help", "cogs.games", "cogs.owner", "cogs.economy", "cogs.utility",
 
 @client.event
 async def on_ready():
-    #conn = sqlite3.connect("economy_old.db")
-    #c = conn.cursor()
+    #database("Shop Items")
+    #database("Items Own")
+    #database("Economy")
 
-    #c.execute("SELECT * FROM economy")
-    #items = c.fetchall()
-    
-    #print(items)
-
-    #for item in items:
-        #user_id = int(item[0])
-        #wallet = int(item[2])
-        #bank  = int(item[3])
-        #net = int(item[4])
-        
-        #type(user_id)
-        
-        #conn = sqlite3.connect("economy.db")
-        #c = conn.cursor()
-        
-        #c.execute(f"INSERT INTO economy VALUES ({user_id}, {wallet}, {bank}, {net})")
-        
-        #conn.commit()
-        #conn.close()
-
-        #conn_e = sqlite3.connect("economy.db")
-        #ce = conn_e.cursor()
-        
-        #ce.execute("SELECT * FROM economy")
-        #items = ce.fetchall()
-        
-        #print(items)
-    
-    conn = sqlite3.connect("shop_items.db")
-    c = conn.cursor()
-    
-    try:
-        c.execute("""CREATE TABLE shop_items (
-            name text,
-            price int,
-            option text,
-            use text,
-            visible text
-            
-        )""")
-        
-    except:
-        print("Shop Items was not mad")
-        pass
-    
-    conn.commit()
-    conn.close()
-    
-    conn = sqlite3.connect("shop.db")
-    c = conn.cursor()
-    
-    try:
-        c.execute("""CREATE TABLE items_own (
-               user_id text,
-               item_name text,
-               amount text 
-        
-        )""")
-        
-        print("Items Own table made")
-        
-    except:
-        print("items owner table not made")
-        pass
-    
-    
-    #conn = sqlite3.connect("partner.db")
-    #c = conn.cursor()
-
-    #try:
-    #    c.execute("""CREATE TABLE application (
-    #        message_id text,
-    #        ammount_yes int,
-    #        ammount_no int,
-    #        question_1 text,
-    #        question_2 text,
-    #        question_3 text,
-    #        question_4 text,
-    #        question_5 text,
-    #        question_6 text,
-    #        question_7 text,
-    #        status text
-    #    
-    #    )""")
-
-    
-    #    pass
-
-    #except:
-    #    pass
-    
-
-    #conn.commit()
-    #conn.close()
-
-    #conn = sqlite3.connect("auto.db")
-    #c = conn.cursor()
-    
-    #try:
-    #    c.execute("""CREATE TABLE member_join (
-    #        guild_id int,
-    #        join_channel int,
-    #        message text
-        
-    #    )""")
-
-    #    pass
-
-    #except:
-    #    pass
-
-    #conn.commit()
-    #conn.close()
-    
-    conn = sqlite3.connect("economy.db")
-    c = conn.cursor()
-    
-    try:
-        c.execute("""CREATE TABLE economy (
-            user_ID text,
-            user_name text,
-            wallet int,
-            bank int,
-            net int
-        
-        )""")
-
-        print("Economy table made")
-        
-    except:
-        pass
-    
-    conn.commit()
-    conn.close()
-
-    
-    conn = sqlite3.connect("suggestion.db")
-    c = conn.cursor()
-    
-    try:
-        c.execute("""CREATE TABLE set_up (
-
-            guild_ID text,
-            aprove_ID int,
-            aproved_ID int,
-            role_1 text,
-            role_2 text
-        
-        
-        )""")
-
-        conn.commit()
-        
-        print("Suggestions set_up table made")
-
-        c.execute("""CREATE TABLE suggestion (
-
-            suggestion_ID text,
-            guild_ID text,
-            user_ID text,
-            suggestion text
-        
-        )""")
-        
-        conn.commit()
-        
-        print("Suggestions suggestion table made")
-        
-    except:
-        pass
-
-    conn.commit()
-    conn.close()
 
     print("I'm in")
     print(client.user)
@@ -542,52 +371,3 @@ token = "ODQwMDI1MTcyODYxMzg2NzYy.YJSMaA.HXQPsWzPAyTHrvmBRHjSIwQ_3DQ" #main Dino
 wtoken = "OTQzODk4OTI5NjA5NzI4MDMw.Yg5wYQ.ykGFqDOcSowg_bIJZqgvMksBuAo" #Ninja's wordle bot token
 btoken = "ODQwMzc1NjgxMDQ1MTAyNjAz.YJXS1w.vor-5ufvbBxVRVQnbkq_6q41zx0" #Dino Beta's Token
 client.run(btoken)
-              
-    #c.execute("""CREATE TABLE set_up (
-
-        #guild_ID text,
-        #aprove_ID int,
-        #aproved_ID int,
-        #role_1 text,
-        #role_2 text
-    
-    
-    #)""")
-
-    #conn.commit()
-
-    #c.execute("""CREATE TABLE suggestion (
-
-        #suggestion_ID text,
-        #guild_ID text,
-        #user_ID text,
-        #suggestion text
-    
-    #)""")
-
-    #c.execute("""CREATE TABLE economy (
-        #user_ID text,
-        #user_name text,
-        #wallet int,
-        #bank int,
-        #net int
-        
-    #)""")
-
-    #c.execute(""" CREATE TABLE common (
-        #user_ID text,
-        #ammount int
-    
-        #)""")
-
-    #c.execute(""" CREATE TABLE un_common (
-        #user_ID text,
-        #ammount int
-    
-        #)""")
-
-    #c.execute(""" CREATE TABLE rare (
-        #user_ID text,
-        #ammount int
-    
-        #)""")
