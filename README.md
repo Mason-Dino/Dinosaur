@@ -24,6 +24,7 @@
   - [ ] Integrate economy and games
   - [ ] Add tic tac toe
   - [ ] Add chess
+  - [ ] Add color wordle game (Lego wants to do this)
 
 ## Versions
 
