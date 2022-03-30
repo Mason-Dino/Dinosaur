@@ -16,8 +16,8 @@
 - [x] Add version function to Dinosaur
 - [ ] Make on_ready event cleaner
   - [x] Make database.py
-  - [ ] Make database function
-  - [ ] Add add databases to that function
+  - [x] Make database function
+  - [x] Add add databases to that function
 - [ ] Add uptime - utility.py
 - [ ] Move work to economy.py
 - [ ] Game Update
