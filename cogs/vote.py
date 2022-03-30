@@ -1,3 +1,10 @@
+#----------------------------------------------------------------------#
+#
+#       Vote: -vote
+#       vlbowner: -vlb
+#
+#----------------------------------------------------------------------#
+
 import discord
 import os
 from discord.ext import commands
@@ -14,6 +21,7 @@ class Vote(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    #Vote Command -vote
     @commands.command()
     async def vote(self, ctx, lead=None):
         if lead == None:
@@ -283,7 +291,7 @@ class Vote(commands.Cog):
         await ctx.reply(embed=embed)
     """
 
-
+    #Vlbowner Command -vlb
     @commands.command()
     async def vlbowner(self, ctx):
         if 638092957756555291 == ctx.message.author.id:

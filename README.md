@@ -11,7 +11,7 @@
 - [x] Make chapter index for games.py
 - [ ] Make chapter index for help.py
 - [x] Make Chapter index for owner.py
-- [ ] Make Chapter index for vote.py
+- [x] Make Chapter index for vote.py
 - [x] Make chapter index for utility.py
 - [x] Add version function to Dinosaur
 - [ ] Make on_ready event cleaner
