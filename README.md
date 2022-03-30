@@ -15,7 +15,7 @@
 - [x] Make chapter index for utility.py
 - [x] Add version function to Dinosaur
 - [ ] Make on_ready event cleaner
-  - [ ] Make database.py
+  - [x] Make database.py
   - [ ] Make database function
   - [ ] Add add databases to that function
 - [ ] Add uptime - utility.py
