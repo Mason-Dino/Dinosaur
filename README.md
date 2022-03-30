@@ -20,6 +20,10 @@
   - [ ] Add add databases to that function
 - [ ] Add uptime - utility.py
 - [ ] Move work to economy.py
+- [ ] Game Update
+  - [ ] Integrate economy and games
+  - [ ] Add tic tac toe
+  - [ ] Add chess
 
 ## Versions
 
