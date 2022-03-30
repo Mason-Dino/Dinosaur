@@ -7,6 +7,7 @@
 #       Bug: -bug
 #       Servers: -servers
 #       Support: -support
+#       Uptime: -uptime
 #
 #----------------------------------------------------------------------#
 
@@ -72,11 +73,13 @@ class Utility(commands.Cog):
 
         await ctx.send(embed=embed)
 
+
     #Invite command -invite
     @commands.command()
     async def invite(self, ctx):
         await ctx.send("https://discord.com/oauth2/authorize?client_id=840025172861386762&permissions=2683662023&scope=bot%20applications.commands")
     
+
     #Ping Command -ping
     @commands.command(aliases=['latency', 'lag'])
     async def ping(self, ctx):
@@ -87,6 +90,7 @@ class Utility(commands.Cog):
         )
         
         await ctx.send(embed=embed)
+
 
     #Bug Command -bug
     @commands.command()
@@ -112,6 +116,7 @@ class Utility(commands.Cog):
 
             await ctx.send("The bug was reported!")
     
+
     #Servers Command -servers
     @commands.command()
     async def servers(self, ctx):
@@ -124,6 +129,12 @@ class Utility(commands.Cog):
     @commands.command()
     async def support(self, ctx):
         await ctx.send("If you ever need support with Dinosaur join with the link bellow\nhttps://discord.gg/KxPuFvazuF")
+
+
+    #Uptime Command -uptime
+    @commands.command()
+    async def uptime(self, ctx):
+        pass
         
     
 def setup(client):
