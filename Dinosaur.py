@@ -362,23 +362,6 @@ async def on_dbl_vote(data):
 
             except:
                 pass
-
-#economy commands
-@client.command()
-@commands.cooldown(1, 300, commands.BucketType.user)
-async def work(ctx):
-    number = int(random.randint(5, 25))
-    
-    wallet = money.wallet(amount=number, user_ID=ctx.message.author.id)
-    wallet.add()
-        
-    embed: discord.Embed = discord.Embed(
-        title="Work",
-        description=f"You gained **{number}** Dinosaur Points form working",
-        color=discord.Color.green()
-    )
-
-    await ctx.send(embed=embed)
         
 
 token = "ODQwMDI1MTcyODYxMzg2NzYy.YJSMaA.HXQPsWzPAyTHrvmBRHjSIwQ_3DQ" #main Dinosaur Bot token
