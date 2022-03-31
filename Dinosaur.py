@@ -1,3 +1,14 @@
+#----------------------------------------------------------------------#
+#
+#       on_ready: -on_ready
+#       on_command_error: -on_command_error
+#       on_guild_join: -on_guild_join
+#       on_guild_remove: on_guild_remove
+#       on_dbl_vote: -on_dbl_vote
+#
+#----------------------------------------------------------------------#
+
+
 import discord
 import os
 from discord.ext import commands
@@ -35,8 +46,7 @@ cogs = ["cogs.help", "cogs.games", "cogs.owner", "cogs.economy", "cogs.utility",
 #cogs = ["cogs.top"]
 #cogs = ["cogs.economy"]
 
-# start
-
+#on_ready Event -on_ready
 @client.event
 async def on_ready():
     #database("Shop Items")
@@ -56,7 +66,8 @@ async def on_ready():
 
         except Exception as e:
             print(e)
-            
+
+#on_command_error Event -on_command_error  
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
@@ -129,6 +140,7 @@ async def on_command_error(ctx, error):
         print("===============")
         print(error)
 
+#on_guild_join Event -on_guild_join
 @client.event
 async def on_guild_join(guild):
     join = client.get_channel(840355732183318548)
@@ -156,6 +168,7 @@ async def on_guild_join(guild):
 
     await join.send(embed=embed)
 
+#on_guild_remove Event -on_guild_remove
 @client.event
 async def on_guild_remove(guild):
     join = client.get_channel(840355732183318548)
@@ -186,6 +199,7 @@ async def on_guild_remove(guild):
 client.topgg_webhook = topgg.WebhookManager(client).dbl_webhook("/dblwebhook", "password")
 client.topgg_webhook.run(5000)
 
+#on_dbl_vote Event -on_dbl_vote
 @client.event
 async def on_dbl_vote(data):
     if data["type"] == "test":
