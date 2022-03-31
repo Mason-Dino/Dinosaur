@@ -9,12 +9,12 @@
 - [x] Make chapter index for Dinosaur.py
 - [ ] Make chapter index for economy.py
 - [x] Make chapter index for games.py
-- [ ] Make chapter index for help.py
+- [x] Make chapter index for help.py
 - [x] Make Chapter index for owner.py
 - [x] Make Chapter index for vote.py
 - [x] Make chapter index for utility.py
 - [x] Add version function to Dinosaur
-- [ ] Make on_ready event cleaner
+- [x] Make on_ready event cleaner
   - [x] Make database.py
   - [x] Make database function
   - [x] Add add databases to that function
