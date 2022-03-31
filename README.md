@@ -6,7 +6,7 @@
   - [x] Make a section on how we are doing versions
   - [x] Add Developers
   - [x] Add Prefix's
-- [ ] Make chapter index for Dinosaur.py
+- [x] Make chapter index for Dinosaur.py
 - [ ] Make chapter index for economy.py
 - [x] Make chapter index for games.py
 - [ ] Make chapter index for help.py
@@ -19,7 +19,7 @@
   - [x] Make database function
   - [x] Add add databases to that function
 - [ ] Add uptime - utility.py
-- [ ] Move work to economy.py
+- [x] Move work to economy.py
 - [ ] Game Update
   - [ ] Integrate economy and games
   - [ ] Add tic tac toe
