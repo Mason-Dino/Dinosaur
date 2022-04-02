@@ -11,7 +11,6 @@
 #
 #----------------------------------------------------------------------#
 
-
 import discord
 import os
 from discord.ext import commands
@@ -21,9 +20,8 @@ import random
 import math
 from dislash.slash_commands import slash_command
 from dislash import *
-#from time import time
-#from psutil import *
-from datetime import *
+import psutil
+import time
 from functions.version import version
 from functions.dev import developers
 
@@ -134,7 +132,19 @@ class Utility(commands.Cog):
     #Uptime Command -uptime
     @commands.command()
     async def uptime(self, ctx):
-        pass
+        p = psutil.Process(os.getpid())
+        p.create_time()
+
+        uptime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(p.create_time()))
+
+        embed: discord.Embed = discord.Embed(
+            title="Uptime",
+            description=f"The bot has been online sense **{uptime}**",
+            color=discord.Color.green()
+        )
+
+        await ctx.send(embed=embed)
+        
         
     
 def setup(client):

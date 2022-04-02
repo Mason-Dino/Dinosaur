@@ -18,7 +18,7 @@
   - [x] Make database.py
   - [x] Make database function
   - [x] Add add databases to that function
-- [ ] Add uptime - utility.py
+- [x] Add uptime - utility.py
 - [x] Move work to economy.py
 - [ ] Game Update
   - [ ] Integrate economy and games
