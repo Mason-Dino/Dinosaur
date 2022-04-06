@@ -1,3 +1,18 @@
+#----------------------------------------------------------------------#
+#
+#       leaderboard: -lb, -top
+#       Balance: -bal
+#       Work: -work
+#       Deposit: -dep
+#       Withdraw: -with
+#       Shop: -shop
+#       Buy: -buy
+#       Inventory: -inv
+#       Use: -use
+#       Slots: -slot
+#
+#----------------------------------------------------------------------#
+
 import discord
 import os
 from discord.ext import commands
@@ -12,6 +27,7 @@ class Economy(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    #Leaderboard Command -top, -lb
     @commands.command(aliases=['top', 'lb'])
     async def leaderboard(self, ctx):
         top_1 = results.top(place=1)
@@ -134,7 +150,7 @@ class Economy(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    
+    #Balance Command -bal
     @commands.command(aliases=['bal'])
     async def balance(self, ctx):
         view = results.view(user_ID=ctx.message.author.id)
@@ -150,6 +166,7 @@ class Economy(commands.Cog):
         
         await ctx.send(embed=embed)
 
+    #Work Command -work
     @commands.command()
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def work(self, ctx):
@@ -167,7 +184,7 @@ class Economy(commands.Cog):
         await ctx.send(embed=embed)
         
         
-
+    #Deposit Command -dep
     @commands.command(aliases=['dep'])
     async def deposit(self, ctx, what: str = None):
         view = results.view(user_ID=ctx.message.author.id)
@@ -216,7 +233,7 @@ class Economy(commands.Cog):
                 
                 await ctx.send(embed=embed)
         
-
+    #Withdraw Command -with
     @commands.command(aliases=['with'])
     async def withdraw(self, ctx, what: str = None):
         view = results.view(user_ID=ctx.message.author.id)
@@ -265,6 +282,7 @@ class Economy(commands.Cog):
                 
                 await ctx.send(embed=embed)
 
+    #Shop Command -shop
     @commands.command()
     async def shop(self, ctx):
         conn = sqlite3.connect("shop_items.db")
@@ -298,7 +316,8 @@ class Economy(commands.Cog):
                 embed.add_field(name=f"**{name}**", value=f"You can get {use} Dinosaur Points for selling (using) it.\nPrice - {price}\nID - {id}", inline=False)
 
         await ctx.send(embed=embed)
-                    
+
+    #Buy Command -buy   
     @commands.command()
     @commands.cooldown(1, 60, commands.BucketType.user)
     async def buy(self, ctx, shop_id: str=None, amount: int = None):
@@ -424,6 +443,7 @@ class Economy(commands.Cog):
         else:
             await ctx.send("You can't buy more than 10 objects at once")    
 
+    #Inventory Command -inv
     @commands.command(aliases=['inv'])
     async def inventory(self, ctx):
         conn = sqlite3.connect("shop.db")
@@ -482,7 +502,7 @@ class Economy(commands.Cog):
             if attempts == max_attempts:
                 return
 
-        
+    #Use Command -use
     @commands.command()
     @commands.cooldown(1, 60, commands.BucketType.user)
     async def use(self, ctx, shop_id: str = None, amount: int = None):
@@ -645,6 +665,7 @@ class Economy(commands.Cog):
         else:
             await ctx.send("You can't use more than 10 at once!")
 
+    #Slots Command -slot
     @commands.command()
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def slots(self, ctx, amount: int = None):
