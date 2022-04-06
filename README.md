@@ -25,7 +25,7 @@
   - [ ] Add tic tac toe
   - [ ] Add chess
   - [ ] Add color wordle game (Lego wants to do this)
-  - [ ] Fix on error event
+  - [ ] Fix on error event (https://www.askpython.com/python/examples/convert-seconds-hours-minutes)
 
 ## Versions
 
