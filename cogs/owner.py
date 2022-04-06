@@ -3,6 +3,7 @@
 #       Owner Help: -help
 #       New Command: -new
 #       Money: -money
+#       Balset: -bset
 #       Items: -items
 #           New: -items--new
 #           Update: -items--update
@@ -37,8 +38,12 @@ class Owner(commands.Cog):
                 description="Bellow are all the owner commands",
                 color=discord.Color.green()
             )
-            #embed.add_field(name="**Clear**", value="If you do **d/clear [member id]** it will clear a users balance")
-            #embed.add_field(name="**Change Log Set**", value="If you do **d/change set [message]** it will set the change log")
+            embed.add_field(name="new", value="**d/new command**")
+            embed.add_field(name="money", value="**d/money [user] [type] [amount] [place]**")
+            embed.add_field(name="balset", value="**d/balset [User]**")
+            embed.add_field(name="items new", value="**d/items new**")
+            embed.add_field(name="items update", value="**d/items  [shop ID] [price, visible, or use]**")
+            embed.add_field(name="items view", value="**d/items view [shop ID]**")
 
             await ctx.send(embed=embed)
 
@@ -240,14 +245,42 @@ class Owner(commands.Cog):
                         
                     else:
                         await ctx.send("Money command failed")
-                            
-                            
-                        
-                        
-                    
 
         else:
             await ctx.send("You do not have permssion to use this command.")
+
+    #BalSet Command -bset
+    @commands.command()
+    async def balset(self, ctx, user: discord.Member = None):
+        OwnerID = 638092957756555291
+
+        if OwnerID == ctx.author.id:
+            conn = sqlite3.connect("economy.db")
+            c = conn.cursor()
+
+            view = results.view(user_ID=user.id)
+
+            userNewBal = view.bank() + view.wallet()
+            net = view.net()
+
+            if userNewBal == view.net():
+                await ctx.send(f"`{user.id}` was all good!")
+
+            else:
+                wallet = money.wallet(amount=view.wallet(), user_ID=user.id)
+                bank = money.bank(amount=view.bank(), user_ID=user.id)
+
+                wallet.sub()
+                bank.sub()
+
+                wallet = money.wallet(amount=net, user_ID=user.id)
+                wallet.add()
+
+                await ctx.send(f"`{user.id}` was not good, {net} is now their new balance.")
+
+
+        else:
+            await ctx.send("You do not have permission to use this command.")
 
     #Items Command Group -items 
     @commands.group()
