@@ -1,3 +1,17 @@
+#----------------------------------------------------------------------#
+#
+#       Owner Help: -help, -owner
+#       New Command: -new
+#       Money: -money
+#       Balset: -bset
+#       Invedit: -invedit
+#       Items: -items
+#           New: -items--new
+#           Update: -items--update
+#           View: -items--view
+#
+#----------------------------------------------------------------------#
+
 import discord
 import os
 from discord.ext import commands
@@ -12,6 +26,7 @@ class Owner(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    #Owner Help command -help -owner
     @commands.command()
     async def owner(self, ctx):
 
@@ -25,16 +40,19 @@ class Owner(commands.Cog):
             )
             embed.add_field(name="new", value="**d/new command**")
             embed.add_field(name="money", value="**d/money [user] [type] [amount] [place]**")
+            embed.add_field(name="balset", value="**d/balset [User]**")
+            embed.add_field(name="Invedit", value="**d/invedit [User] [Shop ID] [Add or Remove] [Amount]**")
             embed.add_field(name="items new", value="**d/items new**")
             embed.add_field(name="items update", value="**d/items  [shop ID] [price, visible, or use]**")
             embed.add_field(name="items view", value="**d/items view [shop ID]**")
-
 
             await ctx.send(embed=embed)
 
         else:
             await ctx.send('You are not allowed to execute this command!')
 
+
+    #New Command Command
     @commands.command()
     async def new(self, ctx, arg1=None):
         def check(msg):
@@ -137,6 +155,7 @@ class Owner(commands.Cog):
         else:
             await ctx.send("You do not have permission to use this command.")
 
+    #Money Command -money
     @commands.command()
     async def money(self, ctx,user: discord.Member, type:str = None, amount: str=None, place: str = None):
         OwnerId = 638092957756555291
@@ -227,20 +246,156 @@ class Owner(commands.Cog):
                         
                     else:
                         await ctx.send("Money command failed")
-                            
-                            
-                        
-                        
-                    
 
         else:
             await ctx.send("You do not have permssion to use this command.")
+
+    #BalSet Command -bset
+    @commands.command()
+    async def balset(self, ctx, user: discord.Member = None):
+        OwnerID = 638092957756555291
+
+        if OwnerID == ctx.author.id:
+            conn = sqlite3.connect("economy.db")
+            c = conn.cursor()
+
+            view = results.view(user_ID=user.id)
+
+            userNewBal = view.bank() + view.wallet()
+            net = view.net()
+
+            if userNewBal == view.net():
+                await ctx.send(f"`{user.id}` was all good!")
+
+            else:
+                wallet = money.wallet(amount=view.wallet(), user_ID=user.id)
+                bank = money.bank(amount=view.bank(), user_ID=user.id)
+
+                wallet.sub()
+                bank.sub()
+
+                wallet = money.wallet(amount=net, user_ID=user.id)
+                wallet.add()
+
+                await ctx.send(f"`{user.id}` was not good, {net} is now their new balance.")
+
+        else:
+            await ctx.send("You do not have permission to use this command.")
             
+
+    #Invedit Command -invedit
+    @commands.command()
+    async def invedit(self, ctx, user: discord.Member, shopID: int, ar: str, amount: int):
+        OwnerID = 638092957756555291
+
+        if OwnerID == ctx.author.id:
+            conn = sqlite3.connect("shop.db")
+            connS = sqlite3.connect("shop_items.db")
+
+            c = conn.cursor()
+            s = connS.cursor()
+
+            s.execute(f"SELECT rowid, * FROM shop_items WHERE rowid='{shopID}'")
+            
+            items = s.fetchall()
+            
+            none = str(items)
+            
+            if none == "[]":
+                await ctx.send("Please send a valid shop ID")
+
+            else:
+                for item in items:
+                    id = item[0]
+                    name = item[1]
+
+                c.execute(f"SELECT * FROM items_own WHERE item_name='{name}' AND user_id='{user.id}'")
+
+                if ar.lower() == "add":
+                    items = c.fetchall()
+
+                    none = str(items)
+
+                    if none == "[]":
+                        c.execute(f"INSERT INTO items_own VALUES ('{ctx.message.author.id}', '{name}', {amount})")
+
+                        conn.commit()
+                        conn.close()
+
+                        embed: discord.Embed = discord.Embed(
+                            title="Inventory Add",
+                            description=f"{user.mention} has gotton {amount} {name}",
+                            color=discord.Color.green()
+                        )
+
+                        await ctx.send(embed=embed)
+                        
+                    else:
+                        for item in items:
+                            amountDB = int(item[2])
+
+                        sum = amountDB + amount
+
+                        print(sum)
+
+                        c.execute(f"""UPDATE items_own SET amount = {sum}
+                                        WHERE user_id = '{user.id}' AND item_name='{name}'   
+                                    """)
+
+                        conn.commit()
+                        conn.close()
+
+                        embed: discord.Embed = discord.Embed(
+                            title="Inventory Add",
+                            description=f"{user.mention} has gotton {amount} {name} added",
+                            color=discord.Color.green()
+                        )
+
+                        await ctx.send(embed=embed)
+
+                elif ar.lower() == "remove":
+                    items = c.fetchall()
+
+                    none = str(items)
+
+                    if none == "[]":
+                        await ctx.send(f"They have nothing of {name} to be removed")
+
+                    else:
+                        for item in items:
+                            amountDB = int(item[2])
+
+                        sum = amountDB - amount
+
+                        c.execute(f"""UPDATE items_own SET amount = {sum}
+                                        WHERE user_id = '{user.id}' AND item_name='{name}'   
+                                    """)
+
+                        conn.commit()
+                        conn.close()
+
+                        embed: discord.Embed = discord.Embed(
+                            title="Inventory Remove",
+                            description=f"{user.mention} has gotton {amount} {name} removed",
+                            color=discord.Color.green()
+                        )
+
+                        await ctx.send(embed=embed)
+
+
+                else:
+                    await ctx.send("Try command again")
+
+        else:
+            await ctx.send("You are not allowed to use this command")
+
+    #Items Command Group -items 
     @commands.group()
     async def items(self, ctx):
         if ctx.invoked_subcommand is None:
             await ctx.send("Invalid sub command")
 
+    #Items New Command -items--new
     @items.command()
     async def new(self, ctx):
         conn = sqlite3.connect("shop_items.db")
@@ -396,7 +551,8 @@ class Owner(commands.Cog):
             conn.close()
             
             await ctx.send("You do not have permssion to use this command.")
-            
+
+    #Items Update Command -items--update
     @items.command()
     async def update(self, ctx, shop: int = None, arg1=None):
         conn = sqlite3.connect("shop_items.db")
@@ -565,7 +721,8 @@ class Owner(commands.Cog):
         
         else:
             await ctx.send("Not a valid owner ID")
-                                    
+
+    #Items View Command -items--view                   
     @items.command()
     async def view(self, ctx, shop: int = None):
         conn = sqlite3.connect("shop_items.db")
