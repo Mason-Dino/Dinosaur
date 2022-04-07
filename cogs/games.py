@@ -1,3 +1,13 @@
+#----------------------------------------------------------------------#
+#
+#       Wordle: -wordle
+#       RPS: -rps
+#       Coinflip: -coin, -coinflip
+#       Dice: -dice
+#       8ball: -ball, -8ball
+#
+#----------------------------------------------------------------------#
+
 import discord
 import os
 from discord.ext import commands
@@ -13,118 +23,122 @@ class Games(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    #wordle
+    #Wordle Commnad -wordle
     @commands.command()
     async def wordle(self, ctx, difficulty = None):
-            def load_json(file):
-                with open(file, "r") as f:
-                    data = json.load(f)
-                return data
-            def logic(guess, ans):
-              varr = list(ans)
-              var = [0,0,0,0,0]
-              guess = list(guess)
-              for i in range(0,5):
+        def load_json(file):
+            with open(file, "r") as f:
+                data = json.load(f)
+            return data
+
+        def logic(guess, ans):
+            varr = list(ans)
+            var = [0,0,0,0,0]
+            guess = list(guess)
+
+            for i in range(0,5):
                 if guess[i] == varr[i]:
-                  var[i] = 2
-                  varr[i] = "-"
-              for x in range(0,5):
-                for y in range(0,5):
-                  if guess[x] == varr[y]:
-                    var[x] = 1
-                    varr[y] = "-"
+                    var[i] = 2
+                    varr[i] = "-"
+    
+                for x in range(0,5):
+                    for y in range(0,5):
+                        if guess[x] == varr[y]:
+                            var[x] = 1
+                            varr[y] = "-"
                     
-              return(var)
+            return(var)
 
-            loop = True
+        loop = True
 
-            if difficulty == None:
-                difficulty = 'easy'
+        if difficulty == None:
+            difficulty = 'easy'
 
-            ans = 0
-            if difficulty.lower() == 'easy':
-                answer = load_json('cogs/words.json')
-                answer = answer[0]
-                answer = random.choice(answer)
-                ans = 1
-            if difficulty.lower() == 'hard':
-                answer = load_json('cogs/words.json')
-                answer = answer[1]
-                answer = random.choice(answer)
-                ans = 1
-            if ans == 0:
-                await ctx.send('Unknown difficulty, please retry with `easy`, `hard` or nothing')
-            else:
-                goal = 0
-                guesses = []
-                results = []
-              
-                await ctx.send("please guess the word: ")
-                while loop == True:
-                    if len(guesses) == 6:
-                        await ctx.send(f"Sorry but you've ran out of guesses!\n The answer was {answer}")
+        ans = 0
+        if difficulty.lower() == 'easy':
+            answer = load_json('cogs/words.json')
+            answer = answer[0]
+            answer = random.choice(answer)
+            ans = 1
+
+        if difficulty.lower() == 'hard':
+            answer = load_json('cogs/words.json')
+            answer = answer[1]
+            answer = random.choice(answer)
+            ans = 1
+
+        if ans == 0:
+            await ctx.send('Unknown difficulty, please retry with `easy`, `hard` or nothing')
+        else:
+            goal = 0
+            guesses = []
+            results = []
+            
+            await ctx.send("please guess the word: ")
+            while loop == True:
+                if len(guesses) == 6:
+                    await ctx.send(f"Sorry but you've ran out of guesses!\n The answer was {answer}")
+                    break
+
+                else:
+                    wlist = load_json("cogs/words.json")
+                    wlist = wlist[1]
+                
+                    def check(msg):
+                        return msg.author == ctx.author and msg.channel.id == ctx.channel.id
+                    
+                    msg = await self.client.wait_for("message",check = check)
+                    guess = msg.content.lower()
+                    guessl = list(guess)
+                    
+                    if guess == "break":
+                        await ctx.send('wordle deactivated')
                         break
-                        return
+
+                    if len(guessl) != 5:
+                        await ctx.send("that guess is invalid because it is not 5 letters")
+
+                    elif guess not in wlist:
+                        await ctx.send("that isn't a real word")
+
                     else:
-                        wlist = load_json("cogs/words.json")
-                        wlist = wlist[1]
-                  
-                        def check(msg):
-                          return msg.author == ctx.author and msg.channel.id == ctx.channel.id
+                        result = logic(guess, answer)
+                        guess = "".join(guess)
+                        guess = "`"+guess+"`"
+                        guesses.append(guess)
                         
-                        msg = await self.client.wait_for("message",check = check)
-                        guess = msg.content.lower()
-                        guessl = list(guess)
-                        
-                        if guess == "break":
-                          await ctx.send('wordle deactivated')
-                          break
-                        if len(guessl) != 5:
-                          await ctx.send("that guess is invalid because it is not 5 letters")
-                        elif guess not in wlist:
-                          await ctx.send("that isn't a real word")
-                        else:
-                  
-                          
-                          result = logic(guess, answer)
-                          guess = "".join(guess)
-                          guess = "`"+guess+"`"
-                          guesses.append(guess)
-                          
-                          if result == [2,2,2,2,2]:
+                        if result == [2,2,2,2,2]:
                             goal = 1
-                          
-                  
-                  
-                          for i in range(0, 5):
+                        
+                        for i in range(0, 5):
                             if result[i] == 1:
-                              result[i] = ":orange_square:"
+                                result[i] = ":orange_square:"
                             if result[i] == 0:
-                              result[i] = ":red_square:"
+                                result[i] = ":red_square:"
                             if result[i] == 2:
-                              result[i] = ":green_square:"
-                  
-                          result = "".join(result)
-                          results.append(result)
-                          
-                          
-                          embedstuff = []
-                          for i in range(0,len(results)):
+                                result[i] = ":green_square:"
+                
+                        result = "".join(result)
+                        results.append(result)
+                        
+                        embedstuff = []
+                        for i in range(0,len(results)):
                             embedstuff.append(guesses[i])
                             embedstuff.append(results[i])
-                            
-                          embedstuff = "\n".join(embedstuff)
                         
-                          if result != ':green_square::green_square::green_square::green_square::green_square:':
-                              embed = discord.Embed(title = "Result:", description = embedstuff + "\n Please enter your next guess:", color=discord.Color.green())
-                              await ctx.send(embed = embed)
-                          else:
+                        embedstuff = "\n".join(embedstuff)
+                    
+                        if result != ':green_square::green_square::green_square::green_square::green_square:':
+                            embed = discord.Embed(title = "Result:", description = embedstuff + "\n Please enter your next guess:", color=discord.Color.green())
+                            await ctx.send(embed = embed)
+
+                        else:
                             embed = discord.Embed(title = f"Correct, you got the word in {len(guesses)}!", description = embedstuff, color=discord.Color.green())
                             await ctx.send(embed = embed)
                             break
 
 
-    #rps
+    #RPS Command -rps
     @commands.command()
     async def rps(self, ctx, arg1=None):
 
@@ -165,7 +179,8 @@ class Games(commands.Cog):
             await ctx.send(embed=embed)
         else:
           await ctx.send("Please choose either **Rock, Paper, Or Scissors**\nExample - `d/rps rock`")
-          
+        
+    #Coinflip Command -coin, -coinflip
     @commands.command()
     async def coinflip(self, ctx, arg1=None):
 
@@ -204,45 +219,8 @@ class Games(commands.Cog):
         else:
           await ctx.send("Please choose either **Heads or Tails**")
           
-    @slash_commands.command(
-        name="coinflip",
-        description="Allows you to predict a coinflip",
-        options=[
-            Option("choice", "pick the item you want to play.", Type.STRING,
-                choices=[
-                    OptionChoice("Tails", "tails"),
-                    OptionChoice("Heads", "heads")
-                ]
-            )
-        ]
-    )
-    async def slash_coinflip(self, ctx, choice=None):
-        responses=[
-            "Head",
-            "Tails"
-        ]
-        
-        if choice == None:
-            await ctx.reply("Please when doing the slash command pick a side.")
-            
-        elif choice == "tails":
-            embed: discord.Embed = discord.Embed(
-                title="Coinflip Results",
-                description=f"You chose **Tails**\nThe bot chose **{random.choice(responses)}**",
-                color=discord.Color.green()
-            )
-
-            await ctx.reply(embed=embed)
-            
-        elif choice == "heads":
-            embed: discord.Embed = discord.Embed(
-                title="Coinflip Results",
-                description=f"You chose **Heads**\nThe bot chose **{random.choice(responses)}**",
-                color=discord.Color.green()
-            )
-
-            await ctx.reply(embed=embed)
     
+    #Dice Command -dice
     @commands.command()
     async def dice(self, ctx, arg1=None):
 
@@ -275,6 +253,7 @@ class Games(commands.Cog):
             else:
                 await ctx.send("Invalid prediction, try **d/dice [(optional) 1-6]**")
 
+    #8ball Command -ball, -8ball
     @commands.command(aliases=['8ball'])
     async def ball(self, ctx, *, message=None):
         responses=[
@@ -317,53 +296,6 @@ class Games(commands.Cog):
             )
 
             await msg.edit(embed=embed)
-            
-    @slash_commands.command(
-        name="8ball",
-        description="Its a simple 8ball comamnds",
-        options=[
-            Option("message", "type what you would want to say.", Type.STRING, required=True)
-        ]
-    )
-    async def slash_ball(self, ctx, message=None):
-        print("hi")
-        
-        responses=[
-            "It is Certain.",
-            "It is decidedly so.",
-            "Without a doubt.",
-            "Yes definitely.",
-            "You may rely on it.",
-            "As I see it, yes.",
-            "Most likely.",
-            "Outlook good.",
-            "Yes.",
-            "Signs point to yes.",
-            "Reply hazy, try again.",
-            "Ask again later.",
-            "Better not tell you now.",
-            "Cannot predict now.",
-            "Concentrate and ask again.",
-            "Don't count on it.",
-            "My reply is no.",
-            "My sources say no.",
-            "Outlook not so good.",
-            "Very doubtful."
-        ]
-
-        bot_responses = random.choice(responses)
-        
-        if message == None:
-            await ctx.reply("Make sure you have a message for the 8ball")
-            
-        else:
-            embed: discord.Embed = discord.Embed(
-                title="8ball Results",
-                description=f"Your message - **{message}**\n8ball message - **{bot_responses}**",
-                color=discord.Color.green()
-            )
-
-            await ctx.reply(embed=embed)
             
 
 def setup(client):
