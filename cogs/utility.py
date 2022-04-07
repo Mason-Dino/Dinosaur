@@ -135,11 +135,17 @@ class Utility(commands.Cog):
         p = psutil.Process(os.getpid())
         p.create_time()
 
+        secUptime = int(p.create_time())
+
+        #<t:1649334120:f>
+
         uptime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(p.create_time()))
+
+        uptime = f"<t:{secUptime}:f>"
 
         embed: discord.Embed = discord.Embed(
             title="Uptime",
-            description=f"The bot has been online sense **{uptime}**",
+            description=f"The bot has been online sense {uptime}",
             color=discord.Color.green()
         )
 

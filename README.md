@@ -19,7 +19,8 @@
   - [x] Make database function
   - [x] Add add databases to that function
 - [x] Add uptime - utility.py
-  - [ ] Add dynamic time for uptime 
+  - [x] Add dynamic time for uptime
+  - [ ] add Uptime to help.py 
 - [x] Move work to economy.py
 - [ ] Game Update
   - [ ] Integrate economy and games
