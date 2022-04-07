@@ -4,6 +4,7 @@
 #       New Command: -new
 #       Money: -money
 #       Balset: -bset
+#       Invedit: -invedit
 #       Items: -items
 #           New: -items--new
 #           Update: -items--update
@@ -13,7 +14,6 @@
 
 import discord
 import os
-from discord.audit_logs import _transform_verification_level
 from discord.ext import commands
 from discord.ext.commands import BucketType
 import asyncio
@@ -278,9 +278,115 @@ class Owner(commands.Cog):
 
                 await ctx.send(f"`{user.id}` was not good, {net} is now their new balance.")
 
-
         else:
             await ctx.send("You do not have permission to use this command.")
+            
+
+    #Invedit Command -invedit
+    @commands.command()
+    async def invedit(self, ctx, user: discord.Member, shopID: int, ar: str, amount: int):
+        OwnerID = 638092957756555291
+
+        if OwnerID == ctx.author.id:
+            conn = sqlite3.connect("shop.db")
+            connS = sqlite3.connect("shop_items.db")
+
+            c = conn.cursor()
+            s = connS.cursor()
+
+            s.execute(f"SELECT rowid, * FROM shop_items WHERE rowid='{shopID}'")
+            
+            items = s.fetchall()
+            
+            none = str(items)
+            
+            if none == "[]":
+                await ctx.send("Please send a valid shop ID")
+
+            else:
+                for item in items:
+                    id = item[0]
+                    name = item[1]
+
+                c.execute(f"SELECT * FROM items_own WHERE item_name='{name}' AND user_id='{user.id}'")
+
+                if ar.lower() == "add":
+                    items = c.fetchall()
+
+                    none = str(items)
+
+                    if none == "[]":
+                        c.execute(f"INSERT INTO items_own VALUES ('{ctx.message.author.id}', '{name}', {amount})")
+
+                        conn.commit()
+                        conn.close()
+
+                        embed: discord.Embed = discord.Embed(
+                            title="Inventory Add",
+                            description=f"{user.mention} has gotton {amount} {name}",
+                            color=discord.Color.green()
+                        )
+
+                        await ctx.send(embed=embed)
+                        
+                    else:
+                        for item in items:
+                            amountDB = int(item[2])
+
+                        sum = amountDB + amount
+
+                        print(sum)
+
+                        c.execute(f"""UPDATE items_own SET amount = {sum}
+                                        WHERE user_id = '{user.id}' AND item_name='{name}'   
+                                    """)
+
+                        conn.commit()
+                        conn.close()
+
+                        embed: discord.Embed = discord.Embed(
+                            title="Inventory Add",
+                            description=f"{user.mention} has gotton {amount} {name} added",
+                            color=discord.Color.green()
+                        )
+
+                        await ctx.send(embed=embed)
+
+                elif ar.lower() == "remove":
+                    items = c.fetchall()
+
+                    none = str(items)
+
+                    if none == "[]":
+                        await ctx.send(f"They have nothing of {name} to be removed")
+
+                    else:
+                        for item in items:
+                            amountDB = int(item[2])
+
+                        sum = amountDB - amount
+
+                        c.execute(f"""UPDATE items_own SET amount = {sum}
+                                        WHERE user_id = '{user.id}' AND item_name='{name}'   
+                                    """)
+
+                        conn.commit()
+                        conn.close()
+
+                        embed: discord.Embed = discord.Embed(
+                            title="Inventory Remove",
+                            description=f"{user.mention} has gotton {amount} {name} removed",
+                            color=discord.Color.green()
+                        )
+
+                        await ctx.send(embed=embed)
+
+
+                else:
+                    await ctx.send("Try command again")
+
+        else:
+            await ctx.send("You are not allowed to use this command")
 
     #Items Command Group -items 
     @commands.group()
