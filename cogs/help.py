@@ -57,6 +57,7 @@ class Help(commands.Cog):
                 embed.add_field(name="**Servers**", value="If you do **d/servers** it will show the number of servers the bot is in.", inline=False)
                 embed.add_field(name="**Feedback**", value="If you do **d/feedback [message]** you can give us feedback about the bot.", inline=False)
                 embed.add_field(name="**Bug Report**", value="If you do **d/bug [report]**. I will see that there is a bug and I will be working on it as soon as I can.", inline=False)
+                embed.add_field(name="Uptime", value="If you do **d/uptime** you can see the uptime for the bot.", inline=False)
                 #embed.add_field(name="**Change Log**", value="If you do **d/change** you can see the most recent change log of the bot.")
 
                 await ctx.send(embed=embed)
