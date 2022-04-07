@@ -1,3 +1,16 @@
+#----------------------------------------------------------------------#
+#
+#       Feeback: -feedback
+#       Bot: -bot
+#       Invite -invite
+#       Ping: -ping
+#       Bug: -bug
+#       Servers: -servers
+#       Support: -support
+#       Uptime: -uptime
+#
+#----------------------------------------------------------------------#
+
 import discord
 import os
 from discord.ext import commands
@@ -7,15 +20,18 @@ import random
 import math
 from dislash.slash_commands import slash_command
 from dislash import *
-#from time import time
-#from psutil import *
-from datetime import *
+import psutil
+import time
+from functions.version import version
+from functions.dev import developers
 
 
 class Utility(commands.Cog):
     def __init__(self, client):
         self.client = client
-
+        
+    
+    #Feedback Command -feedback
     @commands.command()
     async def feedback(self, ctx, *, message=None):
         feedback = self.client.get_channel(840422064975249418)
@@ -39,12 +55,13 @@ class Utility(commands.Cog):
 
             await ctx.send("Feedback Was Submitted!")
 
+    #Bot Command -bot
     @commands.command()
     async def bot(self, ctx):
-        bot_version = "2.24.07"
+        bot_version = version()
         servers = len(self.client.guilds)
         members = sum([len(guild.members) for guild in self.client.guilds])
-        dev = "<@!638092957756555291>"
+        dev = developers()
 
         embed: discord.Embed = discord.Embed(
             title="Bot Infomation",
@@ -54,18 +71,26 @@ class Utility(commands.Cog):
 
         await ctx.send(embed=embed)
 
+
+    #Invite command -invite
     @commands.command()
     async def invite(self, ctx):
-        await ctx.send("""https://discord.com/api/oauth2/authorize?client_id=840025172861386762&permissions=347329&scope=applications.commands%20bot""")
+        await ctx.send("https://discord.com/oauth2/authorize?client_id=840025172861386762&permissions=2683662023&scope=bot%20applications.commands")
+    
 
+    #Ping Command -ping
     @commands.command(aliases=['latency', 'lag'])
     async def ping(self, ctx):
         embed: discord.Embed = discord.Embed(
             title=":ping_pong: pong!",
             description=f'The Latency is {round(self.client.latency * 1000)}ms',
-            color=discord.Color.green())
+            color=discord.Color.green()
+        )
+        
         await ctx.send(embed=embed)
 
+
+    #Bug Command -bug
     @commands.command()
     async def bug(self, ctx, *, message=None):
         bug = self.client.get_channel(842160990196203520)
@@ -88,16 +113,44 @@ class Utility(commands.Cog):
             await bug.send(embed=embed)
 
             await ctx.send("The bug was reported!")
+    
 
+    #Servers Command -servers
     @commands.command()
     async def servers(self, ctx):
         servers = len(self.client.guilds)
 
         await ctx.send(f"I'm in ``{servers}`` servers!")
 
+    
+    #Support Command -support
     @commands.command()
     async def support(self, ctx):
-        await ctx.send("If you need support with the bot please join discord.gg/KxPuFvazuF")
+        await ctx.send("If you ever need support with Dinosaur join with the link bellow\nhttps://discord.gg/KxPuFvazuF")
+
+
+    #Uptime Command -uptime
+    @commands.command()
+    async def uptime(self, ctx):
+        p = psutil.Process(os.getpid())
+        p.create_time()
+
+        secUptime = int(p.create_time())
+
+        #<t:1649334120:f>
+
+        uptime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(p.create_time()))
+
+        uptime = f"<t:{secUptime}:f>"
+
+        embed: discord.Embed = discord.Embed(
+            title="Uptime",
+            description=f"The bot has been online sense {uptime}",
+            color=discord.Color.green()
+        )
+
+        await ctx.send(embed=embed)
+        
         
     
 def setup(client):
