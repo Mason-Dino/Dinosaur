@@ -1,6 +1,6 @@
 #----------------------------------------------------------------------#
 #
-#       Owner Help: -help
+#       Owner Help: -help, -owner
 #       New Command: -new
 #       Money: -money
 #       Balset: -bset
@@ -26,7 +26,7 @@ class Owner(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    #Owner Help command -help
+    #Owner Help command -help -owner
     @commands.command()
     async def owner(self, ctx):
 
@@ -41,6 +41,7 @@ class Owner(commands.Cog):
             embed.add_field(name="new", value="**d/new command**")
             embed.add_field(name="money", value="**d/money [user] [type] [amount] [place]**")
             embed.add_field(name="balset", value="**d/balset [User]**")
+            embed.add_field(name="Invedit", value="**d/invedit [User] [Shop ID] [Add or Remove] [Amount]**")
             embed.add_field(name="items new", value="**d/items new**")
             embed.add_field(name="items update", value="**d/items  [shop ID] [price, visible, or use]**")
             embed.add_field(name="items view", value="**d/items view [shop ID]**")
