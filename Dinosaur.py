@@ -1,46 +1,58 @@
+#----------------------------------------------------------------------#
+#
+#       on_ready: -on_ready
+#       on_command_error: -on_command_error
+#       on_guild_join: -on_guild_join
+#       on_guild_remove: on_guild_remove
+#       on_dbl_vote: -on_dbl_vote
+#
+#----------------------------------------------------------------------#
+
 
 import discord
 import os
 from discord.ext import commands
+from discord.ext import tasks
 from discord.ext.commands import BucketType
+from functions.database import database
+from dislash import *
+from Disecon import *
 import asyncio
 import random
 import math
 import sqlite3
+import topgg
+import datetime
+
 
 client = discord.Client()
 
 intents = discord.Intents.default()
 intents.members = True
+intents.messages = True
 
 # the bot prefix
-client = commands.Bot(command_prefix="d/", case_insensitive=True, intents=intents)
+client = commands.Bot(command_prefix="d!", case_insensitive=True, intents=intents)
+slash = slash_commands.SlashClient(client)
 client.remove_command("help")
+test_guilds = [840354954074128405]
+
 
 
 #Owner ID for owner only command
 OwnerID = 638092957756555291
 
-cogs = ["cogs.help", "cogs.games", "cogs.owner", "cogs.economy", "cogs.utility", "cogs.vote"]
+cogs = ["cogs.help", "cogs.games", "cogs.owner", "cogs.economy", "cogs.utility", "cogs.vote", "cogs.test"]
 #cogs = ["cogs.top"]
+#cogs = ["cogs.economy"]
 
-# start
+#on_ready Event -on_ready
 @client.event
 async def on_ready():
-    #conn = sqlite3.connect("economy.db")
-    #c = conn.cursor()
+    #database("Shop Items")
+    #database("Items Own")
+    #database("Economy")
 
-    #c.execute("""CREATE TABLE economy (
-        #user_ID text,
-        #user_name text,
-        #wallet int,
-        #bank int,
-        #net int
-        
-    #)""")
-
-    #conn.commit()
-    #conn.close()
 
     print("I'm in")
     print(client.user)
@@ -55,6 +67,7 @@ async def on_ready():
         except Exception as e:
             print(e)
 
+#on_command_error Event -on_command_error  
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
@@ -127,6 +140,7 @@ async def on_command_error(ctx, error):
         print("===============")
         print(error)
 
+#on_guild_join Event -on_guild_join
 @client.event
 async def on_guild_join(guild):
     join = client.get_channel(840355732183318548)
@@ -154,6 +168,7 @@ async def on_guild_join(guild):
 
     await join.send(embed=embed)
 
+#on_guild_remove Event -on_guild_remove
 @client.event
 async def on_guild_remove(guild):
     join = client.get_channel(840355732183318548)
@@ -168,7 +183,7 @@ async def on_guild_remove(guild):
     icon = str(guild.icon_url)  
     
     embed: discord.Embed = discord.Embed(
-        title=f'Joined "{name}"',
+        title=f'Left "{name}"',
         description=None,
         color=discord.Color.red()
     )
@@ -180,148 +195,176 @@ async def on_guild_remove(guild):
     embed.add_field(name="Current Guilds I'm in: ", value=(str(len(client.guilds))))   
 
     await join.send(embed=embed)
-    
-@client.event
-async def on_message(message):
-    if message.channel.id == 898770494260641792:
-        emoji_list = ["1️⃣", "2️⃣",  "3️⃣", "4️⃣"]
-        
-        for emoji in emoji_list:
-            await message.add_reaction(emoji)
-            
-    else:
-        await client.process_commands(message)
 
+client.topgg_webhook = topgg.WebhookManager(client).dbl_webhook("/dblwebhook", "password")
+client.topgg_webhook.run(5000)
+
+#on_dbl_vote Event -on_dbl_vote
 @client.event
-async def on_raw_reaction_add(payload):
-    if "bot=True" in  f"{payload}":
-        pass
+async def on_dbl_vote(data):
+    if data["type"] == "test":
+        guild = client.get_guild(840354954074128405)
+
+        votechannel = discord.utils.get(guild.channels, name="vote-logs")
         
-    else:
-        if payload.channel_id == 898770494260641792:
-            log = 898589762565312512
-            log = client.get_channel(log)
-            
-            await log.send(f"{payload.member.name} (`{payload.user_id}`) reacted to {payload.emoji.name}\nMessage ID - `{payload.message_id}`")
-            
+        user = 638092957756555291
+
+        user = client.get_user(user)
+
+        conn = sqlite3.connect("vote.db")
+        c = conn.cursor()
+
+        c.execute(f"SELECT * FROM vote WHERE user_ID={user.id}")
+
+        items = c.fetchall()
+        none = str(items)
+
+        if none == "[]":
+            c.execute(f"INSERT INTO vote VALUES ({user.id}, 1)")
+
+            conn.commit()
+
         else:
-            pass
+            for item in items:
+                vote = int(item[1])
 
-#economy commands
-@client.command()
-@commands.cooldown(1, 300, commands.BucketType.user)
-async def work(ctx):
-    user_id = ctx.message.author.id
-    user_name = ctx.message.author
+            vote = vote + 1
 
-    number = int(random.randint(5, 25))
-    
-    conn = sqlite3.connect('economy.db')
-    c =conn.cursor()
+            c.execute(f"""UPDATE vote SET votes = {vote}
+                        WHERE user_ID = {user.id}  
+                    """)
 
-    c.execute(f"SELECT * FROM economy WHERE user_ID = '{ctx.message.author.id}' LIMIT 1")
-
-    conn.commit()
-
-    items = c.fetchall()
-
-    none = str(items)
-
-    if none == "[]":
-        c.execute(f"INSERT INTO economy VALUES ('{ctx.message.author.id}', '{ctx.message.author}', {number} , 0, {number})")
-
-        conn.commit()
+            conn.commit()
+            conn.close()
 
         embed: discord.Embed = discord.Embed(
-            title="Dinosaur Balance",
-            description=f"{ctx.message.author.mention} You got **{number}** Dinosaur Points from working!",
-            color=discord.Color.green()
+            title=f"{user.name} Voted!",
+            description=f"ID - {user.id}",
+            color=discord.Color.dark_green()
         )
+        embed.set_footer(text=f"This user has voted {vote} times")
 
-        await ctx.send(embed=embed)
+        await votechannel.send(embed=embed)
+
+        if none =="[]":
+            embed: discord.Embed = discord.Embed(
+                title="Thanks for voting!",
+                description=f"You have voted 1 time so far!",
+                color=discord.Color.dark_green()
+            )
+            try:
+                await user.send(embed=embed)
+
+            except:
+                pass
+
+        else:
+            embed: discord.Embed = discord.Embed(
+                title="Thanks for voting!",
+                description=f"You have voted {vote} times so far!",
+                color=discord.Color.dark_green()
+            )
+
+            try:
+                await user.send(embed=embed)
+
+            except:
+                pass
 
     else:
-        for item in items:
-            wallet = int(item[2])
-            bank = int(item[3])
+        guild = client.get_guild(840354954074128405)
 
-        sum = wallet + number
-
-        c.execute(f"""UPDATE economy SET wallet = {sum}
-                    WHERE user_ID = '{ctx.message.author.id}'   
-                """)
-
-        sum_1 = sum
-
-        sum = sum_1 + bank
+        votechannel = discord.utils.get(guild.channels, name="vote-logs")
         
-        c.execute(f"""UPDATE economy SET net = {sum}
-                    WHERE user_ID = '{ctx.message.author.id}'   
-                """)
-        
-        conn.commit()
-        conn.close()
-        
+        user = int(data["user"])
+
+        user = client.get_user(user)
+
+        conn = sqlite3.connect("vote.db")
+        c = conn.cursor()
+
+        c.execute(f"SELECT * FROM vote WHERE user_ID={user.id}")
+
+        items = c.fetchall()
+        none = str(items)
+
+        if none == "[]":
+            c.execute(f"INSERT INTO vote VALUES ({user.id}, 1)")
+
+            vote = 1
+
+            conn.commit()
+
+            embed: discord.Embed = discord.Embed(
+                title=f"{user.name} Voted!",
+                description=f"ID - {user.id}",
+                color=discord.Color.green()
+            )
+            embed.set_footer(text=f"This user has voted {vote} times")
+
+            await votechannel.send(embed=embed)
+
+            if none =="[]":
+                embed: discord.Embed = discord.Embed(
+                    title="Thanks for voting!",
+                    description=f"You have voted 1 time so far!",
+                    color=discord.Color.green()
+                )
+                try:
+                    await user.send(embed=embed)
+
+                except:
+                    pass
+
+        else:
+            for item in items:
+                vote = int(item[1])
+
+            vote = vote + 1
+
+            c.execute(f"""UPDATE vote SET votes = {vote}
+                        WHERE user_ID = {user.id}  
+                    """)
+
+            conn.commit()
+            conn.close()
+
         embed: discord.Embed = discord.Embed(
-            title="Work",
-            description=f"You gained {number} Dinosaur Points form working",
+            title=f"{user.name} Voted!",
+            description=f"ID - {user.id}",
             color=discord.Color.green()
         )
+        embed.set_footer(text=f"This user has voted {vote} times")
 
-        await ctx.send(embed=embed)
+        await votechannel.send(embed=embed)
 
+        if none =="[]":
+            embed: discord.Embed = discord.Embed(
+                title="Thanks for voting!",
+                description=f"You have voted 1 time so far!",
+                color=discord.Color.green()
+            )
+            try:
+                await user.send(embed=embed)
+
+            except:
+                pass
+
+        else:
+            embed: discord.Embed = discord.Embed(
+                title="Thanks for voting!",
+                description=f"You have voted {vote} times so far!",
+                color=discord.Color.green()
+            )
+
+            try:
+                await user.send(embed=embed)
+
+            except:
+                pass
+        
 
 token = "ODQwMDI1MTcyODYxMzg2NzYy.YJSMaA.HXQPsWzPAyTHrvmBRHjSIwQ_3DQ" #main Dinosaur Bot token
 wtoken = "OTQzODk4OTI5NjA5NzI4MDMw.Yg5wYQ.ykGFqDOcSowg_bIJZqgvMksBuAo" #Ninja's wordle bot token
 btoken = "ODQwMzc1NjgxMDQ1MTAyNjAz.YJXS1w.vor-5ufvbBxVRVQnbkq_6q41zx0" #Dino Beta's Token
 client.run(btoken)
-
-    #c.execute("ALTER TABLE economy ADD COLUMN net int;")
-              
-    #c.execute("""CREATE TABLE set_up (
-
-        #guild_ID text,
-        #aprove_ID int,
-        #aproved_ID int,
-        #role_1 text,
-        #role_2 text
-    
-    
-    #)""")
-
-    #conn.commit()
-
-    #c.execute("""CREATE TABLE suggestion (
-
-        #suggestion_ID text,
-        #guild_ID text,
-        #user_ID text,
-        #suggestion text
-    
-    #)""")
-
-    #c.execute("""CREATE TABLE economy (
-        #user_ID text,
-        #user_name text,
-        #wallet int,
-        #bank int
-        
-    #)""")
-
-    #c.execute(""" CREATE TABLE common (
-        #user_ID text,
-        #ammount int
-    
-        #)""")
-
-    #c.execute(""" CREATE TABLE un_common (
-        #user_ID text,
-        #ammount int
-    
-        #)""")
-
-    #c.execute(""" CREATE TABLE rare (
-        #user_ID text,
-        #ammount int
-    
-        #)""")
