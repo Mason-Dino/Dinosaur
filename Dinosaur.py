@@ -29,11 +29,12 @@ from dotenv import load_dotenv
 load_dotenv()
 BTOKEN = os.getenv('BTOKEN')
 
-client = discord.Client()
 
 intents = discord.Intents.default()
 intents.members = True
-intents.messages = True
+intents.message_content = True
+
+client = discord.Client(intents=intents)
 
 # the bot prefix
 client = commands.Bot(command_prefix="d!", case_insensitive=True, intents=intents)
