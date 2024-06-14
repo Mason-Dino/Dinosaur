@@ -15,25 +15,30 @@ from discord.ext import commands
 from discord.ext import tasks
 from discord.ext.commands import BucketType
 from functions.database import database
-from dislash import *
 from Disecon import *
 import asyncio
 import random
 import math
 import sqlite3
-import topgg
+#import topgg
 import datetime
 
+import os
+from dotenv import load_dotenv
 
-client = discord.Client()
+
+load_dotenv()
+BTOKEN = os.getenv('BTOKEN')
+
 
 intents = discord.Intents.default()
 intents.members = True
-intents.messages = True
+intents.message_content = True
+
+client = discord.Client(intents=intents)
 
 # the bot prefix
 client = commands.Bot(command_prefix="d!", case_insensitive=True, intents=intents)
-slash = slash_commands.SlashClient(client)
 client.remove_command("help")
 test_guilds = [840354954074128405]
 
@@ -56,20 +61,28 @@ async def on_ready():
 
     print("I'm in")
     print(client.user)
+    print(discord.version_info)
     await client.change_presence(activity=discord.Game(name="Just started up!"))
     await asyncio.sleep(5)
     await client.change_presence(activity=discord.Game(name='with d/help'))
     for cog in cogs:
         try:
-            client.load_extension(cog)
+            await client.load_extension(cog)
             print(cog + " was loaded.")
 
         except Exception as e:
             print(e)
 
+@client.command()
+async def sync(ctx):
+    sync = await client.tree.sync()
+    print(f"synced {len(sync)} command(s)")
+    await ctx.send(f"synced {len(sync)} command(s)")
+
 #on_command_error Event -on_command_error  
 @client.event
 async def on_command_error(ctx, error):
+    print(discord.version_info)
     if isinstance(error, commands.CommandOnCooldown):
 
         cooldown = int(error.retry_after)
@@ -128,6 +141,7 @@ async def on_command_error(ctx, error):
             await ctx.send(embed=embed)
 
     elif isinstance(error, commands.CommandNotFound):
+        print(error)
         embed: discord.Embed = discord.Embed(
             title="Invalid Command",
             description="You gave a invaild command\nPlease try doing `d/help` to see some of the commands.\n\nIf you need more support pelase join the support server where we can help you.\n[Support Server](https://discord.gg/KxPuFvazuF)",
@@ -196,8 +210,8 @@ async def on_guild_remove(guild):
 
     await join.send(embed=embed)
 
-client.topgg_webhook = topgg.WebhookManager(client).dbl_webhook("/dblwebhook", "password")
-client.topgg_webhook.run(5000)
+#client.topgg_webhook = topgg.WebhookManager(client).dbl_webhook("/dblwebhook", "password")
+#client.topgg_webhook.run(5000)
 
 #on_dbl_vote Event -on_dbl_vote
 @client.event
@@ -364,7 +378,8 @@ async def on_dbl_vote(data):
                 pass
         
 
-token = "ODQwMDI1MTcyODYxMzg2NzYy.YJSMaA.HXQPsWzPAyTHrvmBRHjSIwQ_3DQ" #main Dinosaur Bot token
-wtoken = "OTQzODk4OTI5NjA5NzI4MDMw.Yg5wYQ.ykGFqDOcSowg_bIJZqgvMksBuAo" #Ninja's wordle bot token
-btoken = "ODQwMzc1NjgxMDQ1MTAyNjAz.YJXS1w.vor-5ufvbBxVRVQnbkq_6q41zx0" #Dino Beta's Token
-client.run(btoken)
+@client.tree.command(name="hello")
+async def hello(ctx: discord.Interaction):
+    await ctx.response.send_message("Hellow")
+
+client.run(BTOKEN)
