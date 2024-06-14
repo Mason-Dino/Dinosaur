@@ -93,7 +93,7 @@ If you want to add to the discord bot that would mean the absolve world to me! D
 <!-- LICENSE -->
 ## License
 
-See `LICENSE` for more information.
+See the [license](https://github.com/Mason-Dino/Dinosaur/blob/main/LICENSE) for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
