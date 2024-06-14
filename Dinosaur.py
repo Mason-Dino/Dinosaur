@@ -15,13 +15,11 @@ from discord.ext import commands
 from discord.ext import tasks
 from discord.ext.commands import BucketType
 from functions.database import database
-from dislash import *
 from Disecon import *
 import asyncio
 import random
 import math
 import sqlite3
-import topgg
 import datetime
 
 
@@ -33,7 +31,6 @@ intents.messages = True
 
 # the bot prefix
 client = commands.Bot(command_prefix="d!", case_insensitive=True, intents=intents)
-slash = slash_commands.SlashClient(client)
 client.remove_command("help")
 test_guilds = [840354954074128405]
 
@@ -195,9 +192,6 @@ async def on_guild_remove(guild):
     embed.add_field(name="Current Guilds I'm in: ", value=(str(len(client.guilds))))   
 
     await join.send(embed=embed)
-
-client.topgg_webhook = topgg.WebhookManager(client).dbl_webhook("/dblwebhook", "password")
-client.topgg_webhook.run(5000)
 
 #on_dbl_vote Event -on_dbl_vote
 @client.event
@@ -364,7 +358,5 @@ async def on_dbl_vote(data):
                 pass
         
 
-token = "ODQwMDI1MTcyODYxMzg2NzYy.YJSMaA.HXQPsWzPAyTHrvmBRHjSIwQ_3DQ" #main Dinosaur Bot token
-wtoken = "OTQzODk4OTI5NjA5NzI4MDMw.Yg5wYQ.ykGFqDOcSowg_bIJZqgvMksBuAo" #Ninja's wordle bot token
-btoken = "ODQwMzc1NjgxMDQ1MTAyNjAz.YJXS1w.vor-5ufvbBxVRVQnbkq_6q41zx0" #Dino Beta's Token
-client.run(btoken)
+
+client.run("nothing")
