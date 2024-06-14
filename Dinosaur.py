@@ -22,6 +22,12 @@ import math
 import sqlite3
 import datetime
 
+import os
+from dotenv import load_dotenv
+
+
+load_dotenv()
+BTOKEN = os.getenv('BTOKEN')
 
 client = discord.Client()
 
