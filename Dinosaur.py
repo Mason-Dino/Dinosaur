@@ -27,7 +27,8 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
-BTOKEN = os.getenv('BTOKEN')
+BTOKEN = os.getenv("BTOKEN")
+TOKEN = os.getenv("TOKEN")
 
 
 intents = discord.Intents.default()
@@ -366,4 +367,4 @@ async def on_dbl_vote(data):
         
 
 
-client.run("nothing")
+client.run(TOKEN)
