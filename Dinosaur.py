@@ -66,7 +66,7 @@ async def on_ready():
     await client.change_presence(activity=discord.Game(name='with d/help'))
     for cog in cogs:
         try:
-            client.load_extension(cog)
+            await client.load_extension(cog)
             print(cog + " was loaded.")
 
         except Exception as e:
