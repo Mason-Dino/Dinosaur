@@ -85,11 +85,9 @@ class Help(commands.Cog):
             await ctx.send(":construction: Coming Soon! :construction:")
 
 
-        @app_commands.commands(name="ping", description="you can see what the ping is of the bot")
-        @app_commands.guilds(discord.Object(840354954074128405))
-        async def slash_ping(self, ctx: discord.Interaction):
-            bot_latency = round(self.client.latency * 1000)
-            await ctx.response.send_message(f"Pong! {bot_latency} ms.")
+    @app_commands.command(name="help")
+    async def slash_help(self, interaction: discord.Interaction):
+        await interaction.response.send_message("testing slash help")
 
 
 async def setup(client):

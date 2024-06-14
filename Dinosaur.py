@@ -78,6 +78,7 @@ async def sync(ctx):
     sync = await client.tree.sync()
     print(f"synced {len(sync)} command(s)")
     await ctx.send(f"synced {len(sync)} command(s)")
+    print(sync)
 
 #on_command_error Event -on_command_error  
 @client.event
@@ -379,7 +380,7 @@ async def on_dbl_vote(data):
         
 
 @client.tree.command(name="hello")
-async def hello(ctx: discord.Interaction):
-    await ctx.response.send_message("Hellow")
+async def hello(interaction: discord.Interaction):
+    await interaction.response.send_message("Hellow")
 
 client.run(BTOKEN)
