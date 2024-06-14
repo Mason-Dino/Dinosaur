@@ -1,0 +1,8 @@
+Dinosaur_run.py
+main.py
+cogs/__pycache__
+functions/__pycache__
+.env
+test.py
+
+*.db
