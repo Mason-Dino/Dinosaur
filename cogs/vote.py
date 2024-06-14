@@ -566,5 +566,5 @@ class Vote(commands.Cog):
         else:
             await ctx.send("You can't do this command because you are not the owner")
 
-def setup(client):
-	client.add_cog(Vote(client)) 
+async def setup(client):
+	await client.add_cog(Vote(client)) 

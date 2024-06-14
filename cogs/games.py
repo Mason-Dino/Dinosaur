@@ -296,5 +296,5 @@ class Games(commands.Cog):
             await msg.edit(embed=embed)
             
 
-def setup(client):
-	client.add_cog(Games(client))  
+async def setup(client):
+	await client.add_cog(Games(client))  

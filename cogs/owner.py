@@ -762,5 +762,5 @@ class Owner(commands.Cog):
         else:
             await ctx.send("Not a valid owner ID")
                                     
-def setup(client):
-	client.add_cog(Owner(client))  
+async def setup(client):
+	await client.add_cog(Owner(client))  
