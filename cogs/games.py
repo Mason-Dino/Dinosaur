@@ -15,8 +15,6 @@ from discord.ext.commands import BucketType
 import asyncio
 import random
 import math
-from dislash.slash_commands import slash_command
-from dislash import *
 import json
 
 class Games(commands.Cog):

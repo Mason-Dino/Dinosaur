@@ -9,8 +9,6 @@ import discord
 import os
 from discord.ext import commands
 from discord.ext.commands import BucketType
-from dislash.slash_commands import slash_command
-from dislash import *
 import asyncio
 import random
 import math
@@ -567,6 +565,6 @@ class Vote(commands.Cog):
 
         else:
             await ctx.send("You can't do this command because you are not the owner")
-                  
+
 def setup(client):
 	client.add_cog(Vote(client)) 
