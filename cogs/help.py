@@ -6,8 +6,7 @@
 
 import discord
 from discord.ext import commands
-from dislash.slash_commands import slash_command
-from dislash import *
+from discord import app_commands
 
 class Help(commands.Cog):
     def __init__(self, client):
@@ -28,7 +27,7 @@ class Help(commands.Cog):
             embed.add_field(name="**Moderation Help**", value="**d/help moderation** or **d/help mod** - shows 3 sub-categories of moderation commands", inline=False)
             embed.add_field(name="**Support Links**", value="[Support Server](https://discord.gg/KxPuFvazuF)\n[Invite The Bot](https://discord.com/api/oauth2/authorize?client_id=840025172861386762&permissions=2683662023&scope=bot)\n[top.gg Profile](https://top.gg/bot/840025172861386762)")
 
-            await ctx.send(embed=embed)
+            await ctx.send(embed=embed, suppress_embeds=False)
         
         elif arg1 == "game":
             embed: discord.Embed = discord.Embed(
@@ -82,5 +81,12 @@ class Help(commands.Cog):
 
             await ctx.send(embed=embed)
 
-def setup(client):
-	client.add_cog(Help(client))   
+        @app_commands.commands(name="ping", description="you can see what the ping is of the bot")
+        @app_commands.guilds(discord.Object(840354954074128405))
+        async def slash_ping(self, ctx: discord.Interaction):
+            bot_latency = round(self.client.latency * 1000)
+            await ctx.response.send_message(f"Pong! {bot_latency} ms.")
+
+
+async def setup(client):
+    await client.add_cog(Help(client))

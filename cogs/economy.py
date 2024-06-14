@@ -838,5 +838,5 @@ class Economy(commands.Cog):
                 else:
                     await ctx.send("You do not have enough coins in wallet")
 
-def setup(client):
-	client.add_cog(Economy(client))
+async def setup(client):
+	await client.add_cog(Economy(client))

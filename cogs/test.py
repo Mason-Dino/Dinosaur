@@ -10,8 +10,6 @@ import math
 import sqlite3
 import datetime
 import string
-from dislash.slash_commands import slash_command
-from dislash import *
 
 class Test(commands.Cog):
     def __init__(self, client):
@@ -23,6 +21,7 @@ class Test(commands.Cog):
         
     @commands.command()
     async def button(self, ctx):
+        """
         row = ActionRow(
             Button(
                 style=ButtonStyle.link,
@@ -31,7 +30,8 @@ class Test(commands.Cog):
                 url="https://www.google.com"
             )
         )
-        msg = await ctx.send("I have a button!", components=[row])
+        """
+        msg = await ctx.send("I have a button!")
 
     # Here timeout=60 means that the listener will
     # finish working after 60 seconds of inactivity
@@ -54,5 +54,5 @@ class Test(commands.Cog):
     async def phone(self, ctx):
         await ctx.send("phone")
 
-def setup(client):
-	client.add_cog(Test(client)) 
+async def setup(client):
+	await client.add_cog(Test(client)) 
