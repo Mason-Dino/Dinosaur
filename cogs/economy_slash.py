@@ -151,5 +151,38 @@ class Economy_Slash(commands.Cog):
 
         await interaction.response.send_message(embed=embed)
 
+    #Balance Command -bal
+    @app_commands.command(name="balance", description="It lets you see your current balance")
+    async def slash_balance(self, interaction: discord.Interaction):
+        view = results.view(user_ID=interaction.message.author.id)
+        
+        wallet = view.wallet()
+        bank = view.bank()
+        
+        embed: discord.Embed = discord.Embed(
+            title="Dinosaur Balace",
+            description=f"{interaction.message.author.mention} Dinosaur Balance\n\nWallet Amount: **{wallet}**\n\nBank Amount: **{bank}**",
+            color=discord.Color.green()
+        )
+        
+        await interaction.response.send_message(embed=embed)
+
+    #Work Command -work
+    @app_commands.command(name="work", description="lets you work to earn dinosaur points")
+    @commands.cooldown(1, 300, commands.BucketType.user)
+    async def slash_work(self, interaction: discord.Interaction):
+        number = int(random.randint(5, 25))
+        
+        wallet = money.wallet(amount=number, user_ID=interaction.message.author.id)
+        wallet.add()
+            
+        embed: discord.Embed = discord.Embed(
+            title="Work",
+            description=f"You gained **{number}** Dinosaur Points form working",
+            color=discord.Color.green()
+        )
+
+        await interaction.response.send_message(embed=embed)
+
 async def setup(client):
 	await client.add_cog(Economy_Slash(client))
