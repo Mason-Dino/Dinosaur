@@ -86,8 +86,9 @@ class Help(commands.Cog):
 
 
     @app_commands.command(name="help", description="Shows you all the commands you are able to use!")
-    async def slash_help(self, interaction: discord.Interaction):
+    async def slash_help(self, interaction: discord.Interaction, test: str):
         await interaction.response.send_message("testing slash help")
+        print(test)
 
 
 async def setup(client):
