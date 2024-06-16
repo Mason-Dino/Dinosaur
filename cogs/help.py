@@ -85,7 +85,7 @@ class Help(commands.Cog):
             await ctx.send(":construction: Coming Soon! :construction:")
 
 
-    @app_commands.command(name="help")
+    @app_commands.command(name="help", description="Shows you all the commands you are able to use!")
     async def slash_help(self, interaction: discord.Interaction):
         await interaction.response.send_message("testing slash help")
 
