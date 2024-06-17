@@ -154,14 +154,14 @@ class Economy_Slash(commands.Cog):
     #Balance Command -bal
     @app_commands.command(name="balance", description="It lets you see your current balance")
     async def slash_balance(self, interaction: discord.Interaction):
-        view = results.view(user_ID=interaction.message.author.id)
+        view = results.view(user_ID=interaction.user.id)
         
         wallet = view.wallet()
         bank = view.bank()
         
         embed: discord.Embed = discord.Embed(
             title="Dinosaur Balace",
-            description=f"{interaction.message.author.mention} Dinosaur Balance\n\nWallet Amount: **{wallet}**\n\nBank Amount: **{bank}**",
+            description=f"{interaction.user.mention} Dinosaur Balance\n\nWallet Amount: **{wallet}**\n\nBank Amount: **{bank}**",
             color=discord.Color.green()
         )
         
@@ -173,7 +173,7 @@ class Economy_Slash(commands.Cog):
     async def slash_work(self, interaction: discord.Interaction):
         number = int(random.randint(5, 25))
         
-        wallet = money.wallet(amount=number, user_ID=interaction.message.author.id)
+        wallet = money.wallet(amount=number, user_ID=interaction.user.id)
         wallet.add()
             
         embed: discord.Embed = discord.Embed(
