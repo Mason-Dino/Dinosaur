@@ -184,5 +184,103 @@ class Economy_Slash(commands.Cog):
 
         await interaction.response.send_message(embed=embed)
 
+    #Deposit Command -dep
+    @app_commands.command(name="deposit", description="lets you deposit into the bank")
+    async def slash_deposit(self, interaction: discord.Interaction, deposit: str = None):
+        view = results.view(user_ID=interaction.user.id)
+        
+        if deposit == None:
+            await interaction.response.send_message("Invalid use of command do **d/dep all** or **d/dep [number]**")
+            
+        else:
+            what_check = deposit.isdigit()
+            
+            if what_check == True:
+                what = int(deposit)
+                
+                if view.wallet() >= what:
+                    wallet = money.wallet(amount=what, user_ID=interaction.user.id)
+                    wallet.sub()
+                    
+                    bank = money.bank(amount=what, user_ID=interaction.user.id)
+                    bank.add()
+                    
+                    embed: discord.Embed = discord.Embed(
+                        title="Deposit",
+                        description=f"You deposited **{what}** coins into your bank",
+                        color=discord.Color.green()
+                    )
+                    
+                    await interaction.response.send_message(embed=embed)
+                    
+                else:
+                    await interaction.response.send_message("You don't have that many coins in your wallet")
+                
+            if what_check == False:
+                all = view.wallet()
+                
+                wallet = money.wallet(amount=all, user_ID=interaction.user.id)
+                wallet.sub()
+                
+                bank = money.bank(amount=all, user_ID=interaction.user.id)
+                bank.add()
+                
+                embed: discord.Embed = discord.Embed(
+                    title="Deposit",
+                    description=f"You deposited **{all}** coins into your bank",
+                    color=discord.Color.green()
+                )
+                
+                await interaction.response.send_message(embed=embed)
+        
+    #Withdraw Command -with
+    @app_commands.command(name="withdraw", description="lets you withdraw money from the bank")
+    async def slash_withdraw(self, interaction: discord.Interaction, withdraw: str = None):
+        view = results.view(user_ID=interaction.user.id)
+        
+        if withdraw == None:
+            await interaction.response.send_message("Invalid use of command do **d/with all** or **d/with [number]**")
+            
+        else:
+            what_check = withdraw.isdigit()
+            
+            if what_check == True:
+                what = int(withdraw)
+                
+                if view.bank() >= what:
+                    bank = money.bank(amount=what, user_ID=interaction.user.id)
+                    bank.sub()
+                    
+                    wallet = money.wallet(amount=what, user_ID=interaction.user.id)
+                    wallet.add()
+                    
+                    embed: discord.Embed = discord.Embed(
+                        title="Withdraw",
+                        description=f"You withdrew **{what}** coins into your wallet",
+                        color=discord.Color.green()
+                    )
+                    
+                    await interaction.response.send_message(embed=embed)
+                    
+                else:
+                    await interaction.response.send_message("You don't have that many coins in your bank")
+            
+            elif what_check == False:
+                all = view.bank()
+                
+                bank = money.bank(amount=all, user_ID=interaction.user.id)
+                bank.sub()
+                
+                wallet = money.wallet(amount=all, user_ID=interaction.user.id)
+                wallet.add()
+                
+                embed: discord.Embed = discord.Embed(
+                    title="Withdraw",
+                    description=f"You withdrew **{all}** coins into your bank",
+                    color=discord.Color.green()
+                )
+                
+                await interaction.response.send_message(embed=embed)
+
 async def setup(client):
 	await client.add_cog(Economy_Slash(client))
