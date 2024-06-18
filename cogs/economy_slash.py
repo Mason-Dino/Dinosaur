@@ -3,10 +3,12 @@
 #       leaderboard: -lb, -top
 #       Balance: -bal
 #       Work: -work
+#           Work Error: -work--cool, -work--error
 #       Deposit: -dep
 #       Withdraw: -with
 #       Shop: -shop
 #       Buy: -buy
+#           Buy Error: -buy--cool, -buy--error
 #       Inventory: -inv
 #       Use: -use
 #       Slots: -slot
@@ -184,6 +186,7 @@ class Economy_Slash(commands.Cog):
 
         await interaction.response.send_message(embed=embed)
 
+    #Work Error: -work--cool -work--error
     @slash_work.error
     async def on_work_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
@@ -448,6 +451,7 @@ class Economy_Slash(commands.Cog):
         else: 
             await interaction.response.send_message("You cannot buy more than 10 items", ephemeral=True)
 
+    #Buy Error: -buy--cool, -buy--error
     @slash_buy.error
     async def on_buy_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
