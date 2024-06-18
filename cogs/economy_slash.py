@@ -322,5 +322,196 @@ class Economy_Slash(commands.Cog):
 
         await interaction.response.send_message(embed=embed)
 
+    #Buy Command -buy
+    @app_commands.command(name="buy", description="lets you buy items from the shop")
+    @app_commands.checks.cooldown(1, 300, key=lambda i: (i.guild_id, i.user.id))
+    async def slash_buy(self, interaction: discord.Interaction, shop_id: str=None, amount: int = None):
+        if amount == None:
+            amount = 1
+            pass
+        
+        if 10 >= amount:
+            view = results.view(user_ID=interaction.user.id)
+            
+            conn = sqlite3.connect('shop.db')
+            conn_shop_items = sqlite3.connect("shop_items.db")
+            
+            s = conn.cursor()
+            i = conn_shop_items.cursor()
+            
+            i.execute(f"SELECT rowid, * FROM shop_items WHERE rowid='{shop_id}' AND visible='True'")
+            
+            items = i.fetchall()
+            
+            none = str(items)
+            
+            if none == "[]":
+                await interaction.response.send_message("Please send a valid shop ID")
+            
+            else:
+                for item in items:
+                    id = item[0]
+                    name = item[1]
+                    price = item[2]
+                    option = item[3]
+                    use = item[4]
+                    
+                if amount == None:
+                    amount = 1
+                    
+                    pass
+                        
+                s.execute(f"SELECT * FROM items_own WHERE user_id='{interaction.user.id}' AND item_name='{name}'")
+                
+                items = s.fetchall()
+                
+                none = str(items)
+                
+                amount_price = amount * price
+                
+                wallet = view.wallet()
+                bank = view.bank()
+                
+                if wallet >= amount_price:
+                    if none == "[]":
+                        s.execute(f"INSERT INTO items_own VALUES ('{interaction.user.id}', '{name}', '{amount}')")
+                        
+                        conn.commit()
+                        conn.close()
+                        
+                        conn_shop_items.close()
+                        
+                        wallet = money.wallet(amount=amount_price, user_ID=interaction.user.id)
+                        wallet.sub()
+                        
+                        await interaction.response.send_message(f"You successfully bought a **{name}**")
+                        
+                    else:
+                        for item in items:
+                            user_ID_items = item[0]
+                            name_items = item[1]
+                            amount_items = int(item[2])
+                            
+                        sum = amount_items + amount
+                            
+                        s.execute(f"""UPDATE items_own SET amount = {sum}
+                                        WHERE user_id = '{interaction.user.id}' AND item_name='{name}'   
+                                    """)
+                        
+                        conn.commit()
+                        conn.close()
+                        
+                        conn_shop_items.close()
+                        
+                        wallet = money.wallet(amount=amount_price, user_ID=interaction.user.id)
+                        wallet.sub()
+                        
+                        await interaction.response.send_message(f"You successfully bought {amount} of **{name}**")
+                        
+                elif wallet == amount_price:
+                    if none == "[]":
+                        s.execute(f"INSERT INTO items_own VALUES ('{interaction.user.id}', '{name}', '{amount}')")
+                        
+                        conn.commit()
+                        conn.close()
+
+                        conn_shop_items.close()
+                        
+                        wallet = money.wallet(amount=amount_price, user_ID=interaction.user.id)
+                        wallet.sub()
+                        
+                        await interaction.response.send_message(f"You successfully bought a **{name}**")
+                        
+                    else:
+                        for item in items:
+                            user_ID_items = item[0]
+                            name_items = item[1]
+                            amount_items = int(item[2])
+                            
+                        sum = amount_items + amount
+                            
+                        s.execute(f"""UPDATE items_own SET amount = {sum}
+                                        WHERE user_id = '{interaction.user.id}' AND item_name='{name}'   
+                                    """)
+                        
+                        conn.commit()
+                        conn.close()
+                        
+                        wallet = money.wallet(amount=amount_price, user_ID=interaction.user.id)
+                        wallet.sub()
+                        
+                        await interaction.response.send_message(f"You successfully bought {amount} of **{name}**")
+                    
+                else:
+                    await interaction.response.send_message("You do not have enough coins in your wallet")  
+
+        else: 
+            await interaction.response.send_message("You cannot buy more than 10 items", ephemeral=True)
+
+    @slash_buy.error
+    async def on_buy_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+        if isinstance(error, app_commands.CommandOnCooldown):
+            await interaction.response.send_message(str(error), ephemeral=True)
+
+
+    #Inventory Command -inv
+    @app_commands.command(name="inventory", description="lets you check how many items you own")
+    async def slash_inventory(self, interaction: discord.Interaction):
+        conn = sqlite3.connect("shop.db")
+        c = conn.cursor()
+        
+        c.execute(f"SELECT * FROM items_own WHERE user_id = '{interaction.user.id}'")
+        
+        items = c.fetchall()
+        
+        sonn = sqlite3.connect("shop_items.db")
+        s = sonn.cursor()
+        
+        s.execute("SELECT rowid, * FROM shop_items ORDER BY rowid DESC LIMIT 1")
+        
+        shop_items = s.fetchall()
+        
+        for item in shop_items:
+            rowid = int(item[0])
+            
+        attempts = 0
+        max_attempts = rowid
+        
+        test = ""
+        
+        IsInvDone = False
+        while not IsInvDone:
+            
+            attempts += 1
+            
+            if attempts == 1:
+                none = str(items)
+                
+                if none == "[]":
+                    embed: discord.Embed = discord.Embed(
+                        title="Inventory",
+                        description="Nothing to see here.",
+                        color=discord.Color.green()
+                    )
+                    
+                    await interaction.response.send_message(embed=embed)
+                    
+                for item in items:
+                    name = item[1]
+                    amount = item[2]
+                    
+                    test += f"**{name}** - {amount}\n"
+
+                embed: discord.Embed = discord.Embed(
+                    title="Inventory",
+                    description=f"Below are all the items you have from the shop\n\n{test}",
+                    color=discord.Color.green()
+                )
+            
+                await interaction.response.send_message(embed=embed)
+            
+            if attempts == max_attempts:
+                return
+
 async def setup(client):
 	await client.add_cog(Economy_Slash(client))
