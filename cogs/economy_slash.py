@@ -282,5 +282,40 @@ class Economy_Slash(commands.Cog):
                 
                 await interaction.response.send_message(embed=embed)
 
+    #Shop Command -shop
+    @app_commands.command(name="shop", description="lets you see the items you can buy")
+    async def slash_shop(self, interaction: discord.Interaction):
+        conn = sqlite3.connect("shop_items.db")
+        c = conn.cursor()
+        
+        c.execute(f"SELECT rowid, * FROM shop_items WHERE visible='True'")
+        
+        items = c.fetchall()
+        
+        embed: discord.Embed = discord.Embed(
+            title="Shop",
+            description="Bellow is all the stuff you can buy with your Dinosaur Points",
+            color=discord.Color.green()
+        )
+        for item in items:
+            id = item[0]
+            name = item[1]
+            price = item[2]
+            option = item[3]
+            use = item[4]
+            
+            if option == "a":
+                x = use.split("-")
+                
+                lower = x[0]
+                higher = x[1]
+                
+                embed.add_field(name=f"**{name}**", value=f"Can get anywhere from {lower} to {higher} Dinosaur Points in the egg.\nPrice - {price}\nID - {id}", inline=False)
+                
+            elif option == "b":
+                embed.add_field(name=f"**{name}**", value=f"You can get {use} Dinosaur Points for selling (using) it.\nPrice - {price}\nID - {id}", inline=False)
+
+        await interaction.response.send_message(embed=embed)
+
 async def setup(client):
 	await client.add_cog(Economy_Slash(client))
