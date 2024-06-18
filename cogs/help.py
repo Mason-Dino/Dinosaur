@@ -86,10 +86,40 @@ class Help(commands.Cog):
 
 
     @app_commands.command(name="help", description="Shows you all the commands you are able to use!")
-    async def slash_help(self, interaction: discord.Interaction, test: str = None):
-        await interaction.response.send_message("testing slash help")
-        print(test)
+    async def slash_help(self, interaction: discord.Interaction, module: str = None):
+        if module == None:
+            embed: discord.Embed = discord.Embed(
+                title="**Help**",
+                description="Below are the different help modules I have!",
+                color=discord.Color.green()
+            )
+            embed.add_field(name="**Economy**", value="**/help economy** - info about economy commands", inline=False)
+            embed.add_field(name="**Game Help**", value="**d/help game** - info about the game commands.", inline=False)
+            embed.add_field(name="**Utility Help**", value="**d/help utility** - info about utility commands.", inline=False)
+            embed.add_field(name="**Support Links**", value="[Support Server](https://discord.gg/KxPuFvazuF)\n[Invite The Bot](https://discord.com/api/oauth2/authorize?client_id=840025172861386762&permissions=2683662023&scope=bot)\n[top.gg Profile](https://top.gg/bot/840025172861386762)")
 
+            await interaction.response.send_message(embed=embed)
+
+        if module.lower() == "econ" or module.lower() == "economy":
+            embed: discord.Embed = discord.Embed(
+                title="**Economy Help**",
+                description="Below are all the Economy commands that you can use with Dinosaur Points.",
+                color=discord.Color.green()
+
+            )
+            embed.add_field(name="**Balance**", value="If you do **/balance** it will give you the amount of Dinosaur Points you have currently.", inline=False)
+            embed.add_field(name="**Work**", value="If you do **/work** it will give you between 5 and 25 Dinosaur Points.", inline=False)
+            embed.add_field(name="**Deposit**", value="If you do **/deposit all** or **/deposit [amount]** it will deposit all or the amount you want into your Dinosaur Points bank.", inline=False)
+            embed.add_field(name="**Withdraw**", value="If you do **/withdraw all** or **/withdraw [amount]** it will withdraw all or the amount you want from your Dinosaur Points bank.", inline=False)
+            embed.add_field(name="**Leaderboard**", value="If you do **/leaderboard** you will get the top 10 people of the Dinosaur Economy", inline=False)
+            embed.add_field(name="**Shop**", value="If you do **/shop** it will show you all the items that we have in our shop at that time.", inline=False)
+            embed.add_field(name="**Inventory**", value="If you do **/inv** it will show all the items you have in your inventory.", inline=False)
+            embed.add_field(name="**Buy**", value="If you do **/buy [shop ID] [(optional) amount]** you will buy that item from the shop", inline=False)
+            embed.add_field(name="**Use**", value="If you do **/use [shop ID] [(optional) amount]** it will use the item. But you have to have it in your inventory", inline=False)
+            #embed.add_field(name="**Gamble Help**", value="If you do **d/gamble help** it will give you the gamble commands that we have at the moment.")
+
+
+            await interaction.response.send_message(embed=embed)
 
 async def setup(client):
     await client.add_cog(Help(client))
