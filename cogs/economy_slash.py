@@ -169,7 +169,7 @@ class Economy_Slash(commands.Cog):
 
     #Work Command -work
     @app_commands.command(name="work", description="lets you work to earn dinosaur points")
-    @commands.cooldown(1, 300, commands.BucketType.user)
+    @app_commands.checks.cooldown(1, 360, key=lambda i: (i.guild_id, i.user.id))
     async def slash_work(self, interaction: discord.Interaction):
         number = int(random.randint(5, 25))
         
@@ -183,6 +183,11 @@ class Economy_Slash(commands.Cog):
         )
 
         await interaction.response.send_message(embed=embed)
+
+    @slash_work.error
+    async def on_work_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+        if isinstance(error, app_commands.CommandOnCooldown):
+            await interaction.response.send_message(str(error), ephemeral=True)
 
     #Deposit Command -dep
     @app_commands.command(name="deposit", description="lets you deposit into the bank")
