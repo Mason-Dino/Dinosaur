@@ -47,7 +47,7 @@ test_guilds = [840354954074128405]
 #Owner ID for owner only command
 OwnerID = 638092957756555291
 
-cogs = ["cogs.help", "cogs.games", "cogs.owner", "cogs.economy", "cogs.economy_slash", "cogs.utility", "cogs.vote", "cogs.test"]
+cogs = ["cogs.help", "cogs.games", "cogs.owner", "cogs.economy", "cogs.economy_slash", "cogs.utility", "cogs.utility_slash", "cogs.vote", "cogs.test"]
 #cogs = ["cogs.top"]
 #cogs = ["cogs.economy"]
 
