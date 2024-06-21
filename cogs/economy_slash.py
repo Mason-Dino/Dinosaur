@@ -758,7 +758,7 @@ class Economy_Slash(commands.Cog):
                             color=discord.Color.green()
                         )
                     
-                        await before.edit(embed=embed)
+                        await interaction.edit_original_response(embed=embed)
 
                     elif line_2 == "<:Dinosaur_Yellow:858747810278670336> | <:Dinosaur_Yellow:858747810278670336> | <:Dinosaur_Yellow:858747810278670336> :arrow_backward:":
                         new_ammount = amount * 1.5
@@ -774,7 +774,7 @@ class Economy_Slash(commands.Cog):
                             color=discord.Color.green()
                         )
                         
-                        await before.edit(embed=embed)
+                        await interaction.edit_original_response(embed=embed)
 
                     elif line_2 == "<:Dinosaur_Blue:858747768629755934> | <:Dinosaur_Blue:858747768629755934> | <:Dinosaur_Blue:858747768629755934> :arrow_backward:":
                         new_ammount = amount * 2
@@ -787,7 +787,7 @@ class Economy_Slash(commands.Cog):
                             color=discord.Color.green()
                         )
                         
-                        await before.edit(embed=embed)
+                        await interaction.edit_original_response(embed=embed)
 
                     elif slots_4 == slots_6:
                         if slots_4 == "<:Dinosaur:840670397901045772>":
@@ -808,7 +808,7 @@ class Economy_Slash(commands.Cog):
                                 color=discord.Color.green()
                             )
 
-                            await before.edit(embed=embed)
+                            await interaction.edit_original_response(embed=embed)
 
                         elif slots_4 == "<:Dinosaur_Blue:858747768629755934>":
                             new_ammount = amount * 1.5
@@ -828,7 +828,7 @@ class Economy_Slash(commands.Cog):
                                 color=discord.Color.green()
                             )
                     
-                            await before.edit(embed=embed)
+                            await interaction.edit_original_response(embed=embed)
 
 
                         elif slots_4 == "<:Dinosaur_Yellow:858747810278670336>":
@@ -847,7 +847,7 @@ class Economy_Slash(commands.Cog):
                                 color=discord.Color.green()
                             )
                             
-                            await before.edit(embed=embed)
+                            await interaction.edit_original_response(embed=embed)
 
 
                     else:
@@ -857,7 +857,7 @@ class Economy_Slash(commands.Cog):
                             color=discord.Color.green()
                         )
 
-                        await before.edit(embed=embed)
+                        await interaction.edit_original_response(embed=embed)
 
 
                 else:
