@@ -516,6 +516,174 @@ class Economy_Slash(commands.Cog):
             
             if attempts == max_attempts:
                 return
+            
+    #Use Command -use
+    @app_commands.command(name="use", description="lets you use items you bought in the shop")
+    @app_commands.checks.cooldown(1, 300, key=lambda i: (i.guild_id, i.user.id))
+    async def slash_use(self, interaction: discord.Interaction, shop_id: str = None, amount: int = None):
+        if amount == None:
+            amount = 1
+            pass
+        
+        if 10 >= amount:
+            view = results.view(user_ID=interaction.user.id)
+            
+            wallet = view.wallet()
+            
+            conn = sqlite3.connect('shop.db')
+            conn_shop_items = sqlite3.connect("shop_items.db")
+            
+            s = conn.cursor()
+            i = conn_shop_items.cursor()
+            
+            i.execute(f"SELECT rowid, * FROM shop_items WHERE rowid='{shop_id}'")
+            
+            items = i.fetchall()
+            
+            none = str(items)
+            
+            if none == "[]":
+                await interaction.response.send_message("Please send a valid shop ID")
+            
+            else:
+                for item in items:
+                    id = item[0]
+                    name = item[1]
+                    price = item[2]
+                    option = item[3]
+                    if option == "a":
+                        use = item[4]
+                        
+                    elif option == "b":
+                        use = int(item[4])
+                    
+                if wallet == "0":
+                    await interaction.response.send_message("You do not have enough Dinosaur Points to buy the item.")
+                    
+                else:
+                    if amount == None:
+                        amount = 1
+                        
+                        pass
+                    
+                    else:               
+                        if amount == None:
+                            amount = 1
+                            pass
+                        
+                        elif amount >= 1:
+                            amount = amount
+                            pass
+                            
+                    s.execute(f"SELECT * FROM items_own WHERE user_id='{interaction.user.id}' AND item_name='{name}'")
+                
+                    items = s.fetchall()            
+                    none = str(items)
+                    
+                    if none == "[]":
+                        await interaction.response.send_message("You do not own any of the item")
+                        
+                    else:
+                        if option == "a":
+                            s.execute(f"SELECT * FROM items_own WHERE user_id = '{interaction.user.id}' AND item_name ='{name}'")
+                            
+                            items = s.fetchall()
+                            
+                            none = str(items)
+                            
+                            if none == "[]":
+                                await interaction.response.send_message("You own none of that item") 
+                                
+                            else:
+                                for item in items:
+                                    user_id = item[0]
+                                    item_name = item[1]
+                                    items_own = int(item[2])
+                                        
+                                sum = items_own - amount
+                                
+                                if -1 >= sum:
+                                    await interaction.response.send_message(f"You do not have **{amount}** of {item_name}")
+                                    
+                                else:
+                                    s.execute(f"""UPDATE items_own SET amount = {sum}
+                                                    WHERE user_id = '{interaction.user.id}' AND item_name='{name}'
+                                                """)
+                                    
+                                    conn.commit()
+                                    
+                                    x = use.split("-")
+                                    
+                                    lower = int(x[0])
+                                    higher = int(x[1])
+                                    
+                                    lower_full = lower * amount
+                                    higher_full = higher * amount
+                                    
+                                    number = int(random.randint(lower_full, higher_full))
+                                    
+                                    print(number)
+                                    
+                                    sum = wallet + number
+                                    
+                                    wallet = money.wallet(amount=number, user_ID=interaction.user.id)
+                                    wallet.add()
+                                    
+                                    embed: discord.Embed = discord.Embed(
+                                        title=f"{item_name} Open",
+                                        description=f"You earned **{number}** of Dinosaur Points",
+                                        color=discord.Color.green()
+                                    )
+
+                                    await interaction.response.send_message(embed=embed)
+                                    
+                        elif option == "b":
+                            s.execute(f"SELECT * FROM items_own WHERE user_id = '{interaction.user.id}' AND item_name ='{name}'")
+                            
+                            items = s.fetchall()
+                            
+                            none = str(items)
+                            
+                            if none == "[]":
+                                await interaction.response.send_message("You own none of that item") 
+                                
+                            else:
+                                for item in items:
+                                    user_id = item[0]
+                                    item_name = item[1]
+                                    items_own = int(item[2])
+                                        
+                                sum = items_own - amount
+                                
+                                if -1 >= sum:
+                                    await interaction.response.send_message(f"You do not have **{amount}** of {item_name}")
+                                    
+                                else:
+                                    s.execute(f"""UPDATE items_own SET amount = {sum}
+                                                    WHERE user_id = '{interaction.user.id}' AND item_name='{name}'
+                                                """)
+                                    
+                                    conn.commit()
+                                    
+                                    number = use * amount
+                                    
+                                    wallet = money.wallet(amount=number, user_ID=interaction.user.id)
+                                    wallet.add()
+                                    
+                                    embed: discord.Embed = discord.Embed(
+                                        title=f"{item_name} Open",
+                                        description=f"You earned **{number}** of Dinosaur Points",
+                                        color=discord.Color.green()
+                                    )
+                                    
+                                    await interaction.response.send_message(embed=embed)
+        else:
+            await interaction.response.send_message("You can't use more than 10 at once!")
+
+    @slash_use.error
+    async def on_use_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+        if isinstance(error, app_commands.CommandOnCooldown):
+            await interaction.response.send_message(str(error), ephemeral=True)
 
 async def setup(client):
 	await client.add_cog(Economy_Slash(client))
