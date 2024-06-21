@@ -29,6 +29,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 BTOKEN = os.getenv('BTOKEN')
+TOKEN = os.getenv('TOKEN')
 
 
 intents = discord.Intents.default()

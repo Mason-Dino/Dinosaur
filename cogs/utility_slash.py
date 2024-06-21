@@ -43,6 +43,34 @@ class Utility_Slash(commands.Cog):
 
         await interaction.response.send_message(embed=embed)
 
+    @app_commands.command(name="invite", description="invite dinosaur discord bot")
+    async def slash_invite(self, interaction: discord.Interaction):
+        embed: discord.Embed = discord.Embed(
+            name="**Invite Dinosaur!**",
+            description="[Invite Link](https://discord.com/oauth2/authorize?client_id=840025172861386762&permissions=2683662023&scope=bot%20applications.commands)",
+            color=discord.Color.green()
+        )
+
+        await interaction.response.send_message(embed=embed)
+
+    #Ping Command -ping
+    @app_commands.command(name="ping", description="get the latency of the bot")
+    async def ping(self, interaction: discord.Interaction):
+        embed: discord.Embed = discord.Embed(
+            title=":ping_pong: pong!",
+            description=f'The Latency is {round(self.client.latency * 1000)}ms',
+            color=discord.Color.green()
+        )
+        
+        await interaction.response.send_message(embed=embed)
+
+    @app_commands.command(name="servers", description="lets you see the number of servers")
+    async def slash_servers(self, interaction: discord.Interaction):
+        servers = len(self.client.guilds)
+
+        await interaction.response.send_message(f"I'm in ``{servers}`` servers!")
+
+
 
 async def setup(client):
 	await client.add_cog(Utility_Slash(client))
