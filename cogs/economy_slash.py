@@ -1,5 +1,7 @@
 #----------------------------------------------------------------------#
 #
+#       -top
+#
 #       leaderboard: -lb, -top
 #       Balance: -bal
 #       Work: -work
@@ -11,7 +13,9 @@
 #           Buy Error: -buy--cool, -buy--error
 #       Inventory: -inv
 #       Use: -use
+#           Use Error: -use--cool, -use--error
 #       Slots: -slot
+#           Slots Error: -slot--cool, -slot--error
 #
 #----------------------------------------------------------------------#
 
@@ -680,8 +684,188 @@ class Economy_Slash(commands.Cog):
         else:
             await interaction.response.send_message("You can't use more than 10 at once!")
 
+    #Use Error: -use--cool -use--error
     @slash_use.error
     async def on_use_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+        if isinstance(error, app_commands.CommandOnCooldown):
+            await interaction.response.send_message(str(error), ephemeral=True)
+
+    #Slots Command -slot
+    @app_commands.command(name="slots", description="lets you play a dinosaur slot machine")
+    @app_commands.checks.cooldown(1, 300, key=lambda i: (i.guild_id, i.user.id))
+    async def slash_slots(self, interaction: discord.Interaction, amount: int = None):
+        view = results.view(user_ID=interaction.user.id)
+        
+        wallet = view.wallet()
+        bank = view.bank()
+
+        if wallet == "0":
+            await interaction.response.send_message("You do not have any coins to gamble in your wallet")
+
+        else:
+            if amount == None:
+                await interaction.response.send_message("Please send the amount of coins you want to gamble.")
+
+            else:
+                if wallet >= amount:
+                    new_wallet_2 = wallet - amount
+                    
+                    wallet = money.wallet(amount=amount, user_ID=interaction.user.id)
+                    wallet.sub()
+
+                    embed: discord.Embed = discord.Embed(
+                        title="Slots",
+                        description="Please wait 5 seconds for them to stop spinning",
+                        color=discord.Color.green()
+                    )
+
+                    before = await interaction.response.send_message(embed=embed)
+
+                    responses = [
+                        "<:Dinosaur:840670397901045772>",
+                        "<:Dinosaur_Yellow:858747810278670336>",
+                        "<:Dinosaur_Blue:858747768629755934>"
+                        
+                    ]
+
+                    slots_1 = random.choice(responses)
+                    slots_2 = random.choice(responses)
+                    slots_3 = random.choice(responses)
+                    slots_4 = random.choice(responses)
+                    slots_5 = random.choice(responses)
+                    slots_6 = random.choice(responses)
+                    slots_7 = random.choice(responses)
+                    slots_8 = random.choice(responses)
+                    slots_9 = random.choice(responses)
+
+                    line_1 = f"{slots_1} | {slots_2} | {slots_3}"
+                    line_2 = f"{slots_4} | {slots_5} | {slots_6} :arrow_backward:"
+                    line_3 = f"{slots_7} | {slots_8} | {slots_9}"
+
+                    await asyncio.sleep(5)
+
+                    if line_2 == "<:Dinosaur:840670397901045772> | <:Dinosaur:840670397901045772> | <:Dinosaur:840670397901045772> :arrow_backward:":
+                        new_ammount = amount * 5
+
+                        new_wallet = new_wallet_2 + new_ammount
+
+                        wallet = money.wallet(amount=new_ammount, user_ID=interaction.user.id)
+                        wallet.add()    
+
+                        embed: discord.Embed = discord.Embed(
+                            title="Slots",
+                            description=f"You Won **{new_ammount}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
+                            color=discord.Color.green()
+                        )
+                    
+                        await before.edit(embed=embed)
+
+                    elif line_2 == "<:Dinosaur_Yellow:858747810278670336> | <:Dinosaur_Yellow:858747810278670336> | <:Dinosaur_Yellow:858747810278670336> :arrow_backward:":
+                        new_ammount = amount * 1.5
+
+                        new_ammount = new_ammount // 1
+
+                        wallet = money.wallet(amount=new_ammount, user_ID=interaction.user.id)
+                        wallet.add()
+                        
+                        embed: discord.Embed = discord.Embed(
+                            title="Slots",
+                            description=f"You Won **{new_ammount:,.0f}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
+                            color=discord.Color.green()
+                        )
+                        
+                        await before.edit(embed=embed)
+
+                    elif line_2 == "<:Dinosaur_Blue:858747768629755934> | <:Dinosaur_Blue:858747768629755934> | <:Dinosaur_Blue:858747768629755934> :arrow_backward:":
+                        new_ammount = amount * 2
+
+                        wallet = money.wallet(amount=new_ammount, user_ID=interaction.user.id)
+
+                        embed: discord.Embed = discord.Embed(
+                            title="Slots",
+                            description=f"You Won **{new_ammount:,.0f}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
+                            color=discord.Color.green()
+                        )
+                        
+                        await before.edit(embed=embed)
+
+                    elif slots_4 == slots_6:
+                        if slots_4 == "<:Dinosaur:840670397901045772>":
+                            new_ammount = amount * 1.75
+
+                            new_ammount = new_ammount // 1
+
+                            new_ammount = f"{new_ammount:,.0f}"
+
+                            new_ammount = int(new_ammount)
+
+                            wallet = money.wallet(amount=new_ammount, user_ID=interaction.user.id)
+                            wallet.add()
+
+                            embed: discord.Embed = discord.Embed(
+                                title="Slots",
+                                description=f"You Won **{new_ammount:,.0f}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
+                                color=discord.Color.green()
+                            )
+
+                            await before.edit(embed=embed)
+
+                        elif slots_4 == "<:Dinosaur_Blue:858747768629755934>":
+                            new_ammount = amount * 1.5
+
+                            new_ammount = new_ammount // 1
+
+                            new_ammount = f"{new_ammount:,.0f}"
+
+                            new_ammount = int(new_ammount)
+
+                            wallet = money.wallet(amount=new_ammount, user_ID=interaction.user.id)
+                            wallet.add()
+
+                            embed: discord.Embed = discord.Embed(
+                                title="Slots",
+                                description=f"You Won **{new_ammount:,.0f}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
+                                color=discord.Color.green()
+                            )
+                    
+                            await before.edit(embed=embed)
+
+
+                        elif slots_4 == "<:Dinosaur_Yellow:858747810278670336>":
+                            new_ammount = amount * 1.25
+
+                            new_ammount = new_ammount // 1
+
+                            new_ammount = int(new_ammount)
+
+                            wallet = money.wallet(amount=new_ammount, user_ID=interaction.user.id)
+                            wallet.add()
+                            
+                            embed: discord.Embed = discord.Embed(
+                                title="Slots",
+                                description=f"You Won **{new_ammount:,.0f}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
+                                color=discord.Color.green()
+                            )
+                            
+                            await before.edit(embed=embed)
+
+
+                    else:
+                        embed: discord.Embed = discord.Embed(
+                            title="Slots",
+                            description=f"You Lost **{amount}** Dinosaur Points\n\n{line_1}\n{line_2}\n{line_3}",
+                            color=discord.Color.green()
+                        )
+
+                        await before.edit(embed=embed)
+
+
+                else:
+                    await interaction.response.send_message("You do not have enough coins in wallet")
+
+    #Slots Error: -slot--cool -slot--error
+    @slash_slots.error
+    async def on_slots_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             await interaction.response.send_message(str(error), ephemeral=True)
 
