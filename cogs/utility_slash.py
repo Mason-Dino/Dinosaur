@@ -64,13 +64,45 @@ class Utility_Slash(commands.Cog):
         
         await interaction.response.send_message(embed=embed)
 
+    #Servers Command -servers
     @app_commands.command(name="servers", description="lets you see the number of servers")
     async def slash_servers(self, interaction: discord.Interaction):
         servers = len(self.client.guilds)
 
         await interaction.response.send_message(f"I'm in ``{servers}`` servers!")
 
+    #Support Command -support
+    @app_commands.command(name="support", description="join to get support with dinosaur")
+    async def slash_support(self, interaction: discord.Interaction):
+        embed: discord.Embed = discord.Embed(
+            title="**Support Sever**",
+            description="Join for Dinosaur Support\n[Support Server](https://discord.gg/KxPuFvazuF)",
+            color=discord.Color.green()
+        )
 
+        await interaction.response.send_message(embed=embed)
+
+    #Uptime Command -uptime
+    @app_commands.command(name="uptime", description="see how long the bot has been running for")
+    async def slash_uptime(self, interaction: discord.Interaction):
+        p = psutil.Process(os.getpid())
+        p.create_time()
+
+        secUptime = int(p.create_time())
+
+        #<t:1649334120:f>
+
+        uptime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(p.create_time()))
+
+        uptime = f"<t:{secUptime}:f>"
+
+        embed: discord.Embed = discord.Embed(
+            title="Uptime",
+            description=f"The bot has been online sense {uptime}",
+            color=discord.Color.green()
+        )
+
+        await interaction.response.send_message(embed=embed)
 
 async def setup(client):
 	await client.add_cog(Utility_Slash(client))
