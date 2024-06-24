@@ -2,6 +2,7 @@
 #
 #       on_ready: -on_ready
 #       Sync Command: -sync
+#       Reload Command: -reload
 #       on_command_error: -on_command_error
 #       on_guild_join: -on_guild_join
 #       on_guild_remove: on_guild_remove
@@ -81,6 +82,29 @@ async def sync(ctx):
     sync = await client.tree.sync()
     print(f"synced {len(sync)} command(s)")
     await ctx.send(f"synced {len(sync)} command(s)")
+
+#Reload Command: -reload
+@client.command()
+async def reload(ctx, cog):
+    if cog == "all":
+        failedCogs = []
+        for cog in cogs:
+            try:
+                await client.load_extension(cog)
+                print(cog + " was loaded.")
+
+            except Exception as e:
+                failedCogs.append(cog)
+                print(e)
+
+        await ctx.send("Cogs are reloaded")
+        if failedCogs != None:
+            await ctx.send(f"{failedCogs} did not reload")
+    
+    else:
+        await client.reload_extension(cog)
+        print(cog + " was reloaded.")
+        await ctx.send(f"{cog} was reloaded")
 
 #on_command_error Event -on_command_error  
 @client.event
