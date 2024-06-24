@@ -8,7 +8,11 @@ Dinosaur is currently in a rewrite and all is on pause till this done.
   - [ ] ~~Add tic tac toe~~
   - [ ] ~~Add color wordle game (Lego wants to do this)~~
   - [ ] ~~Fix on error event (https://www.askpython.com/python/examples/convert-seconds-hours-minutes)~~
-
+- [ ] Add Slash Commands
+  - [ ] Help
+  - [x] Economy
+  - [x] Utility
+  - [ ] Game
 
 
 ## Versions
