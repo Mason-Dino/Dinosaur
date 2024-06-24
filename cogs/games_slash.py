@@ -64,7 +64,7 @@ class Slash_Games(commands.Cog):
 
     #RPS Command -rps
     @app_commands.command(name="rps", description="play rock paper scissors with dinosaur")
-    async def rps(self, interaction: discord.Interaction, arg1: str):
+    async def slash_rps(self, interaction: discord.Interaction, choice: str):
 
         responses = [
             "Scissors", 
@@ -72,10 +72,10 @@ class Slash_Games(commands.Cog):
             "Rock"
             ]
 
-        if arg1 == None:
+        if choice == None:
             await interaction.response.send_message("Please chose one of the following: **Rock, Paper, or Scissors**")
 
-        elif arg1.lower() == "rock":
+        elif choice.lower() == "rock":
             embed: discord.Embed = discord.Embed(
                 title="Rock Paper Scissors Results",
                 description=f"You chose **Rock**\nBot chose **{random.choice(responses)}**", 
@@ -84,7 +84,7 @@ class Slash_Games(commands.Cog):
 
             await interaction.response.send_message(embed=embed)
 
-        elif arg1.lower() == "paper":
+        elif choice.lower() == "paper":
             embed: discord.Embed = discord.Embed(
                 title="Rock Paper Scissors Results",
                 description=f"You chose **Paper**\nBot chose **{random.choice(responses)}**",
@@ -93,7 +93,7 @@ class Slash_Games(commands.Cog):
 
             await interaction.response.send_message(embed=embed)
 
-        elif arg1.lower() == "scissors":
+        elif choice.lower() == "scissors":
             embed: discord.Embed = discord.Embed(
                 title="Rock Paper Scissors Results",
                 description=f"You chose **Scissors**\nBot chose **{random.choice(responses)}**",
@@ -102,7 +102,47 @@ class Slash_Games(commands.Cog):
 
             await interaction.response.send_message(embed=embed)
         else:
-          awai interaction.response.send_message("Please choose either **Rock, Paper, Or Scissors**\nExample - `d/rps rock`")
+          await interaction.response.send_message("Please choose either **Rock, Paper, Or Scissors**\nExample - `d/rps rock`")
+
+    #Coinflip Command -coin, -coinflip
+    @app_commands.command(name="coinflip", description="let you predict a coin-flip or just flip a coin")
+    async def slash_coinflip(self, interaction: discord.Interaction, choice=None):
+
+        responses=[
+            "Head",
+            "Tails"
+        ]
+
+        if choice == None:
+            embed: discord.Embed = discord.Embed(
+                title="coin-flip Results",
+                description=f"The bot chose **{random.choice(responses)}**",
+                color=discord.Color.green()
+            )
+            embed.set_footer(text="You can also do d/coin-flip [heads or tails] to predict the results of the coin-flip")
+
+            await interaction.response.send_message(embed=embed)
+
+        elif choice.lower() == "heads":
+            embed: discord.Embed = discord.Embed(
+                title="coin-flip Results",
+                description=f"You chose **Heads**\nThe bot chose **{random.choice(responses)}**",
+                color=discord.Color.green()
+            )
+
+            await interaction.response.send_message(embed=embed)
+
+        elif choice.lower() == "tails":
+            embed: discord.Embed = discord.Embed(
+                title="coin-flip Results",
+                description=f"You chose **Tails**\nThe bot chose **{random.choice(responses)}**",
+                color=discord.Color.green()
+            )
+
+            await interaction.response.send_message(embed=embed)
+
+        else:
+          await interaction.response.send_message("Please choose either **Heads or Tails**")
     
 
 async def setup(client):
