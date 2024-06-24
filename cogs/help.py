@@ -94,7 +94,7 @@ class Help(commands.Cog):
                 color=discord.Color.green()
             )
             embed.add_field(name="**Economy**", value="**/help economy** - info about economy commands", inline=False)
-            embed.add_field(name="**Game Help**", value="**d/help game** - info about the game commands.", inline=False)
+            embed.add_field(name="**Game Help**", value="**/help game** - info about the game commands.", inline=False)
             embed.add_field(name="**Utility Help**", value="**/help utility** - info about utility commands.", inline=False)
             embed.add_field(name="**Support Links**", value="[Support Server](https://discord.gg/KxPuFvazuF)\n[Invite The Bot](https://discord.com/api/oauth2/authorize?client_id=840025172861386762&permissions=2683662023&scope=bot)\n[top.gg Profile](https://top.gg/bot/840025172861386762)")
 
