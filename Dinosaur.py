@@ -1,6 +1,8 @@
 #----------------------------------------------------------------------#
 #
 #       on_ready: -on_ready
+#       Sync Command: -sync
+#       Reload Command: -reload
 #       on_command_error: -on_command_error
 #       on_guild_join: -on_guild_join
 #       on_guild_remove: on_guild_remove
@@ -20,6 +22,7 @@ import asyncio
 import random
 import math
 import sqlite3
+#import topgg
 import datetime
 
 import os
@@ -27,8 +30,8 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
-BTOKEN = os.getenv("BTOKEN")
-TOKEN = os.getenv("TOKEN")
+BTOKEN = os.getenv('BTOKEN')
+TOKEN = os.getenv('TOKEN')
 
 
 intents = discord.Intents.default()
@@ -38,7 +41,7 @@ intents.message_content = True
 client = discord.Client(intents=intents)
 
 # the bot prefix
-client = commands.Bot(command_prefix="d!", case_insensitive=True, intents=intents)
+client = commands.Bot(command_prefix="d/", case_insensitive=True, intents=intents)
 client.remove_command("help")
 test_guilds = [840354954074128405]
 
@@ -47,7 +50,7 @@ test_guilds = [840354954074128405]
 #Owner ID for owner only command
 OwnerID = 638092957756555291
 
-cogs = ["cogs.help", "cogs.games", "cogs.owner", "cogs.economy", "cogs.utility", "cogs.vote"]
+cogs = ["cogs.help", "cogs.games", "cogs.games_slash", "cogs.owner", "cogs.economy", "cogs.economy_slash", "cogs.utility", "cogs.utility_slash", "cogs.vote", "cogs.test"]
 #cogs = ["cogs.top"]
 #cogs = ["cogs.economy"]
 
@@ -61,6 +64,7 @@ async def on_ready():
 
     print("I'm in")
     print(client.user)
+    print(discord.version_info)
     await client.change_presence(activity=discord.Game(name="Just started up!"))
     await asyncio.sleep(5)
     await client.change_presence(activity=discord.Game(name='with d/help'))
@@ -72,9 +76,48 @@ async def on_ready():
         except Exception as e:
             print(e)
 
+#Sync Command: -sync
+@client.command()
+async def sync(ctx):
+    if ctx.author.id == 638092957756555291:
+        sync = await client.tree.sync()
+        print(f"synced {len(sync)} command(s)")
+        await ctx.send(f"synced {len(sync)} command(s)")
+
+    else:
+        await ctx.send("You do not have access to this command")
+
+#Reload Command: -reload
+@client.command()
+async def reload(ctx, cog):
+    if ctx.author.id == 638092957756555291:
+        if cog == "all":
+            failedCogs = []
+            for cog in cogs:
+                try:
+                    await client.load_extension(cog)
+                    print(cog + " was loaded.")
+
+                except Exception as e:
+                    failedCogs.append(cog)
+                    print(e)
+
+            await ctx.send("Cogs are reloaded")
+            if failedCogs != None:
+                await ctx.send(f"{failedCogs} did not reload")
+        
+        else:
+            await client.reload_extension(cog)
+            print(cog + " was reloaded.")
+            await ctx.send(f"{cog} was reloaded")
+
+    else:
+        await ctx.send("You don't have access to this command")
+
 #on_command_error Event -on_command_error  
 @client.event
 async def on_command_error(ctx, error):
+    print(discord.version_info)
     if isinstance(error, commands.CommandOnCooldown):
 
         cooldown = int(error.retry_after)
@@ -133,6 +176,7 @@ async def on_command_error(ctx, error):
             await ctx.send(embed=embed)
 
     elif isinstance(error, commands.CommandNotFound):
+        print(error)
         embed: discord.Embed = discord.Embed(
             title="Invalid Command",
             description="You gave a invaild command\nPlease try doing `d/help` to see some of the commands.\n\nIf you need more support pelase join the support server where we can help you.\n[Support Server](https://discord.gg/KxPuFvazuF)",
@@ -200,6 +244,9 @@ async def on_guild_remove(guild):
     embed.add_field(name="Current Guilds I'm in: ", value=(str(len(client.guilds))))   
 
     await join.send(embed=embed)
+
+#client.topgg_webhook = topgg.WebhookManager(client).dbl_webhook("/dblwebhook", "password")
+#client.topgg_webhook.run(5000)
 
 #on_dbl_vote Event -on_dbl_vote
 @client.event
@@ -365,6 +412,5 @@ async def on_dbl_vote(data):
             except:
                 pass
         
-
 
 client.run(TOKEN)
