@@ -51,7 +51,13 @@ test_guilds = [840354954074128405]
 #Owner ID for owner only command
 OwnerID = 638092957756555291
 
-cogs = ["cogs.help", "cogs.games", "cogs.games_slash", "cogs.owner", "cogs.economy", "cogs.economy_slash", "cogs.utility", "cogs.utility_slash", "cogs.vote", "cogs.test"]
+cogs = ["cogs.help", 
+        "cogs.games", "cogs.games_slash", 
+        "cogs.owner", 
+        "cogs.economy", "cogs.economy_slash", 
+        "cogs.utility", "cogs.utility_slash", 
+        "cogs.vote", 
+        "cogs.test"]
 #cogs = ["cogs.top"]
 #cogs = ["cogs.economy"]
 
@@ -90,14 +96,24 @@ async def on_ready():
 
 #Sync Command: -sync
 @client.command()
-async def sync(ctx):
+async def sync(ctx, clear: str = None):
     if ctx.author.id == 638092957756555291:
-        sync = await client.tree.sync()
-        print(f"synced {len(sync)} command(s)")
-        await ctx.send(f"synced {len(sync)} command(s)")
+        if clear == None:
+            sync = await client.tree.sync()
+            await client.tree.clear_commands()
+            print(f"synced {len(sync)} command(s)")
+            await ctx.send(f"synced {len(sync)} command(s)")
+
+        if clear.lower() == "clear":
+            await client.tree.clear_commands()
+            await client.tree.remove_command("help")
+            print("Cleared all commands")
+            await ctx.send("cleared all commands")
 
     else:
         await ctx.send("You do not have access to this command")
+
+
 
 #Reload Command: -reload
 @client.command()
@@ -427,4 +443,4 @@ async def on_dbl_vote(data):
 async def hello(interaction: discord.Interaction):
     await interaction.response.send_message("Hellow")
 
-client.run(TOKEN)
+client.run(BTOKEN)
