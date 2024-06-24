@@ -46,6 +46,7 @@ class Owner(commands.Cog):
             embed.add_field(name="items new", value="**d/items new**")
             embed.add_field(name="items update", value="**d/items update [shop ID] [price, visible, or use]**")
             embed.add_field(name="items view", value="**d/items view [shop ID]**")
+            embed.add_field(name="items all", value="**d/items all**")
 
             await ctx.send(embed=embed)
 
