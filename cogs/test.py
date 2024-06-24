@@ -40,13 +40,16 @@ class Test(commands.Cog):
         await interaction.response.send_message("hey")
         message = await interaction.original_response()
 
-        def check():
+        def check(message):
             return message.author.id == interaction.user.id and message.channel.id == interaction.channel.id
         
-        message = await self.client.wait_for("message",check = check)
+        message = await self.client.wait_for("message", check=check)
         guess = message.content.lower()
         
         print(guess)
+
+        await message.delete()
+        await interaction.edit_original_response(content=guess)
 
 
 async def setup(client):
