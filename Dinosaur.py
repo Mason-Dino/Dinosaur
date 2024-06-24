@@ -1,6 +1,7 @@
 #----------------------------------------------------------------------#
 #
 #       on_ready: -on_ready
+#       Sync Command: -sync
 #       on_command_error: -on_command_error
 #       on_guild_join: -on_guild_join
 #       on_guild_remove: on_guild_remove
@@ -74,6 +75,7 @@ async def on_ready():
         except Exception as e:
             print(e)
 
+#Sync Command: -sync
 @client.command()
 async def sync(ctx):
     sync = await client.tree.sync()
