@@ -139,5 +139,19 @@ class Help(commands.Cog):
 
                 await interaction.response.send_message(embed=embed)
 
+        elif module == "game":
+            embed: discord.Embed = discord.Embed(
+                title="**Game Help**",
+                description="Below are all the Game commands that we have at the moment.",
+                color=discord.Color.green()
+            )
+            embed.add_field(name="**Rock Paper Scissors**", value="**/rps [Rock, Paper, or Scissors]** - initiates rock paper scisors with the bot.", inline=False)
+            embed.add_field(name="**Coinflip**", value="**/coinflip (optional) [heads or tails]** - virtual coinflip.", inline=False)
+            embed.add_field(name="**Dice Roll**", value="**/dice [1, 2, 3, 4, 5, or 6]**. If you do that you can perdict a dice roll.", inline=False)
+            embed.add_field(name="**8ball**", value="**/8ball [message]** then the bot will just be like a 8ball.", inline=False)
+            embed.add_field(name="**Wordle**", value ="**d/wordle (optional) [easy or hard]** - initiates a game of wordle", inline=False)
+
+            await interaction.response.send_message(embed=embed)
+
 async def setup(client):
     await client.add_cog(Help(client))
