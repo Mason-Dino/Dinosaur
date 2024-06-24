@@ -61,6 +61,48 @@ class Slash_Games(commands.Cog):
         )
 
         await interaction.edit_original_response(content="", embed=embed)
+
+    #RPS Command -rps
+    @app_commands.command(name="rps", description="play rock paper scissors with dinosaur")
+    async def rps(self, interaction: discord.Interaction, arg1: str):
+
+        responses = [
+            "Scissors", 
+            "Paper", 
+            "Rock"
+            ]
+
+        if arg1 == None:
+            await interaction.response.send_message("Please chose one of the following: **Rock, Paper, or Scissors**")
+
+        elif arg1.lower() == "rock":
+            embed: discord.Embed = discord.Embed(
+                title="Rock Paper Scissors Results",
+                description=f"You chose **Rock**\nBot chose **{random.choice(responses)}**", 
+                color=discord.Color.green()
+            )
+
+            await interaction.response.send_message(embed=embed)
+
+        elif arg1.lower() == "paper":
+            embed: discord.Embed = discord.Embed(
+                title="Rock Paper Scissors Results",
+                description=f"You chose **Paper**\nBot chose **{random.choice(responses)}**",
+                color=discord.Color.green()
+            )
+
+            await interaction.response.send_message(embed=embed)
+
+        elif arg1.lower() == "scissors":
+            embed: discord.Embed = discord.Embed(
+                title="Rock Paper Scissors Results",
+                description=f"You chose **Scissors**\nBot chose **{random.choice(responses)}**",
+                color=discord.Color.green()
+            )
+
+            await interaction.response.send_message(embed=embed)
+        else:
+          awai interaction.response.send_message("Please choose either **Rock, Paper, Or Scissors**\nExample - `d/rps rock`")
     
 
 async def setup(client):
