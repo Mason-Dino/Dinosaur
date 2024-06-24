@@ -62,10 +62,10 @@ Use this space to help you get example for your own discord bot! Or if you want 
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Re-write the bot with slash commands
-  - [ ] Help
+- [x] Re-write the bot with slash commands
+  - [x] Help
   - [x] Economy
-  - [ ] Games
+  - [x] Games
   - [x] Utility
 - [ ] Add good comments to all the commands so its easy to understand
 
