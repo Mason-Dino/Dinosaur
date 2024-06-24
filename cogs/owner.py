@@ -9,6 +9,7 @@
 #           New: -items--new
 #           Update: -items--update
 #           View: -items--view
+#           All: -items--add
 #
 #----------------------------------------------------------------------#
 
@@ -38,13 +39,16 @@ class Owner(commands.Cog):
                 description="Bellow are all the owner commands",
                 color=discord.Color.green()
             )
-            embed.add_field(name="new", value="**d/new command**")
-            embed.add_field(name="money", value="**d/money [user] [type] [amount] [place]**")
-            embed.add_field(name="balset", value="**d/balset [User]**")
-            embed.add_field(name="Invedit", value="**d/invedit [User] [Shop ID] [Add or Remove] [Amount]**")
-            embed.add_field(name="items new", value="**d/items new**")
-            embed.add_field(name="items update", value="**d/items  [shop ID] [price, visible, or use]**")
-            embed.add_field(name="items view", value="**d/items view [shop ID]**")
+            embed.add_field(name="new", value="d/new command")
+            embed.add_field(name="money", value="d/money [user] [type] [amount] [place]")
+            embed.add_field(name="balset", value="d/balset [User]")
+            embed.add_field(name="Invedit", value="d/invedit [User] [Shop ID] [Add or Remove] [Amount]")
+            embed.add_field(name="items new", value="d/items new")
+            embed.add_field(name="items update", value="d/items update [shop ID] [price, visible, or use]")
+            embed.add_field(name="items view", value="d/items view [shop ID]")
+            embed.add_field(name="items all", value="d/items all")
+            embed.add_field(name="sync", value="d/sync")
+            embed.add_field(name="reload cog", value="d/reload [cog]")
 
             await ctx.send(embed=embed)
 
@@ -721,6 +725,31 @@ class Owner(commands.Cog):
         
         else:
             await ctx.send("Not a valid owner ID")
+
+    #Items All Command -items--all
+    @items.command()
+    async def all(self, ctx):
+        conn = sqlite3.connect("shop_items.db")
+        c = conn.cursor()
+
+        OwnerID = 638092957756555291
+
+        if ctx.message.author.id == OwnerID:
+            c.execute(f"SELECT rowid, * FROM shop_items")
+                
+            items = c.fetchall()
+
+            embed: discord.Embed = discord.Embed(
+                title="Shop Items",
+                description="Below are all the shop items",
+                color=discord.Color.green()
+            )
+
+            for item in items:
+                embed.add_field(name=f"{item[1]}", value=f"RowID - {item[0]}\nVisible - {item[5]}", inline=False)
+
+            await ctx.send(embed=embed)
+
 
     #Items View Command -items--view                   
     @items.command()
