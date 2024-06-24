@@ -216,7 +216,6 @@ class Games(commands.Cog):
             await ctx.send(embed=embed)
         else:
           await ctx.send("Please choose either **Heads or Tails**")
-          
     
     #Dice Command -dice
     @commands.command()
