@@ -76,11 +76,9 @@ async def on_ready():
 
 @client.command()
 async def sync(ctx):
-    print("hey")
     sync = await client.tree.sync()
     print(f"synced {len(sync)} command(s)")
     await ctx.send(f"synced {len(sync)} command(s)")
-    print(sync)
 
 #on_command_error Event -on_command_error  
 @client.event
