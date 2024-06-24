@@ -64,9 +64,9 @@ Use this space to help you get example for your own discord bot! Or if you want 
 
 - [ ] Re-write the bot with slash commands
   - [ ] Help
-  - [ ] Economy
+  - [x] Economy
   - [ ] Games
-  - [ ] Utility
+  - [x] Utility
 - [ ] Add good comments to all the commands so its easy to understand
 
 See the [open issues](https://github.com/Mason-Dino/Dinosaur/issues) for a full list of proposed features (and known issues).
