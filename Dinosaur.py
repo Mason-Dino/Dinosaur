@@ -22,7 +22,7 @@ import asyncio
 import random
 import math
 import sqlite3
-#import topgg
+import topgg
 import datetime
 
 import os
@@ -32,6 +32,7 @@ from dotenv import load_dotenv
 load_dotenv()
 BTOKEN = os.getenv('BTOKEN')
 TOKEN = os.getenv('TOKEN')
+TOPGG = os.getenv("TOPGG")
 
 
 intents = discord.Intents.default()
@@ -75,6 +76,17 @@ async def on_ready():
 
         except Exception as e:
             print(e)
+    """
+    try:
+        webhook_route = "/dblwebhook" 
+        client.topgg_webhook = topgg.WebhookManager(client).dbl_webhook(webhook_route, TOPGG)
+        await client.topgg_webhook.run(8080)
+
+    except Exception as e:
+        print(e)
+
+    print("Done with Topgg")
+    """
 
 #Sync Command: -sync
 @client.command()
@@ -245,12 +257,10 @@ async def on_guild_remove(guild):
 
     await join.send(embed=embed)
 
-#client.topgg_webhook = topgg.WebhookManager(client).dbl_webhook("/dblwebhook", "password")
-#client.topgg_webhook.run(5000)
-
-#on_dbl_vote Event -on_dbl_vote
+#on_dbl_vote Event -on_dbl_vote (not working)
 @client.event
 async def on_dbl_vote(data):
+    print(data)
     if data["type"] == "test":
         guild = client.get_guild(840354954074128405)
 
@@ -417,4 +427,4 @@ async def on_dbl_vote(data):
 async def hello(interaction: discord.Interaction):
     await interaction.response.send_message("Hellow")
 
-client.run(BTOKEN)
+client.run(TOKEN)
