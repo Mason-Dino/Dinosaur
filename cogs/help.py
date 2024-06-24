@@ -121,5 +121,23 @@ class Help(commands.Cog):
 
             await interaction.response.send_message(embed=embed)
 
+        elif module.lower() == "utility":
+                embed: discord.Embed = discord.Embed(
+                    title="**Utility Help**",
+                    description="Below are all the Utility commands that we have at the moment.",
+                    color=discord.Color.green()
+                )
+                embed.add_field(name="**Support**", value="If you do **/support** you will be able to join our support server.", inline=False)
+                embed.add_field(name="**Ping**", value="If you do **/ping** you can find the ping of the bot right now.", inline=False)
+                embed.add_field(name="**Invite**", value="If you do **/invite** it will send the invite link for the bot.", inline=False)
+                embed.add_field(name="**Bot Information**", value="If you do **/bot** you can find out some of the infomation about Dinosaur Bot.", inline=False)
+                embed.add_field(name="**Servers**", value="If you do **/servers** it will show the number of servers the bot is in.", inline=False)
+                embed.add_field(name="**Feedback**", value="If you do **d/feedback [message]** you can give us feedback about the bot.", inline=False)
+                embed.add_field(name="**Bug Report**", value="If you do **d/bug [report]**. I will see that there is a bug and I will be working on it as soon as I can.", inline=False)
+                embed.add_field(name="Uptime", value="If you do **/uptime** you can see the uptime for the bot.", inline=False)
+                #embed.add_field(name="**Change Log**", value="If you do **d/change** you can see the most recent change log of the bot.")
+
+                await interaction.response.send_message(embed=embed)
+
 async def setup(client):
     await client.add_cog(Help(client))

@@ -1,4 +1,6 @@
 #----------------------------------------------------------------------#
+#       DONE WITH ALL SLASH COMMANDS IN UTILITY
+#
 #
 #       Feedback: -feedback
 #       Bot: -bot
