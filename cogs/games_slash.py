@@ -144,7 +144,39 @@ class Slash_Games(commands.Cog):
 
         else:
           await interaction.response.send_message("Please choose either **Heads or Tails**")
-    
+
+    #Dice Command -dice
+    @app_commands.command(name="dice", description="roll a dice")
+    async def slash_dice(self, interaction: discord.Interaction, choice: str=None):
+
+        sides=[
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+        ]
+        
+        bot_side = random.choice(sides)
+
+        if choice == None:
+            embed: discord.Embed = discord.Embed(
+                title="Dice Roll Results",
+                description=f"The Bot chose **{bot_side}**",
+                color=discord.Color.green()
+            )
+            await interaction.response.send_message(embed = embed)
+        else:
+            if choice in sides:
+                embed: discord.Embed = discord.Embed(
+                title="Dice Roll Results",
+                description=f"You chose **{choice}**\nThe Bot chose **{bot_side}**",
+                color=discord.Color.green()
+                )
+                await interaction.response.send_message(embed = embed)
+            else:
+                await interaction.response.send_message("Invalid prediction, try **/dice [(optional) 1-6]**")
 
 async def setup(client):
 	await client.add_cog(Slash_Games(client))  
