@@ -123,7 +123,7 @@ class Slash_Games(commands.Cog):
 
             await interaction.response.send_message(embed=embed)
 
-        elif choice.lower() == "heads":
+        elif choice.lower() == "heads" or choice.lower() == "head":
             embed: discord.Embed = discord.Embed(
                 title="coin-flip Results",
                 description=f"You chose **Heads**\nThe bot chose **{random.choice(responses)}**",
@@ -132,7 +132,7 @@ class Slash_Games(commands.Cog):
 
             await interaction.response.send_message(embed=embed)
 
-        elif choice.lower() == "tails":
+        elif choice.lower() == "tails" or choice.lower() == "tail":
             embed: discord.Embed = discord.Embed(
                 title="coin-flip Results",
                 description=f"You chose **Tails**\nThe bot chose **{random.choice(responses)}**",
