@@ -60,7 +60,7 @@ class Slash_Games(commands.Cog):
             color=discord.Color.green()
         )
 
-        await interaction.edit_original_response(embed=embed)
+        await interaction.edit_original_response(content="", embed=embed)
     
 
 async def setup(client):
