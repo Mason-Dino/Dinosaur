@@ -1,6 +1,7 @@
 import discord
 import os
 from discord.ext import commands
+from discord import app_commands
 from discord.ext.commands import BucketType
 #from PIL import Image
 from io import BytesIO
@@ -17,33 +18,7 @@ class Test(commands.Cog):
 
     @commands.command()
     async def working_test(self, ctx):
-        await ctx.end("hi")
-        
-    @commands.command()
-    async def button(self, ctx):
-        """
-        row = ActionRow(
-            Button(
-                style=ButtonStyle.link,
-                label="Click me!",
-                #custom_id="test_button",
-                url="https://www.google.com"
-            )
-        )
-        """
-        msg = await ctx.send("I have a button!")
-
-    # Here timeout=60 means that the listener will
-    # finish working after 60 seconds of inactivity
-        on_click = msg.create_click_listener(timeout=30)
-
-        @on_click.matching_id("test_button")
-        async def on_test_button(inter):
-            await inter.reply("You've clicked the button!")
-
-        @on_click.timeout
-        async def on_timeout():
-            await msg.edit(components=[])
+        await ctx.send("hi")
             
     @commands.group()
     async def test_group(self, ctx):
@@ -53,6 +28,26 @@ class Test(commands.Cog):
     @test_group.command()
     async def phone(self, ctx):
         await ctx.send("phone")
+
+    @app_commands.command(name="test", description="testing out stuff in discord.py")
+    async def test(self, interaction: discord.Interaction):
+        await interaction.response.send_message("hey")
+        message = await interaction.original_response()
+        print(message)
+
+    @app_commands.command(name="pop", description="testing")
+    async def pop(self, interaction: discord.Interaction):
+        await interaction.response.send_message("hey")
+        message = await interaction.original_response()
+
+        def check():
+            return message.author.id == interaction.user.id and message.channel.id == interaction.channel.id
+        
+        message = await self.client.wait_for("message",check = check)
+        guess = message.content.lower()
+        
+        print(guess)
+
 
 async def setup(client):
 	await client.add_cog(Test(client)) 
