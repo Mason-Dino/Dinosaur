@@ -106,7 +106,7 @@ class Slash_Games(commands.Cog):
 
     #Coinflip Command -coin, -coinflip
     @app_commands.command(name="coinflip", description="let you predict a coin-flip or just flip a coin")
-    async def slash_coinflip(self, interaction: discord.Interaction, choice=None):
+    async def slash_coinflip(self, interaction: discord.Interaction, choice: str=None):
 
         responses=[
             "Head",
