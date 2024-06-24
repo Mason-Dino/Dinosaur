@@ -79,32 +79,40 @@ async def on_ready():
 #Sync Command: -sync
 @client.command()
 async def sync(ctx):
-    sync = await client.tree.sync()
-    print(f"synced {len(sync)} command(s)")
-    await ctx.send(f"synced {len(sync)} command(s)")
+    if ctx.author.id == 638092957756555291:
+        sync = await client.tree.sync()
+        print(f"synced {len(sync)} command(s)")
+        await ctx.send(f"synced {len(sync)} command(s)")
+
+    else:
+        await ctx.send("You do not have access to this command")
 
 #Reload Command: -reload
 @client.command()
 async def reload(ctx, cog):
-    if cog == "all":
-        failedCogs = []
-        for cog in cogs:
-            try:
-                await client.load_extension(cog)
-                print(cog + " was loaded.")
+    if ctx.author.id == 638092957756555291:
+        if cog == "all":
+            failedCogs = []
+            for cog in cogs:
+                try:
+                    await client.load_extension(cog)
+                    print(cog + " was loaded.")
 
-            except Exception as e:
-                failedCogs.append(cog)
-                print(e)
+                except Exception as e:
+                    failedCogs.append(cog)
+                    print(e)
 
-        await ctx.send("Cogs are reloaded")
-        if failedCogs != None:
-            await ctx.send(f"{failedCogs} did not reload")
-    
+            await ctx.send("Cogs are reloaded")
+            if failedCogs != None:
+                await ctx.send(f"{failedCogs} did not reload")
+        
+        else:
+            await client.reload_extension(cog)
+            print(cog + " was reloaded.")
+            await ctx.send(f"{cog} was reloaded")
+
     else:
-        await client.reload_extension(cog)
-        print(cog + " was reloaded.")
-        await ctx.send(f"{cog} was reloaded")
+        await ctx.send("You don't have access to this command")
 
 #on_command_error Event -on_command_error  
 @client.event
