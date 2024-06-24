@@ -1,0 +1,5 @@
+discord.py==2.3.2
+Disecon==0.6.10
+psutil==5.9.8
+python-dotenv==1.0.1
+topggpy==1.4.0
