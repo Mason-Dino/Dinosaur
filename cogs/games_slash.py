@@ -24,6 +24,7 @@ class Slash_Games(commands.Cog):
 
     #8ball Command: -ball, -8ball
     @app_commands.command(name="8ball", description="let you mess around with an 8 ball")
+    @app_commands.describe(message="what are you wishing for...")
     async def slash_ball(self, interaction: discord.Interaction, message: str):
         responses=[
             "It is certain.",
