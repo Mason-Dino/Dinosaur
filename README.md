@@ -10,7 +10,7 @@
   <p align="center">
     Dinosaur is a globe economy discord bot!
     <br />
-    Dinosaur is currently not running due to a full rewrite.
+    Dinosaur is now running again!
     <br>
     <a href="https://github.com/Mason-Dino/Dinosaur/blob/main/Dinosaur.py"><strong>Explore the code »</strong></a>
     <br />
